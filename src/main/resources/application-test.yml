@@ -1,0 +1,120 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  # port: 8020
+  port: 8080
+  #context-path: /springboot
+
+# log4j配置
+#logging:
+#  config: src/main/resources/log4j.properties
+# springboot 日志
+logging:
+  config: classpath:logging-config.xml
+
+# 配置slq打印日志,可以不用配置配置spring boot log记录为debug就会打印
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+spring:
+  cloud:
+    consul:
+      host: 10.136.11.199
+      port: 8500
+      discovery:
+        serviceName: cmmes-equipment
+        prefer-ip-address: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}
+        health-check-url: http://${spring.cloud.client.ip-address}:${server.port}/actuator/health
+        ip-address: ${spring.cloud.client.ip-address}
+  boot:
+    admin:
+      client:
+        url: "http://10.136.11.199:8000"
+  profiles: test
+  activiti:
+    # 自动更新数据表结构
+    database-schema-update: false
+    #database-schema-update: drop-create
+    history-level: full
+    db-history-used: true
+    # 自动检查流程部署文件
+    check-process-definitions: false
+    # 流程文件格式
+    #process-definition-location-suffixes:
+    # 流程文件存放目录
+    # process-definition-location-prefix: classpath:/processes/
+  # DataSource
+  datasource:
+    dynamic:
+      primary: master
+      datasource:
+        druid:
+          # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+          filters: stat,wall,log4j,config
+          # 初始化大小，最小，最大
+          max-active: 100
+          initial-size: 1
+          max-wait: 60000
+          min-idle: 1
+          # 配置获取连接等待超时的时间
+          # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+          time-between-eviction-runs-millis: 60000
+          # 配置一个连接在池中最小生存的时间，单位是毫秒
+          min-evictable-idle-time-millis: 300000
+          # 打开PSCache，并且指定每个连接上PSCache的大小
+          poolPreparedStatements: true
+          maxPoolPreparedStatementPerConnectionSize: 20
+          max-open-prepared-statements: 50
+          validation-query: select 'x'
+          test-while-idle: true
+          test-on-borrow: false
+          test-on-return: false
+          # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+          connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+          # 合并多个DruidDataSource的监控数据
+          useGlobalDataSourceStat: true
+        master:
+          username: root
+          password: Dp5VqJtAQr
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://10.136.11.199:3306/CMMES?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
+          initial-size: 1
+          max-active: 20
+          min-idle: 1
+        kuaibiao:
+          username: sa
+          password: cmjm#0228
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          url: jdbc:sqlserver://10.136.11.19:1433;DatabaseName=KuaibiaoEE
+          initial-size: 1
+          max-active: 20
+          min-idle: 1
+  redis:
+    database: 0  # Redis数据库索引（默认为0）
+    host: 10.136.11.199 # Redis服务器地址
+    port: 6379  # Redis服务器连接端口
+    password:  a5PO3HFwKt # Redis服务器连接密码（默认为空）
+    lettuce:
+      pool:
+        max-active: 8  # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-wait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-idle: 8    # 连接池中的最大空闲连接 默认 8
+        min-idle: 0    # 连接池中的最小空闲连接 默认 0
+  rabbitmq:
+    host: 10.136.11.199
+    port: 5672
+    username: guest
+    password: suFjywq3L11lvJMOr0iUQwD3
+    #虚拟host 可以不设置,使用server默认host
+    # virtual-host: JCcccHost
+    #消息确认配置项
+    #确认消息已发送到交换机(Exchange)
+    publisher-confirms: true
+    #确认消息已发送到队列(Queue)
+    publisher-returns: true
+

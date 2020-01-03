@@ -1,0 +1,59 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: cmmes-equipment
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  servlet:
+    multipart:
+      maxFileSize: 20MB #这里是限制的文件大小
+      maxRequestSize: 20MB #这里是限制的文件大小
+# 开放健康检查接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+    #pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+zuul:
+  routes:
+    ribbon:
+      path: /ribbon/**
+      serviceId: cmmes-equipment  # 转发到消费者 /ribbon/
+    feign:
+      path: /feign/**
+      serviceId: cmmes-equipment  # 转发到消费者 /ribbon/
+feign:
+  hystrix:
+    enabled: false
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 100000
+        forceClosed: true
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 600000
+
+
+
+
+
+
+
+
+
+

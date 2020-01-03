@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cmtech.soft.equipment.base.mapper.EquipmentBaseInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cmtech.soft.equipment.base.entity.EquipmentBaseInfo">
+        <id column="id" property="id" />
+        <result column="assets_no" property="assetsNo" />
+        <result column="name" property="name" />
+        <result column="type_code" property="typeCode" />
+        <result column="type_name" property="typeName" />
+        <result column="position_code" property="positionCode" />
+        <result column="position_name" property="positionName" />
+        <result column="specification" property="specification" />
+        <result column="power" property="power" />
+        <result column="unit" property="unit" />
+        <result column="cost_center_no" property="costCenterNo" />
+        <result column="purchase_cost" property="purchaseCost" />
+        <result column="pure_cost" property="pureCost" />
+        <result column="purchase_order_no" property="purchaseOrderNo" />
+        <result column="manufacturer" property="manufacturer" />
+        <result column="made_date" property="madeDate" />
+        <result column="use_date" property="useDate" />
+        <result column="guarantee_time" property="guaranteeTime" />
+        <result column="after_sale_service_tel" property="afterSaleServiceTel" />
+        <result column="factory_no" property="factoryNo" />
+        <result column="depreciate_time" property="depreciateTime" />
+        <result column="status" property="status" />
+        <result column="put_account_person" property="putAccountPerson" />
+        <result column="discard_date" property="discardDate" />
+        <result column="pic_url" property="picUrl" />
+        <result column="creater_id" property="createrId" />
+        <result column="creater" property="creater" />
+        <result column="modifier_id" property="modifierId" />
+        <result column="modifier" property="modifier" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, assets_no, name, type_code, type_name, position_code, position_name, specification, power, unit, cost_center_no, purchase_cost, pure_cost, purchase_order_no, manufacturer, made_date, use_date, guarantee_time, after_sale_service_tel, factory_no, depreciate_time, status, put_account_person, discard_date, pic_url, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+    </sql>
+
+</mapper>
