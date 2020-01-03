@@ -23,6 +23,9 @@ import java.io.Serializable;
 public class QueryModel${entity} implements Serializable{
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键id")
+    private Integer id;
+
     @ApiModelProperty(value = "当前页")
     private Integer current=1;
 

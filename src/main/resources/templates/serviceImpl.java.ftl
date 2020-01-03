@@ -151,7 +151,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         UpdateWrapper<${entity}> updateWrapper = new UpdateWrapper<${entity}>();
         updateWrapper.lambda().eq(EquipmentBaseInfo::getId, condition.getId());
-        int num = mapper.update(entity, userUpdateWrapper);
+        int num = mapper.update(entity, updateWrapper);
         return num;
     }
 
