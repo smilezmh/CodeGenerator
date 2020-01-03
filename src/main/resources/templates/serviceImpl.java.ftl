@@ -45,6 +45,9 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     */
     @Override
     public List<${entity}> getListByQueryModel(QueryModel${entity} condition) {
+        // 联表查询
+        // return cityMapper.GetTwoTableInfo();
+
         wrapper = getListWrapper(condition);
         List<${entity}> list = list(wrapper);
         // 处理一些结果列
@@ -65,6 +68,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         // IPage<${entity}> iPage = new Page<${entity}>();
         // iPage.setSize(condition.getSize());
         // iPage.setCurrent(condition.getCurrent());
+
+        // 连表查询
+        // QueryWrapper<> wrapper=new QueryWrapper<>();
+        // wrapper.like("city.name","Ka");
+        // pagecity.setRecords(cityMapper.GetTwoTableInfoPage(pagecity,wrapper));
 
         // 查询条件
         wrapper = getPageWrapper(condition);
