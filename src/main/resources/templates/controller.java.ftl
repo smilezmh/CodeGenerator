@@ -33,7 +33,7 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
-@Api("${table.comment!} 基本接口")
+@Api(tags = "${table.comment!} 基本接口")
 <#if restControllerStyle>
 @RestController
 <#else>
