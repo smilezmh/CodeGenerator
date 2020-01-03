@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
 
 import java.util.List;
 import ${package.Service}.${table.serviceName};
@@ -32,7 +33,7 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
-@ApiOperation("${table.comment!} 基本接口")
+@Api("${table.comment!} 基本接口")
 <#if restControllerStyle>
 @RestController
 <#else>
