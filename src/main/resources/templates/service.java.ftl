@@ -39,5 +39,20 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @return list
     */
     List<${entity}> getListByQueryModel(QueryModel${entity} condition);
+
+    /**
+    * 根据查询条件查询数据是否存在
+    * @param condition 查询条件
+    * @return 是或否
+    */
+    boolean isExistsByQueryModel(QueryModel${entity} condition);
+
+    /**
+    * 根据更新条件更新了几条数据
+    *
+    * @param condition 更新条件
+    * @return 更新了几条数据
+    */
+    Integer updateByQueryModel(QueryModel${entity} condition);
 }
 </#if>

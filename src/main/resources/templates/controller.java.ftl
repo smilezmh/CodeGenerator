@@ -203,5 +203,57 @@ public class ${table.controllerName} {
 
         return result;
     }
+
+    @ApiOperation("根据查询条件查询数据是否存在")
+    @PostMapping(value = "isExistsByQueryModel")
+    @InterceptAction("根据查询条件查询数据是否存在")
+    public HttpResult isExistsByQueryModel(@RequestBody(required = true) QueryModel${entity} condition) {
+        HttpResult result = new HttpResult();
+
+        if (condition == null) {
+        return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
+        }
+
+        boolean flag=service.isExistsByQueryModel(condition);
+
+        result.setData(flag);
+
+        if (flag) {
+            result.setMsg("根据查询条件查询数据存在！");
+            result.setCode(HttpStatus.SC_OK);
+        } else {
+            result.setMsg("根据查询条件查询数据是不存在！");
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+        }
+
+        return result;
+    }
+
+    @ApiOperation("根据更新条件更新了几条数据")
+    @PostMapping(value = "updateByQueryModel")
+    @InterceptAction("根据更新条件更新了几条数据")
+    public HttpResult updateByQueryModel(@RequestBody(required = true) QueryModel${entity} condition) {
+        HttpResult result = new HttpResult();
+
+        if (condition == null) {
+        return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
+        }
+
+        Integer num = service.updateByQueryModel(condition);
+
+        result.setData(num);
+
+        if (num > 0) {
+            result.setMsg("根据更新条件更新了" + num + "条数据！");
+            result.setCode(HttpStatus.SC_OK);
+        } else {
+            result.setMsg("根据查询条件根据更新条件更新了0条数据！");
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+        }
+
+        return result;
+    }
 }
 </#if>

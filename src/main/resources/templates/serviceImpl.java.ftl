@@ -3,6 +3,7 @@ package ${package.ServiceImpl};
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -122,6 +123,36 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         }
 
         return id;
+    }
+
+    /**
+    * 根据查询条件查询数据是否存在
+    *
+    * @param condition 查询条件
+    * @return 是或否
+    */
+    @Override
+    public boolean isExistsByQueryModel(QueryModel${entity} condition) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(${entity}::getId, condition.getId());
+        return mapper.selectCount(queryWrapper) > 0;
+    }
+
+    /**
+    * 根据更新条件更新了几条数据
+    *
+    * @param condition 跟更新条件
+    * @return 更新了几条数据
+    */
+    @Override
+    public Integer updateByQueryModel(QueryModel${entity} condition) {
+        ${entity} entity = new ${entity}();
+        entity.setIsDeleted(true);
+
+        UpdateWrapper<${entity}> updateWrapper = new UpdateWrapper<${entity}>();
+        updateWrapper.lambda().eq(EquipmentBaseInfo::getId, condition.getId());
+        int num = mapper.update(entity, userUpdateWrapper);
+        return num;
     }
 
     /**
