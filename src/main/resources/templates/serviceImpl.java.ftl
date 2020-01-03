@@ -70,6 +70,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         // iPage.setCurrent(condition.getCurrent());
 
         // 连表查询
+        // Page<> pagecity=new Page<>(page,limit);
         // QueryWrapper<> wrapper=new QueryWrapper<>();
         // wrapper.like("city.name","Ka");
         // pagecity.setRecords(cityMapper.GetTwoTableInfoPage(pagecity,wrapper));
