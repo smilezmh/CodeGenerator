@@ -18,7 +18,7 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 //@Select("SELECT id,city.Name ,countrycode,country.Name as countryName FROM city LEFT JOIN country  ON city.CountryCode=country.Code")
 //public List<> GetTwoTableInfo();
 
-// @Select("SELECT id,city.Name ,countrycode,country.Name as countryName FROM city LEFT JOIN country  ON city.CountryCode=country.Code  ${ew.customSqlSegment}")
+// @Select("SELECT id,city.Name ,countrycode,country.Name as countryName FROM city LEFT JOIN country  ON city.CountryCode=country.Code  {ew.customSqlSegment}")
 // public List<> GetTwoTableInfoPage(Page<> cityPage, @Param(Constants.WRAPPER) Wrapper<> wrapper);
 }
 </#if>
