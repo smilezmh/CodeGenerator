@@ -1,8 +1,25 @@
 package cmtech.soft.equipment.utils;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@ApiModel(value="返回视图对象", description="返回视图对象")
 public class HttpResult {
+
+    @ApiModelProperty(value = "返回http码")
     private int code = 200;
+
+    @ApiModelProperty(value = "返回消息")
     private String msg;
+
+    @ApiModelProperty(value = "返回数据")
     private Object data;
 
     public static HttpResult error() {
