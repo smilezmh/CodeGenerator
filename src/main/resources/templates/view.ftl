@@ -86,23 +86,23 @@ export default {
 		},
 		// 批量删除
 		handleDelete: function (data) {
-			let postData=[]
+			let postData=[];
 
 			if(hasValue(data)&&hasValue(data.params)&&hasValue(data.params.length)&&data.params.length>0){
 				for(let i=0;i<data.params.length;i++){
 					postData.push({
 						id:data.params[i].id,
 						isDeleted:true
-					})
+					});
 				}
 			}
 
-			this.$api.EquipmentBaseInfo.save(postData).then(data != null ? data.callback : '')
+			this.$api.EquipmentBaseInfo.save(postData).then(data != null ? data.callback : '');
 		},
 		// 显示新增界面
 		handleAdd: function () {
-			this.editDialogVisible = true
-			this.operation = true
+			this.editDialogVisible = true;
+			this.operation = true;
 			this.dataForm = {
 			<#list table.fields as field>
 				${field.propertyName}: null,
@@ -111,9 +111,9 @@ export default {
 		},
 		// 显示编辑界面
 		handleEdit: function (params) {
-			this.editDialogVisible = true
-			this.operation = false
-			this.dataForm = Object.assign({}, params.row)
+			this.editDialogVisible = true;
+			this.operation = false;
+			this.dataForm = Object.assign({}, params.row);
 		},
 		// 编辑
 		submitForm: function () {
@@ -132,8 +132,8 @@ export default {
 							this.$refs['dataForm'].resetFields();
 							this.editDialogVisible = false;
 							this.findPage();
-						})
-					})
+						});
+					});
 				}
 			})
 		},
