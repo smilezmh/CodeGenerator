@@ -16,14 +16,14 @@
 	</div>
 	<!--表格内容栏-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"
-		:data="pageResult" :columns="columns" 
+		:data="pageResult" :columns="columns" height="700px"
 		@findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
-	<el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
-		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size">
+	<el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
+		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="true">
 			<#list table.fields as field>
-			<el-form-item label="${field.comment}" prop="${field.propertyName}"  v-if="dataForm.isPrimaryKey">
+			<el-form-item label="${field.comment}" prop="${field.propertyName}">
 				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off"></el-input>
 			</el-form-item>
 			</#list>
@@ -37,9 +37,11 @@
 </template>
 
 <script>
-import KtTable from "@/views/Core/KtTable"
-import KtButton from "@/views/Core/KtButton"
-import { format } from "@/utils/datetime"
+import KtTable from "@/views/Core/MyKtTable";
+import KtButton from "@/views/Core/KtButton";
+import { format } from "@/utils/datetime";
+import {loadOaOptions,getCascaderList,getNowTime,hasValue} from "@/utils/common";
+
 export default {
 	components:{
 			KtTable,
@@ -56,9 +58,8 @@ export default {
 				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100},
 			</#list>
 			],
-			pageRequest: { current: 1, size: 8 },
+			pageRequest: { current: 1, size: 20 },
 			pageResult: {},
-
 			operation: false, // true:新增, false:编辑
 			editDialogVisible: false, // 新增编辑界面是否显示
 			editLoading: false,
@@ -69,9 +70,9 @@ export default {
 			},
 			// 新增编辑界面数据
 			dataForm: {
-		<#list table.fields as field>
-		${field.propertyName}: null,
-		</#list>
+				<#list table.fields as field>
+				${field.propertyName}: null,
+				</#list>
 			}
 		}
 	},
@@ -81,14 +82,25 @@ export default {
 			if(data !== null) {
 				this.pageRequest = data.pageRequest
 			}
-			this.pageRequest.columnFilters = {label: {name:'label', value:this.filters.label}}
+			//this.pageRequest.columnFilters = {label: {name:'label', value:this.filters.label}}
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
-				this.pageResult = res.data
-			}).then(data!=null?data.callback:'')
+				this.pageResult.content = res.data;
+			})
 		},
 		// 批量删除
 		handleDelete: function (data) {
-			this.$api.${entity}.batchDelete(data.params).then(data!=null?data.callback:'')
+			let postData=[]
+
+			if(hasValue(data)&&hasValue(data.params)&&hasValue(data.params.length)&&data.params.length>0){
+				for(let i=0;i<data.params.length;i++){
+					postData.push({
+						id:data.params[i].id,
+						isDeleted:true
+					})
+				}
+			}
+
+			this.$api.EquipmentBaseInfo.save(postData).then(data != null ? data.callback : '')
 		},
 		// 显示新增界面
 		handleAdd: function () {
@@ -111,18 +123,18 @@ export default {
 			this.$refs.dataForm.validate((valid) => {
 				if (valid) {
 					this.$confirm('确认提交吗？', '提示', {}).then(() => {
-						this.editLoading = true
-						let params = Object.assign({}, this.dataForm)
+						this.editLoading = true;
+						let params = Object.assign({}, this.dataForm);
 						this.$api.${entity}.save(params).then((res) => {
 							if(res.code == 200) {
 								this.$message({ message: '操作成功', type: 'success' })
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							this.editLoading = false
-							this.$refs['dataForm'].resetFields()
-							this.editDialogVisible = false
-							this.findPage(null)
+							this.editLoading = false;
+							this.$refs['dataForm'].resetFields();
+							this.editDialogVisible = false;
+							this.findPage();
 						})
 					})
 				}
@@ -130,7 +142,7 @@ export default {
 		},
 		// 时间格式化
       	dateFormat: function (row, column, cellValue, index){
-          	return format(row[column.property])
+          	return format(row[column.property]);
       	}
 	},
 	mounted() {
