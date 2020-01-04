@@ -123,7 +123,7 @@ export default {
 						this.editLoading = true;
 						let params = Object.assign({}, this.dataForm);
 						this.$api.${entity}.saveOne(params).then((res) => {
-							if(res.code == 200) {
+							if(res.code == '200') {
 								this.$message({ message: '操作成功', type: 'success' })
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
