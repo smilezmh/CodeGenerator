@@ -16,7 +16,7 @@
 	</div>
 	<!--表格内容栏-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"
-		:data="pageResult" :columns="columns" height="700px"
+		:data="pageResult" :columns="columns" :pageRequest="pageRequest"
 		@findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
