@@ -1,6 +1,5 @@
 package cmtech.soft.equipment.config;
 
-//import com.jackie.springbootdemo.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ public class LogConfig {
     @Bean
     public void logMethod() {
         LOG.info("==========print log==========");
-        //return new Person();
     }
 
     public void logMethodWithContent(String content) {
