@@ -84,7 +84,7 @@ export default {
 			}
 			//this.pageRequest.columnFilters = {label: {name:'label', value:this.filters.label}}
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
-				this.pageResult.content = res.data;
+				this.pageResult = res.data;
 			})
 		},
 		// 批量删除
