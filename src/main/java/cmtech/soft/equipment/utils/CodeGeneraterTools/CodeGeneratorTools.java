@@ -89,6 +89,15 @@ public class CodeGeneratorTools {
                 return entityFile;
             }});
 
+        focList.add(new FileOutConfig("/templates/view.ftl") {// view视图
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/view";
+                String entityFile = String.format((expand + File.separator + "%s" + ".vue"), tableInfo.getEntityName());
+                return entityFile;
+            }});
+
         focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
