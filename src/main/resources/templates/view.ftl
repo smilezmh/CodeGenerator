@@ -7,7 +7,7 @@
 				<el-input v-model="filters.label" placeholder="名称"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" @click="findPage(null)"/>
+				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" @click="findPage()"/>
 			</el-form-item>
 			<el-form-item>
 				<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" @click="handleAdd" />
@@ -78,10 +78,7 @@ export default {
 	},
 	methods: {
 		// 获取分页数据
-		findPage: function (data) {
-			if(data !== null) {
-				this.pageRequest = data.pageRequest
-			}
+		findPage: function () {
 			//this.pageRequest.columnFilters = {label: {name:'label', value:this.filters.label}}
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
@@ -125,7 +122,7 @@ export default {
 					this.$confirm('确认提交吗？', '提示', {}).then(() => {
 						this.editLoading = true;
 						let params = Object.assign({}, this.dataForm);
-						this.$api.${entity}.save(params).then((res) => {
+						this.$api.${entity}.saveOne(params).then((res) => {
 							if(res.code == 200) {
 								this.$message({ message: '操作成功', type: 'success' })
 							} else {
