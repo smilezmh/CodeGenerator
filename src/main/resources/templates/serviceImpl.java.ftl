@@ -150,7 +150,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         entity.setIsDeleted(true);
 
         UpdateWrapper<${entity}> updateWrapper = new UpdateWrapper<${entity}>();
-        updateWrapper.lambda().eq(EquipmentBaseInfo::getId, condition.getId());
+        updateWrapper.lambda().eq(${entity}::getId, condition.getId());
         int num = mapper.update(entity, updateWrapper);
         return num;
     }

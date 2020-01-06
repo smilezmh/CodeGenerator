@@ -1,7 +1,7 @@
 <template>
-  <div class="container" style="width:99%;margin-top:-25px;">
+  <div class="container" style="width:99%;">
 	<!--工具栏-->
-	<div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
+	<div class="toolbar" style="padding-top:10px;">
 		<el-form :inline="true" :model="filters" :size="size">
 			<el-form-item>
 				<el-input v-model="filters.label" placeholder="名称"></el-input>
@@ -20,12 +20,19 @@
 		@findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
-	<el-dialog :title="operation?'新增':'编辑'" width="90%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
-		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="true">
+	<el-dialog :title="operation?'新增':'编辑'" width="50%" :visible.sync="editDialogVisible" :close-on-click-modal="false">
+		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="false">
 			<#list table.fields as field>
+			<#if field.propertyType == "LocalDateTime">
 			<el-form-item label="${field.comment}" prop="${field.propertyName}">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off"></el-input>
+				<el-date-picker type="datetime" placeholder="请选择"${field.propertyName} v-model="dataForm.${field.propertyName}" style="width: 100%;">
+				</el-date-picker>
 			</el-form-item>
+			<#else>
+			<el-form-item label="${field.comment}" prop="${field.propertyName}">
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***"></el-input>
+			</el-form-item>
+			</#if>
 			</#list>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
@@ -40,7 +47,7 @@
 import KtTable from "@/views/Core/MyKtTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
-import {loadOaOptions,getCascaderList,getNowTime,hasValue} from "@/utils/common";
+import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime} from "@/utils/common";
 
 export default {
 	components:{
@@ -55,7 +62,7 @@ export default {
 			},
 			columns: [
 			<#list table.fields as field>
-				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100},
+				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100, show:true},
 			</#list>
 			],
 			pageRequest: { current: 1, size: 20 },
@@ -97,7 +104,7 @@ export default {
 				}
 			}
 
-			this.$api.EquipmentBaseInfo.save(postData).then(data != null ? data.callback : '');
+			this.$api.${entity}.save(postData).then(data != null ? data.callback : '');
 		},
 		// 显示新增界面
 		handleAdd: function () {
@@ -122,6 +129,13 @@ export default {
 					this.$confirm('确认提交吗？', '提示', {}).then(() => {
 						this.editLoading = true;
 						let params = Object.assign({}, this.dataForm);
+						<#list table.fields as field>
+						<#if field.propertyType == "LocalDateTime">
+						if(hasValue(this.dataForm.${field.propertyName})){ // 日期处理
+							params.${field.propertyName}=getTime(this.dataForm.${field.propertyName})
+						}
+						</#if>
+						</#list>
 						this.$api.${entity}.saveOne(params).then((res) => {
 							if(res.code == '200') {
 								this.$message({ message: '操作成功', type: 'success' })
@@ -147,6 +161,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+	.el-form-item label:after {
+		content: "";
+		display: inline-block;
+		width: 100%;
+	}
+	.el-form-item__label {
+		text-align: justify;
+		height: 25px;
+	}
 </style>
