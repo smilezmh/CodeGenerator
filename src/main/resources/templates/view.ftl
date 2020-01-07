@@ -64,7 +64,11 @@ export default {
 			},
 			columns: [
 			<#list table.fields as field>
+				<#if field.propertyType == "LocalDateTime">
+				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:200, show:true},
+				<#else>
 				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100, show:true},
+				</#if>
 			</#list>
 			],
 			pageRequest: { current: 1, size: 20 },
