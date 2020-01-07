@@ -26,12 +26,12 @@
 		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="false">
 			<#list table.fields as field>
 			<#if field.propertyType == "LocalDateTime">
-			<el-form-item label="${field.comment}" prop="${field.propertyName}">
+			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
 				<el-date-picker type="datetime" placeholder="请选择"${field.propertyName} v-model="dataForm.${field.propertyName}" style="width: 100%;">
 				</el-date-picker>
 			</el-form-item>
 			<#else>
-			<el-form-item label="${field.comment}" prop="${field.propertyName}">
+			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
 				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***"></el-input>
 			</el-form-item>
 			</#if>
