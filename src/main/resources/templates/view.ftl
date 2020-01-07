@@ -14,9 +14,11 @@
 			</el-form-item>
 		</el-form>
 	</div>
-	<!--表格内容栏-->
-	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"
-		:data="pageResult" :columns="columns" :pageRequest="pageRequest"
+	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
+	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
+	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示-->
+	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete" slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId"
+		:data="pageResult" :columns="columns" :pageRequest="pageRequest" :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false"
 		@findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
@@ -114,6 +116,10 @@ export default {
 			<#list table.fields as field>
 				${field.propertyName}: null,
 			</#list>
+			// if (hasValue(this.$route.query.id)) {// 外键id，从表添加数据
+			// 	this.dataForm.equipmentId=this.$route.query.id;
+			// 	this.dataForm.equipmentCode=this.$route.query.code;
+			// }
 			}
 		},
 		// 显示编辑界面
@@ -157,6 +163,12 @@ export default {
       	}
 	},
 	mounted() {
+		if (hasValue(this.$route.query.id)) {//此表作为从表 外键id
+			this.editDialogVisible=true;
+			this.operation=true;
+			this.dataForm.equipmentId=this.$route.query.id; // 修改equipmentId为此表外键
+			this.dataForm.equipmentCode=this.$route.query.code; // 修改equipmentCode为此表外键
+		}
 	}
 }
 </script>
