@@ -57,6 +57,20 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     /**
+    * 根据条件随机取出一条数据
+    * @param condition 查询条件
+    * @return 实体
+    */
+    @Override
+    public ${entity} getRandomOneByQueryModel(QueryModel${entity} condition){
+        QueryWrapper<${entity}> queryWrapper=new QueryWrapper<${entity}>();
+        queryWrapper.eq("is_deleted",false);
+        queryWrapper.lambda().eq(${entity}::getId,condition.getId());
+        queryWrapper.last("LIMIT 1");
+        return mapper.selectOne(queryWrapper);
+     }
+
+    /**
     * 根据条件查询分页结果
     * @param condition 查询条件
     * @return 分页结果

@@ -115,8 +115,8 @@ public class ${table.controllerName} {
     }
 
     @ApiOperation("根据条件查询list第一个实体信息")
-    @PostMapping(value = "getEntityByQueryModel")
-    public HttpResult getEntityByQueryModel(@RequestBody(required = false) QueryModel${entity} condition) {
+    @PostMapping(value = "getFirstOneByQueryModel")
+    public HttpResult getFirstOneByQueryModel(@RequestBody(required = false) QueryModel${entity} condition) {
     HttpResult result = new HttpResult();
         List<${entity}> list=service.getListByQueryModel(condition);
 
@@ -130,6 +130,26 @@ public class ${table.controllerName} {
             result.setData(null);
             result.setMsg("根据条件查询list第一个实体信息为空！");
         }
+        return result;
+    }
+
+    @ApiOperation("根据条件查询list任意一个实体信息")
+    @PostMapping(value = "getRandomOneByQueryModel")
+    public HttpResult getRandomOneByQueryModel(@RequestBody(required = false) QueryModel${entity} condition) {
+        HttpResult result = new HttpResult();
+        ${entity} entity=service.getRandomOneByQueryModel(condition);
+
+        if (entity != null) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(entity);
+            result.setMsg("根据条件查询list任意一个实体信息成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(null);
+            result.setMsg("根据条件查询list任意一个实体信息为空！");
+        }
+
         return result;
     }
 
