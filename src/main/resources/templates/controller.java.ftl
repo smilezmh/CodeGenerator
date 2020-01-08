@@ -114,7 +114,7 @@ public class ${table.controllerName} {
         return result;
     }
 
-    @ApiOperation("根据条件查询一个实体信息")
+    @ApiOperation("根据条件查询list第一个实体信息")
     @PostMapping(value = "getEntityByQueryModel")
     public HttpResult getEntityByQueryModel(@RequestBody(required = false) QueryModel${entity} condition) {
     HttpResult result = new HttpResult();
@@ -123,12 +123,12 @@ public class ${table.controllerName} {
         if (list != null && list.size() > 0) {
             result.setCode(HttpStatus.SC_OK);
             result.setData(list.get(0));
-            result.setMsg("根据条件查询一个实体信息成功！");
+            result.setMsg("根据条件查询list第一个实体信息成功！");
         } else {
             // 204 No Content
             result.setCode(HttpStatus.SC_NO_CONTENT);
             result.setData(null);
-            result.setMsg("根据条件查询一个实体信息为空！");
+            result.setMsg("根据条件查询list第一个实体信息为空！");
         }
         return result;
     }
@@ -150,6 +150,8 @@ public class ${table.controllerName} {
         // queryWrapper.eq("code", no);
         // 是否删除
         queryWrapper.eq("is_deleted", false);
+        // 如果是多条随机取出一条，不会报异常
+        queryWrapper.last("LIMIT 1");
         ${entity} entity = service.getOne(queryWrapper);
 
         if (entity != null) {
@@ -182,6 +184,8 @@ public class ${table.controllerName} {
         queryWrapper.eq("id", id);
         // 是否删除
         queryWrapper.eq("is_deleted", false);
+        // 如果是多条随机取出一条，不会报异常
+        queryWrapper.last("LIMIT 1");
         ${entity} entity = service.getOne(queryWrapper);
 
         if (entity != null) {
