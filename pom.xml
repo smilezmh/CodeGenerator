@@ -37,6 +37,7 @@
         <skipTests>true</skipTests>
         <myBatis.plus.dynmic.version>2.5.7</myBatis.plus.dynmic.version>
         <sqlserver.version>4.0</sqlserver.version>
+        <linq.version>3.1.0</linq.version>
     </properties>
 
     <dependencies>
@@ -257,6 +258,12 @@
         <!--            <artifactId>spring-boot-devtools</artifactId>-->
         <!--            <optional>true</optional>-->
         <!--        </dependency>-->
+        <!--java linq-->
+        <dependency>
+            <groupId>com.bestvike</groupId>
+            <artifactId>linq</artifactId>
+            <version>${linq.version}</version>
+        </dependency>
     </dependencies>
 
     <!--srping cloud-->
