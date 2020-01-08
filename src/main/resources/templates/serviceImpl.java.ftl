@@ -112,6 +112,10 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         int id = 0;
 
         if (entity.getId() == null) {
+            //if (isCodeRepeat(entity)) { // 业务主键重复
+            //    return id;
+            //}
+
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
             id = mapper.updateById(entity);
@@ -199,6 +203,20 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
                 //entity.setEcnDetail(ecnDetail);
             }
         }
+    }
+
+    /**
+    * 判断业务主键是否重复，重复不允许插入
+    *
+    * @param entity 实体
+    * @return 是否重复
+    */
+    private boolean isCodeRepeat(${entity} entity) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
+        queryWrapper.select("id");
+        queryWrapper.eq("is_deleted", false);
+        //queryWrapper.eq("code", entity.getCode());
+        return mapper.selectCount(queryWrapper) > 0;
     }
 }
 </#if>
