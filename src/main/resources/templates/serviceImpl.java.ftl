@@ -13,6 +13,7 @@ import ${package.Service}.${table.serviceName};
 import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${cfg.prefix}.utils.MyStrTool;
 import ${superServiceImplClassPackage};
+import cmtech.soft.equipment.utils.ErrorReturn;
 
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         if (entity.getId() == null) {
             //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return id;
+            //    return ErrorReturn.CodeRepete;
             //}
 
             id = mapper.insert(entity);

@@ -17,6 +17,7 @@ import ${cfg.prefix}.utils.MyStrTool;
 import ${cfg.prefix}.utils.HttpResult; // 自定义返回结果
 import ${cfg.prefix}.utils.Aop.InterceptAction; // 自定义拦截aop
 import ${cfg.prefix}.utils.HttpStatus; // 自定义状态返回
+import cmtech.soft.equipment.utils.ErrorReturn;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -238,7 +239,12 @@ public class ${table.controllerName} {
             result.setData(id);
             result.setMsg("带id返回值的插入或者更新成功！");
             result.setCode(HttpStatus.SC_OK);
-        } else {
+        } else if(id == ErrorReturn.CodeRepete){
+            result.setData(ErrorReturn.CodeRepete);
+            result.setMsg("主键重复！");
+            // 205 SC_RESET_CONTENT
+            result.setCode(HttpStatus.SC_RESET_CONTENT);
+        }else {
             result.setData(0);
             result.setMsg("带id返回值的插入或者更新方法失败！");
             // 204 No Content
