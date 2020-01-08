@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import KtTable from "@/views/Core/MyKtTable";
+import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
 import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime} from "@/utils/common";
