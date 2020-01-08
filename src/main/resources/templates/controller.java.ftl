@@ -114,6 +114,25 @@ public class ${table.controllerName} {
         return result;
     }
 
+    @ApiOperation("根据条件查询一个实体信息")
+    @PostMapping(value = "getEntityByQueryModel")
+    public HttpResult getEntityByQueryModel(@RequestBody(required = false) QueryModel${entity} condition) {
+    HttpResult result = new HttpResult();
+        List<${entity}> list=service.getListByQueryModel(condition);
+
+        if (list != null && list.size() > 0) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(list.get(0));
+            result.setMsg("根据条件查询一个实体信息成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(null);
+            result.setMsg("根据条件查询一个实体信息为空！");
+        }
+        return result;
+    }
+
     @ApiOperation("根据业务主键code查询单条数据")
     @GetMapping(value = "getEntityByCode")
     public HttpResult getEntityByCode(@RequestParam(defaultValue = "") String code) {
