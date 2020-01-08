@@ -41,6 +41,14 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     int saveOrUpdateWithIdReturnBack(${entity} entity);
 
     /**
+    * 带有主键是否重复判断的批量插入方法
+    *
+    * @param entities 实体集合
+    * @return 返回ErrorReturn.CodeRepete=-1就是主键重复，返回插入的数量
+    */
+    Integer insertBatchWithCodeRepeatCheck(List<${entity}> entities);
+
+    /**
     * 无分页查询list
     * @param condition 无分页条件
     * @return list

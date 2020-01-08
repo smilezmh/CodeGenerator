@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.bestvike.linq.Linq;
 
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
@@ -145,6 +146,26 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     /**
+    * 带有主键是否重复判断的批量插入方法
+    *
+    * @param entities 实体集合
+    * @return 返回ErrorReturn.CodeRepete=-1就是主键重复，返回插入的数量
+    */
+    public Integer insertBatchWithCodeRepeatCheck(List<${entity}> entities) {
+        if (isCodesRepeat(entities)) {
+            return ErrorReturn.CodeRepete;
+        }
+
+        Integer num = 0;
+
+        if (saveBatch(entities)) {
+            num = entities.size();
+        }
+
+        return num;
+    }
+
+    /**
     * 根据查询条件查询数据是否存在
     *
     * @param condition 查询条件
@@ -221,17 +242,33 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     /**
-    * 判断业务主键是否重复，重复不允许插入
+    * 对实体，判断业务主键是否重复，重复不允许插入
     *
     * @param entity 实体
     * @return 是否重复
     */
     private boolean isCodeRepeat(${entity} entity) {
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
-        queryWrapper.select("id");
         queryWrapper.eq("is_deleted", false);
         //queryWrapper.eq("code", entity.getCode());
         return mapper.selectCount(queryWrapper) > 0;
     }
+
+    /**
+    * 对实体集合，判断业务主键是否重复，重复不允许插入
+    * @param list 实体list
+    * @return 是否重复
+    */
+    private boolean isCodesRepeat(List<${entity}> list) {
+        if(list==null||list.isEmpty()){
+            return false;
+        }
+
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
+        queryWrapper.eq("is_deleted", false);
+        List<String> codes= Linq.of(list).select(x->x.getCode()).toList();
+        queryWrapper.in("code", codes);
+        return mapper.selectCount(queryWrapper) > 0;
+     }
 }
 </#if>

@@ -77,6 +77,37 @@ public class ${table.controllerName} {
         return result;
     }
 
+    @ApiOperation("带有主键是否重复判断的批量插入")
+    @PostMapping(value = "insertBatchWithCodeRepeatCheck")
+    @InterceptAction("带有主键是否重复判断的批量插入")
+    public HttpResult insertBatchWithCodeRepeatCheck(@RequestBody(required = true) List<${entity}> entities) {
+        HttpResult result = new HttpResult();
+
+        if (entities == null) {
+            return result.error(HttpStatus.SC_BAD_REQUEST, "参数不能为空");
+        }
+
+        Integer num = service.insertBatchWithCodeRepeatCheck(entities);
+
+        if (num > 0) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setMsg("带有主键是否重复判断的批量插入成功！");
+            result.setData(true);
+        } else if (num == ErrorReturn.CodeRepete) {
+            // 失败的结果
+            result.setCode(HttpStatus.SC_RESET_CONTENT);
+            result.setMsg("主键重复！");
+            result.setData(false);
+        } else {
+            // 失败的结果
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setMsg("带有主键是否重复判断的批量插入失败！");
+            result.setData(false);
+        }
+
+        return result;
+    }
+
     @ApiOperation("根据条件分页查询信息")
     @PostMapping(value = "getPageByContition")
     public HttpResult getPageByContition(@RequestBody(required = false) QueryModel${entity} condition) {
