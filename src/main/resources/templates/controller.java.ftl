@@ -77,9 +77,9 @@ public class ${table.controllerName} {
         return result;
     }
 
-    @ApiOperation("带有主键是否重复判断的批量插入")
+    @ApiOperation("批量插入带有业务主键判断是否重复判断")
     @PostMapping(value = "insertBatchWithCodeRepeatCheck")
-    @InterceptAction("带有主键是否重复判断的批量插入")
+    @InterceptAction("批量插入带有业务主键判断是否重复判断")
     public HttpResult insertBatchWithCodeRepeatCheck(@RequestBody(required = true) List<${entity}> entities) {
         HttpResult result = new HttpResult();
 
@@ -91,7 +91,7 @@ public class ${table.controllerName} {
 
         if (num > 0) {
             result.setCode(HttpStatus.SC_OK);
-            result.setMsg("带有主键是否重复判断的批量插入成功！");
+            result.setMsg("批量插入成功！");
             result.setData(true);
         } else if (num == ErrorReturn.CodeRepete) {
             // 失败的结果
@@ -101,7 +101,7 @@ public class ${table.controllerName} {
         } else {
             // 失败的结果
             result.setCode(HttpStatus.SC_NO_CONTENT);
-            result.setMsg("带有主键是否重复判断的批量插入失败！");
+            result.setMsg("批量插入失败！");
             result.setData(false);
         }
 
