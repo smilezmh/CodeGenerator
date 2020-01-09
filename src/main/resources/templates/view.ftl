@@ -121,11 +121,11 @@ export default {
 			<#list table.fields as field>
 				${field.propertyName}: null,
 			</#list>
+			}
 			// if (hasValue(this.$route.query.id)) {// 外键id，从表添加数据
 			// 	this.dataForm.equipmentId=this.$route.query.id;
 			// 	this.dataForm.equipmentCode=this.$route.query.code;
 			// }
-			}
 		},
 		// 显示编辑界面
 		handleEdit: function (params) {
