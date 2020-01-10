@@ -265,12 +265,6 @@
             <artifactId>linq</artifactId>
             <version>${linq.version}</version>
         </dependency>
-        <!--多表关联diboot-->
-        <dependency>
-            <groupId>com.diboot</groupId>
-            <artifactId>diboot-core-spring-boot-starter</artifactId>
-            <version>${diboot.version}</version>
-        </dependency>
     </dependencies>
 
     <!--srping cloud-->
