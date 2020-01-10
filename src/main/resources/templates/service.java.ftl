@@ -69,5 +69,19 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @return 更新了几条数据
     */
     Integer updateByQueryModel(QueryModel${entity} condition);
+
+    /**
+    * 根据条件串表分页查询
+    * @param condition 查询条件
+    * @return 分页结果
+    */
+    IPage<${entity}> getTablesPageByContition(QueryModel${entity} condition);
+
+    /**
+    * 根据条件串表不分页查询list
+    * @param condition 查询条件
+    * @return 分页结果
+    */
+    public List<${entity}> getTablesByContition(QueryModel${entity} condition);
 }
 </#if>

@@ -196,6 +196,27 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     /**
+    * 根据条件串表分页查询
+    * @param condition 查询条件
+    * @return 分页结果
+    */
+    @Override
+    public IPage<${entity}> getTablesPageByContition(QueryModel${entity} condition){
+        IPage<${entity}> page=new Page<${entity}>(condition.getCurrent(),condition.getSize());
+        return page.setRecords(mapper.getTablesByContition(page,condition));
+    }
+
+    /**
+    * 根据条件串表不分页查询list
+    * @param condition 查询条件
+    * @return 分页结果
+    */
+    @Override
+    public List<${entity}> getTablesByContition(QueryModel${entity} condition){
+        return mapper.getTablesByContition(condition);
+    }
+
+    /**
     * 设置分页查询条件
     * @param condition 搜索条件QueryModel
     * @return 分页查询wrapper

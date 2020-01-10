@@ -336,5 +336,45 @@ public class ${table.controllerName} {
 
         return result;
     }
+
+    @ApiOperation("根据条件串表分页查询信息")
+    @PostMapping(value = "getTablesPageByContition")
+    public HttpResult getTablesPageByContition(@RequestBody(required = false) QueryModel${entity} condition) {
+    HttpResult result = new HttpResult();
+    IPage<${entity}> page = service.getTablesPageByContition(condition);
+
+        if (page != null && page.getRecords() != null && page.getRecords().size() > 0) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(page);
+            result.setMsg("根据条件串表分页查询信息成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(page);
+            result.setMsg("根据条件串表分页查询信息为空！");
+        }
+
+        return result;
+    }
+
+    @ApiOperation("根据条件串表不分页查询list")
+    @PostMapping(value = "getTablesByContition")
+    public HttpResult getTablesByContition(@RequestBody(required = false) QueryModel${entity} condition) {
+    HttpResult result = new HttpResult();
+    List<${entity}> list = service.getTablesByContition(condition);
+
+        if (list!=null && !list.isEmpty()) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(list);
+            result.setMsg("根据条件串表不分页查询list成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(list);
+            result.setMsg("根据条件串表不分页查询list为空！");
+        }
+
+        return result;
+    }
 }
 </#if>
