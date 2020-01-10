@@ -36,8 +36,8 @@ public class QueryModel${entity} implements Serializable{
     private Boolean isDeleted;
 
     @ApiModelProperty(value = "编码")
-    private Boolean code;
+    private String code;
 
     @ApiModelProperty(value = "名称")
-    private Boolean name;
+    private String name;
 }
