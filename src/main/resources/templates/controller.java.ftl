@@ -340,8 +340,8 @@ public class ${table.controllerName} {
     @ApiOperation("根据条件串表分页查询信息")
     @PostMapping(value = "getTablesPageByContition")
     public HttpResult getTablesPageByContition(@RequestBody(required = false) QueryModel${entity} condition) {
-    HttpResult result = new HttpResult();
-    IPage<${entity}> page = service.getTablesPageByContition(condition);
+        HttpResult result = new HttpResult();
+        IPage<${entity}> page = service.getTablesPageByContition(condition);
 
         if (page != null && page.getRecords() != null && page.getRecords().size() > 0) {
             result.setCode(HttpStatus.SC_OK);
@@ -360,8 +360,8 @@ public class ${table.controllerName} {
     @ApiOperation("根据条件串表不分页查询list")
     @PostMapping(value = "getTablesByContition")
     public HttpResult getTablesByContition(@RequestBody(required = false) QueryModel${entity} condition) {
-    HttpResult result = new HttpResult();
-    List<${entity}> list = service.getTablesByContition(condition);
+        HttpResult result = new HttpResult();
+        List<${entity}> list = service.getTablesByContition(condition);
 
         if (list!=null && !list.isEmpty()) {
             result.setCode(HttpStatus.SC_OK);
