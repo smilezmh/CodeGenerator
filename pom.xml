@@ -268,12 +268,6 @@
         <!--多表关联diboot-->
         <dependency>
             <groupId>com.diboot</groupId>
-            <artifactId>diboot-devtools-spring-boot-starter</artifactId>
-            <version>${diboot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.diboot</groupId>
             <artifactId>diboot-core-spring-boot-starter</artifactId>
             <version>${diboot.version}</version>
         </dependency>
