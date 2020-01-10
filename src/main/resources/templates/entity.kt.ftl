@@ -34,4 +34,10 @@ public class QueryModel${entity} implements Serializable{
 
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
+
+    @ApiModelProperty(value = "编码")
+    private Boolean code;
+
+    @ApiModelProperty(value = "名称")
+    private Boolean name;
 }
