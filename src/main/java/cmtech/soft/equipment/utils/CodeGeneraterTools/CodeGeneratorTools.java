@@ -118,7 +118,7 @@ public class CodeGeneratorTools {
                 File file = new File(filePath);
                 boolean exist = file.exists();
                 if(exist){
-                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType){
+                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType||filePath.endsWith(".vue")){
                         return true;
                     }else {
                         return false;

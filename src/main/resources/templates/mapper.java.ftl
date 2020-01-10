@@ -1,6 +1,7 @@
 package ${package.Mapper};
 
 import ${package.Entity}.${entity};
+import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${superMapperClassPackage};
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -37,7 +38,7 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
     * @param condition 条件
     * @return list
     */
-    public List<${entity}> getTablesByContition(IPage<${entity}> page, @Param("condition") QueryModelEquipmentBaseInfo condition);
+    public List<${entity}> getTablesByContition(IPage<${entity}> page, @Param("condition") QueryModel${entity} condition);
 
     /**
     * 根据条件串表不分页查询list
@@ -45,6 +46,6 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
     * @param condition 条件
     * @return list
     */
-    public List<${entity}> getTablesByContition(@Param("condition") QueryModelEquipmentBaseInfo condition);
+    public List<${entity}> getTablesByContition(@Param("condition") QueryModel${entity} condition);
 }
 </#if>

@@ -38,18 +38,18 @@
 
     <!-- 串表查询 -->
     <select id="getTablesByContition" parameterType="${cfg.prefix}.base.model.QueryModel${entity}" resultType="${cfg.prefix}.base.entity.${entity}" >
-<#--        select main.id,main.code,main.type_code,slave.name as type_name from ${entity} main-->
-<#--        left join equipment_type slave-->
-<#--        on main.type_code=slave.code-->
-<#--        <where>-->
-<#--            1=1-->
-<#--            <if test="condition.code!=null and condition.code!=''" >-->
-<#--                and main.code = #{condition.code}-->
-<#--            </if>-->
-<#--            <if test="condition.name!=null and condition.name!=''">-->
-<#--                and main.name like CONCAT('%',#{condition.name},'%')-->
-<#--            </if>-->
-<#--            and main.is_deleted=false and slave.is_deleted=false-->
-<#--        </where>-->
+        select main.id,main.code,main.type_code,slave.name as type_name from ${entity} main
+        left join equipment_type slave
+        on main.type_code=slave.code
+        <where>
+            1=1
+            <if test="condition.code!=null and condition.code!=''" >
+                and main.code = # {condition.code}
+            </if>
+            <if test="condition.name!=null and condition.name!=''">
+                and main.name like CONCAT('%',# {condition.name},'%')
+            </if>
+            and main.is_deleted=false and slave.is_deleted=false
+        </where>
     </select>
 </mapper>
