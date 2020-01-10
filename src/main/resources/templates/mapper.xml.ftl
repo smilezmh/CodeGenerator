@@ -38,7 +38,11 @@
 
     <!-- 串表查询 -->
     <select id="getTablesByContition" parameterType="${cfg.prefix}.base.model.QueryModel${entity}" resultType="${cfg.prefix}.base.entity.${entity}" >
-        select main.id,main.code,main.type_code,slave.name as type_name from ${entity} main
+        select
+        <#list table.fields as field>
+        main.${field.name} as ${field.propertyName},
+        </#list>
+        from ${table.name} main
         left join equipment_type slave
         on main.type_code=slave.code
         <where>
@@ -50,6 +54,10 @@
                 and main.name like CONCAT('%',# {condition.name},'%')
             </if>
             and main.is_deleted=false and slave.is_deleted=false
+            and id in
+            <foreach collection="list/array" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </where>
     </select>
 </mapper>
