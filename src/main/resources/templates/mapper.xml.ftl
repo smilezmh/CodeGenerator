@@ -56,7 +56,7 @@
             and main.is_deleted=false and slave.is_deleted=false
             and id in
             <foreach collection="list/array" index="index" item="item" open="(" separator="," close=")">
-                #{item}
+                # {item}
             </foreach>
         </where>
     </select>
