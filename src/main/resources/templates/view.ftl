@@ -174,7 +174,11 @@ export default {
 			this.dataForm.equipmentId=this.$route.query.id; // 修改equipmentId为此表外键
 			this.dataForm.equipmentCode=this.$route.query.code; // 修改equipmentCode为此表外键
 		}
-	}
+	},
+    // beforeRouteEnter(to,from,next){ // 如果是子表需要添加代码
+    //     to.meta.keepAlive = false;
+    //     next()
+    // }
 }
 </script>
 
