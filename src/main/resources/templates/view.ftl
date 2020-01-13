@@ -175,10 +175,14 @@ export default {
 			this.dataForm.equipmentCode=this.$route.query.code; // 修改equipmentCode为此表外键
 		}
 	},
-    // beforeRouteEnter(to,from,next){ // 如果是子表需要添加代码
-    //     to.meta.keepAlive = false;
-    //     next()
-    // }
+	beforeRouteEnter(to,from,next){
+		if(typeof to.query.hasNav!='undefined'&&to.query.hasNav=='false'){
+			to.meta.keepAlive = false;
+			next();
+			return;
+		};
+		next()
+	}
 }
 </script>
 
