@@ -28,12 +28,12 @@ public class RestTemplateConfig {
      * 默认使用 ribbon 来进行负载均衡
      * @return RestTemplate
      */
-//    @Bean
-//    @Primary
-//    @LoadBalanced
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
+    @Bean
+    @LoadBalanced
+    @Qualifier("ribbonTemplate")
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     @Bean
     @Qualifier("httpFactory")
