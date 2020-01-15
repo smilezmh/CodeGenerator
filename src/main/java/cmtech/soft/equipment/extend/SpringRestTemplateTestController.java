@@ -28,7 +28,6 @@ public class SpringRestTemplateTestController {
 //        HttpResult json =restTemplate.getForObject(url, HtObjecttpResult.class,map);
         Object json =restTemplate.getForObject(url, Object.class,map);
 //        ResponseEntity<String> results = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-//        String json = results.getBody();
         return json;
     }
 
