@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class LogConfig {
     private static final Logger LOG = LoggerFactory.getLogger(LogConfig.class);
 
-    @Bean
     public void logMethod() {
         LOG.info("==========print log==========");
     }
