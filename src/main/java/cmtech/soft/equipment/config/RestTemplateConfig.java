@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -18,8 +19,8 @@ public class RestTemplateConfig {
      * @return RestTemplate
      */
     @Bean
-    @Qualifier("3ApiTemplete")
-    public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
+    @Qualifier("apiTemplete")
+    public RestTemplate restTemplate(@Qualifier("httpFactory") ClientHttpRequestFactory factory) {
         return new RestTemplate(factory);
     }
 
@@ -27,15 +28,15 @@ public class RestTemplateConfig {
      * 默认使用 ribbon 来进行负载均衡
      * @return RestTemplate
      */
-    @Bean
-    @Primary
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+//    @Bean
+//    @Primary
+//    @LoadBalanced
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
 
     @Bean
-    @Primary
+    @Qualifier("httpFactory")
     public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
         SimpleClientHttpRequestFactory factory=new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(15000);
