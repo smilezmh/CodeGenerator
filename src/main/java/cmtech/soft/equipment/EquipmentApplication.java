@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(exclude={SecurityAutoConfiguration.class,  ManagementWebSecurityAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
 @EnableDiscoveryClient
-@EnableZuulProxy
+//@EnableZuulProxy // 路由鉴权中心
 @EnableFeignClients
 @EnableTransactionManagement
 public class EquipmentApplication {
@@ -28,25 +28,5 @@ public class EquipmentApplication {
         SpringApplication.run(EquipmentApplication.class, args);
     }
 
-    @Bean
-    @Qualifier("3ApiTemplete")
-    public RestTemplate restTemplate(@Qualifier("httpClientFactory") ClientHttpRequestFactory factory) {
-        return new RestTemplate(factory);
-    }
 
-    @Bean
-    @Primary
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    @Qualifier("httpClientFactory")
-    public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
-        SimpleClientHttpRequestFactory factory=new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(15000);
-        factory.setReadTimeout(5000);
-        return factory;
-    }
 }
