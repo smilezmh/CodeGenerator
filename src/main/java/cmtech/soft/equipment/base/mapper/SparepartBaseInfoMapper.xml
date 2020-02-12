@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cmtech.soft.equipment.base.mapper.SparepartBaseInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cmtech.soft.equipment.base.entity.SparepartBaseInfo">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="sparepart_type_id" property="sparepartTypeId" />
+        <result column="sparepart_type_code" property="sparepartTypeCode" />
+        <result column="sparepart_type_name" property="sparepartTypeName" />
+        <result column="unit" property="unit" />
+        <result column="store_num" property="storeNum" />
+        <result column="safe_num" property="safeNum" />
+        <result column="creater_id" property="createrId" />
+        <result column="creater" property="creater" />
+        <result column="modifier_id" property="modifierId" />
+        <result column="modifier" property="modifier" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, name, sparepart_type_id, sparepart_type_code, sparepart_type_name, unit, store_num, safe_num, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+    </sql>
+
+    <!-- 串表查询 -->
+    <select id="getTablesByContition" parameterType="cmtech.soft.equipment.base.model.QueryModelSparepartBaseInfo" resultType="cmtech.soft.equipment.base.entity.SparepartBaseInfo" >
+        select
+        main.id as id,
+        main.code as code,
+        main.name as name,
+        main.sparepart_type_id as sparepartTypeId,
+        main.sparepart_type_code as sparepartTypeCode,
+        main.sparepart_type_name as sparepartTypeName,
+        main.unit as unit,
+        main.store_num as storeNum,
+        main.safe_num as safeNum,
+        main.creater_id as createrId,
+        main.creater as creater,
+        main.modifier_id as modifierId,
+        main.modifier as modifier,
+        main.create_time as createTime,
+        main.modify_time as modifyTime,
+        main.is_deleted as isDeleted,
+        from sparepart_base_info main
+        left join equipment_type slave
+        on main.type_code=slave.code
+        <where>
+            1=1
+            <if test="condition.code!=null and condition.code!=''" >
+                and main.code = # {condition.code}
+            </if>
+            <if test="condition.name!=null and condition.name!=''">
+                and main.name like CONCAT('%',# {condition.name},'%')
+            </if>
+            and main.is_deleted=false and slave.is_deleted=false
+            and id in
+            <foreach collection="list/array" index="index" item="item" open="(" separator="," close=")">
+                # {item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

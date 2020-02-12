@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cmtech.soft.equipment.base.mapper.EquipmentRepairRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cmtech.soft.equipment.base.entity.EquipmentRepairRecord">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="equipment_id" property="equipmentId" />
+        <result column="equipment_code" property="equipmentCode" />
+        <result column="equipment_name" property="equipmentName" />
+        <result column="repair_applicant_id" property="repairApplicantId" />
+        <result column="repair_applicant_no" property="repairApplicantNo" />
+        <result column="repair_applicant_name" property="repairApplicantName" />
+        <result column="repair_applicant_tel" property="repairApplicantTel" />
+        <result column="equipment_pos_id" property="equipmentPosId" />
+        <result column="equipment_pos_code" property="equipmentPosCode" />
+        <result column="equipment_pos_name" property="equipmentPosName" />
+        <result column="emergency_id" property="emergencyId" />
+        <result column="emergency_code" property="emergencyCode" />
+        <result column="emergency_name" property="emergencyName" />
+        <result column="fault_category_id" property="faultCategoryId" />
+        <result column="fault_category_code" property="faultCategoryCode" />
+        <result column="fault_category_name" property="faultCategoryName" />
+        <result column="fault_desc" property="faultDesc" />
+        <result column="repair_person_id" property="repairPersonId" />
+        <result column="repair_person_no" property="repairPersonNo" />
+        <result column="repair_person_name" property="repairPersonName" />
+        <result column="repeir_reson_analyse" property="repeirResonAnalyse" />
+        <result column="repair_content" property="repairContent" />
+        <result column="outer_repair_no" property="outerRepairNo" />
+        <result column="send_repair_time" property="sendRepairTime" />
+        <result column="repair_start_time" property="repairStartTime" />
+        <result column="repair_end_time" property="repairEndTime" />
+        <result column="equipment_factory_no" property="equipmentFactoryNo" />
+        <result column="equipment_desc" property="equipmentDesc" />
+        <result column="creater_id" property="createrId" />
+        <result column="creater" property="creater" />
+        <result column="modifier_id" property="modifierId" />
+        <result column="modifier" property="modifier" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, equipment_id, equipment_code, equipment_name, repair_applicant_id, repair_applicant_no, repair_applicant_name, repair_applicant_tel, equipment_pos_id, equipment_pos_code, equipment_pos_name, emergency_id, emergency_code, emergency_name, fault_category_id, fault_category_code, fault_category_name, fault_desc, repair_person_id, repair_person_no, repair_person_name, repeir_reson_analyse, repair_content, outer_repair_no, send_repair_time, repair_start_time, repair_end_time, equipment_factory_no, equipment_desc, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+    </sql>
+
+    <!-- 串表查询 -->
+    <select id="getTablesByContition" parameterType="cmtech.soft.equipment.base.model.QueryModelEquipmentRepairRecord" resultType="cmtech.soft.equipment.base.entity.EquipmentRepairRecord" >
+        select
+        main.id as id,
+        main.code as code,
+        main.equipment_id as equipmentId,
+        main.equipment_code as equipmentCode,
+        main.equipment_name as equipmentName,
+        main.repair_applicant_id as repairApplicantId,
+        main.repair_applicant_no as repairApplicantNo,
+        main.repair_applicant_name as repairApplicantName,
+        main.repair_applicant_tel as repairApplicantTel,
+        main.equipment_pos_id as equipmentPosId,
+        main.equipment_pos_code as equipmentPosCode,
+        main.equipment_pos_name as equipmentPosName,
+        main.emergency_id as emergencyId,
+        main.emergency_code as emergencyCode,
+        main.emergency_name as emergencyName,
+        main.fault_category_id as faultCategoryId,
+        main.fault_category_code as faultCategoryCode,
+        main.fault_category_name as faultCategoryName,
+        main.fault_desc as faultDesc,
+        main.repair_person_id as repairPersonId,
+        main.repair_person_no as repairPersonNo,
+        main.repair_person_name as repairPersonName,
+        main.repeir_reson_analyse as repeirResonAnalyse,
+        main.repair_content as repairContent,
+        main.outer_repair_no as outerRepairNo,
+        main.send_repair_time as sendRepairTime,
+        main.repair_start_time as repairStartTime,
+        main.repair_end_time as repairEndTime,
+        main.equipment_factory_no as equipmentFactoryNo,
+        main.equipment_desc as equipmentDesc,
+        main.creater_id as createrId,
+        main.creater as creater,
+        main.modifier_id as modifierId,
+        main.modifier as modifier,
+        main.create_time as createTime,
+        main.modify_time as modifyTime,
+        main.is_deleted as isDeleted,
+        from equipment_repair_record main
+        left join equipment_type slave
+        on main.type_code=slave.code
+        <where>
+            1=1
+            <if test="condition.code!=null and condition.code!=''" >
+                and main.code = # {condition.code}
+            </if>
+            <if test="condition.name!=null and condition.name!=''">
+                and main.name like CONCAT('%',# {condition.name},'%')
+            </if>
+            and main.is_deleted=false and slave.is_deleted=false
+            and id in
+            <foreach collection="list/array" index="index" item="item" open="(" separator="," close=")">
+                # {item}
+            </foreach>
+        </where>
+    </select>
+</mapper>
