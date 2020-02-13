@@ -28,12 +28,16 @@
 			<#list table.fields as field>
 			<#if field.propertyType == "LocalDateTime">
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-date-picker type="datetime" placeholder="请选择"${field.propertyName} v-model="dataForm.${field.propertyName}" style="width: 100%;">
+				<el-date-picker type="datetime" placeholder="请选择时间" v-model="dataForm.${field.propertyName}" style="width: 100%;">
 				</el-date-picker>
+			</el-form-item>
+			<#elseif field.propertyName=="code">
+			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***"></el-input>
 			</el-form-item>
 			<#else>
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***"></el-input>
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag"></el-input>
 			</el-form-item>
 			</#if>
 			</#list>
@@ -64,8 +68,9 @@ export default {
 			createrId:0,
 			modifierId:0,
 			modifier:"",
-			createTime:getNowTime(),
-			modifyTime:getNowTime(),
+			createTime:"",
+			modifyTime:"",
+			codeEditFlag:'disabled',
 			size: 'small',
 			filters: {
 				label: ''
@@ -124,6 +129,7 @@ export default {
 		handleAdd: function () {
 			this.editDialogVisible = true;
 			this.operation = true;
+			this.codeEditFlag=false;
 			this.dataForm = {
 			<#list table.fields as field>
 				${field.propertyName}: null,
@@ -143,6 +149,7 @@ export default {
 		handleEdit: function (params) {
 			this.editDialogVisible = true;
 			this.operation = false;
+			this.codeEditFlag=true;
 			this.dataForm = Object.assign({}, params.row);
 			this.dataForm.modifierId=this.modifierId;
 			this.dataForm.modifier=this.modifier;
