@@ -1,17 +1,26 @@
 <template>
   <div class="container" style="width:99%;">
 	<!--工具栏-->
-	<div class="toolbar" style="padding-top:10px;">
+	<div class="toolbar" style="margin-bottom:10px;">
 		<el-form :inline="true" :model="filters" :size="size">
-			<el-form-item>
-				<el-input v-model="filters.label" placeholder="名称"></el-input>
-			</el-form-item>
-			<el-form-item>
-				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" @click="findPage()"/>
-			</el-form-item>
-			<el-form-item>
-				<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" @click="handleAdd" />
-			</el-form-item>
+			<el-col :span="8">
+				<el-form-item label="编码">
+					<el-input v-model="filters.code" placeholder="编码"></el-input>
+				</el-form-item>
+			</el-col>
+			<el-col :span="8">
+				<el-form-item label="名称">
+					<el-input v-model="filters.name" placeholder="名称"></el-input>
+				</el-form-item>
+			</el-col>
+			<el-col :span="8">
+				<el-form-item>
+					<el-button-group>
+						<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" @click="findPage()" />
+						<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" @click="handleAdd" />
+					</el-button-group>
+				</el-form-item>
+			</el-col>
 		</el-form>
 	</div>
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
@@ -90,9 +99,8 @@ export default {
 			editDialogVisible: false, // 新增编辑界面是否显示
 			editLoading: false,
 			dataFormRules: {
-				label: [
-					{ required: true, message: '请输入名称', trigger: 'blur' }
-				]
+				code: [{required: true,message: '编码不能为空', trigger: 'blur'}],
+				name: [{required: true,message: '名称不能为空',trigger: 'blur'}],
 			},
 			// 新增编辑界面数据
 			dataForm: {
@@ -105,7 +113,9 @@ export default {
 	methods: {
 		// 获取分页数据
 		findPage: function () {
-			//this.pageRequest.columnFilters = {label: {name:'label', value:this.filters.label}}
+			this.pageRequest.code=this.filters.code;
+			this.pageRequest.name=this.filters.name;
+
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
 			})
