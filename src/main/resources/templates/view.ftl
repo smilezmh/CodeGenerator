@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
@@ -59,6 +60,12 @@ export default {
 	},
 	data() {
 		return {
+			creater:"",
+			createrId:0,
+			modifierId:0,
+			modifier:"",
+			createTime:getNowTime(),
+			modifyTime:getNowTime(),
 			size: 'small',
 			filters: {
 				label: ''
@@ -122,6 +129,11 @@ export default {
 				${field.propertyName}: null,
 			</#list>
 			}
+
+			this.dataForm.createrId=this.createrId;
+			this.dataForm.creater=this.creater;
+			this.dataForm.createTime=getNowTime();
+			this.dataForm.modifyTime=getNowTime();
 			// if (hasValue(this.$route.query.id)) {// 外键id，从表添加数据
 			// 	this.dataForm.equipmentId=this.$route.query.id;
 			// 	this.dataForm.equipmentCode=this.$route.query.code;
@@ -132,6 +144,9 @@ export default {
 			this.editDialogVisible = true;
 			this.operation = false;
 			this.dataForm = Object.assign({}, params.row);
+			this.dataForm.modifierId=this.modifierId;
+			this.dataForm.modifier=this.modifier;
+			this.dataForm.modifyTime=getNowTime();
 		},
 		// 编辑
 		submitForm: function () {
@@ -168,6 +183,11 @@ export default {
       	}
 	},
 	mounted() {
+		this.modifierId=Cookies.get('userId');
+		this.modifier=Cookies.get('userName');
+		this.createrId= Cookies.get('userId');
+		this.creater=Cookies.get('userName');
+
 		if (hasValue(this.$route.query.id)) {//此表作为从表 外键id
 			this.editDialogVisible=true;
 			this.operation=true;
