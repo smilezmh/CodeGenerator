@@ -81,9 +81,7 @@ export default {
 			modifyTime:"",
 			codeEditFlag:'disabled',
 			size: 'small',
-			filters: {
-				label: ''
-			},
+			filters: {code: '',name:''},
 			columns: [
 			<#list table.fields as field>
 				<#if field.propertyType == "LocalDateTime">

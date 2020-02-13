@@ -101,10 +101,10 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         iPage.setSize(condition.getSize());
 
         // 查询需要的结果列
-        // queryWrapper.select("id", "code", "name", "remark", "responsible_name", "customer");
+        // wrapper.select("id", "code", "name", "remark", "responsible_name", "customer");
 
         //if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
-        //    queryWrapper.eq("code", condition.getCode());
+        //    wrapper.eq("code", condition.getCode());
         //}
 
         // 是否删除

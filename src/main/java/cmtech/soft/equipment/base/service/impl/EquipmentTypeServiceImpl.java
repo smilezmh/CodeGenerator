@@ -98,9 +98,13 @@ public class EquipmentTypeServiceImpl extends ServiceImpl<EquipmentTypeMapper, E
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark", "responsible_name", "customer");
 
-        //if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
-        //    queryWrapper.eq("code", condition.getCode());
-        //}
+        if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
+            wrapper.eq("code", condition.getCode());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getName())) {
+            wrapper.like("name", condition.getName());
+        }
 
         // 是否删除
         wrapper.eq("is_deleted", false);
@@ -123,9 +127,9 @@ public class EquipmentTypeServiceImpl extends ServiceImpl<EquipmentTypeMapper, E
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -252,7 +256,7 @@ public class EquipmentTypeServiceImpl extends ServiceImpl<EquipmentTypeMapper, E
         if (list != null && list.size() > 0) {
             for (EquipmentType entity : list) {
                 // 重新赋值
-                //entity.setEcnDetail(ecnDetail);
+                //entity.setEcnDetail(ecnDetail);`
             }
         }
     }
@@ -266,7 +270,7 @@ public class EquipmentTypeServiceImpl extends ServiceImpl<EquipmentTypeMapper, E
     private boolean isCodeRepeat(EquipmentType entity) {
         QueryWrapper<EquipmentType> queryWrapper = new QueryWrapper<EquipmentType>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("code", entity.getCode());
         return mapper.selectCount(queryWrapper) > 0;
     }
 

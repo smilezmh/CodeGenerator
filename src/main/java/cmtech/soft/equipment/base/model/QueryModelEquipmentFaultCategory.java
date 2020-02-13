@@ -34,4 +34,10 @@ public class QueryModelEquipmentFaultCategory implements Serializable{
 
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
+
+    @ApiModelProperty(value = "故障类别code")
+    private String code;
+
+    @ApiModelProperty(value = "故障类别name")
+    private String name;
 }

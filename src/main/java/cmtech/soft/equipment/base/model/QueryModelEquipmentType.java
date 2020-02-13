@@ -34,4 +34,10 @@ public class QueryModelEquipmentType implements Serializable{
 
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
+
+    @ApiModelProperty(value = "设备类型code")
+    private String code;
+
+    @ApiModelProperty(value = "设备类型名")
+    private String name;
 }
