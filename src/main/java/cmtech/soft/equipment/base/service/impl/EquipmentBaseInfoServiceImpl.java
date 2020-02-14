@@ -264,7 +264,7 @@ public class EquipmentBaseInfoServiceImpl extends ServiceImpl<EquipmentBaseInfoM
     private boolean isCodeRepeat(EquipmentBaseInfo entity) {
         QueryWrapper<EquipmentBaseInfo> queryWrapper = new QueryWrapper<EquipmentBaseInfo>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("code", entity.getCode());
         return mapper.selectCount(queryWrapper) > 0;
     }
 
