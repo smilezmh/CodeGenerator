@@ -34,4 +34,16 @@ public class QueryModelEquipmentSlaveInfo implements Serializable{
 
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
+
+    @ApiModelProperty(value = "主设备资产编号,外链equipment_base_info中的code")
+    private String equipmentCode;
+
+    @ApiModelProperty(value = "名称")
+    private String name;
+
+    @ApiModelProperty(value = "规格/型号")
+    private String specification;
+
+    @ApiModelProperty(value = "出厂编号")
+    private String factoryNo;
 }

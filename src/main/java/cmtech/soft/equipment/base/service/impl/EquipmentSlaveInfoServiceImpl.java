@@ -98,9 +98,21 @@ public class EquipmentSlaveInfoServiceImpl extends ServiceImpl<EquipmentSlaveInf
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark", "responsible_name", "customer");
 
-        //if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
-        //    queryWrapper.eq("code", condition.getCode());
-        //}
+        if (!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())) {
+            wrapper.like("equipment_code", condition.getEquipmentCode());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getName())) {
+            wrapper.like("name", condition.getName());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getSpecification())) {
+            wrapper.like("specification", condition.getSpecification());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getFactoryNo())) {
+            wrapper.like("factory_no", condition.getFactoryNo());
+        }
 
         // 是否删除
         wrapper.eq("is_deleted", false);
@@ -123,9 +135,9 @@ public class EquipmentSlaveInfoServiceImpl extends ServiceImpl<EquipmentSlaveInf
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -266,7 +278,7 @@ public class EquipmentSlaveInfoServiceImpl extends ServiceImpl<EquipmentSlaveInf
     private boolean isCodeRepeat(EquipmentSlaveInfo entity) {
         QueryWrapper<EquipmentSlaveInfo> queryWrapper = new QueryWrapper<EquipmentSlaveInfo>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("factory_no", entity.getFactoryNo());// 出厂编号不能重复
         return mapper.selectCount(queryWrapper) > 0;
     }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="container" style="width:99%;">
 	<!--工具栏-->
-	<el-card style="margin-left:10px;margin-right:10px;">
+	<el-card style="margin-left:1px;margin-right:1px;">
 		<div class="toolbar" style="margin-bottom:10px;">
 			<el-form :inline="true" :model="filters" :size="size">
 				<el-col :span="8">
