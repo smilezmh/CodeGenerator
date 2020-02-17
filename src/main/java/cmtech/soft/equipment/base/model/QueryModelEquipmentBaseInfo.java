@@ -35,9 +35,33 @@ public class QueryModelEquipmentBaseInfo implements Serializable{
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-    @ApiModelProperty(value = "编码")
+    @ApiModelProperty(value = "资产编号")
     private String code;
 
-    @ApiModelProperty(value = "名称")
+    @ApiModelProperty(value = "设备名称")
     private String name;
+
+    @ApiModelProperty(value = "设备类型code,外链equipmen_type中的code")
+    private String typeCode;
+
+    @ApiModelProperty(value = "位置编码,外链equipment_position中的code")
+    private String positionCode;
+
+    @ApiModelProperty(value = "规格/型号")
+    private String specification;
+
+    @ApiModelProperty(value = "成本中心（设备的）")
+    private String costCenterNo;
+
+    @ApiModelProperty(value = "采购订单号")
+    private String purchaseOrderNo;
+
+    @ApiModelProperty(value = "状态（已验收/未验收/报废）")
+    private String status;
+
+    @ApiModelProperty(value = "资产挂账人（部门对应人）")
+    private String putAccountPerson;
+
+    @ApiModelProperty(value = "资产描述")
+    private String equipmentDesc;
 }

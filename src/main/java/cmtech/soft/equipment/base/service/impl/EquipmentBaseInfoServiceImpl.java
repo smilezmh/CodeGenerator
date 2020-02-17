@@ -220,6 +220,50 @@ public class EquipmentBaseInfoServiceImpl extends ServiceImpl<EquipmentBaseInfoM
         wrapper = new QueryWrapper<EquipmentBaseInfo>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
+            wrapper.like("code",condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getName())){
+            wrapper.like("name",condition.getName());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getTypeCode())){
+            wrapper.eq("type_code",condition.getTypeCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPositionCode())){
+            wrapper.eq("position_code",condition.getPositionCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getSpecification())){
+            wrapper.like("specification",condition.getSpecification());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCostCenterNo())){
+            wrapper.like("cost_center_no",condition.getCostCenterNo());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCostCenterNo())){
+            wrapper.eq("cost_center_no",condition.getCostCenterNo());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPurchaseOrderNo())){
+            wrapper.eq("purchase_order_no",condition.getPurchaseOrderNo());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getStatus())){
+            wrapper.eq("status",condition.getStatus());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPutAccountPerson())){
+            wrapper.like("put_account_person",condition.getPutAccountPerson());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentDesc())){
+            wrapper.like("equipment_desc",condition.getEquipmentDesc());
+        }
+
         // 默认按id降序
         wrapper.orderBy(true, false, "id");
         return wrapper;

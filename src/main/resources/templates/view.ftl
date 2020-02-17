@@ -1,28 +1,30 @@
 <template>
   <div class="container" style="width:99%;">
 	<!--工具栏-->
-	<div class="toolbar" style="margin-bottom:10px;">
-		<el-form :inline="true" :model="filters" :size="size">
-			<el-col :span="8">
-				<el-form-item label="编码">
-					<el-input v-model="filters.code" placeholder="编码"></el-input>
-				</el-form-item>
-			</el-col>
-			<el-col :span="8">
-				<el-form-item label="名称">
-					<el-input v-model="filters.name" placeholder="名称"></el-input>
-				</el-form-item>
-			</el-col>
-			<el-col :span="8">
-				<el-form-item>
-					<el-button-group>
-						<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" @click="findPage()" />
-						<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" @click="handleAdd" />
-					</el-button-group>
-				</el-form-item>
-			</el-col>
-		</el-form>
-	</div>
+	<el-card style="margin-left:10px;margin-right:10px;">
+		<div class="toolbar" style="margin-bottom:10px;">
+			<el-form :inline="true" :model="filters" :size="size">
+				<el-col :span="8">
+					<el-form-item label="编码">
+						<el-input v-model="filters.code" placeholder="编码"></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					<el-form-item label="名称">
+						<el-input v-model="filters.name" placeholder="名称"></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8">
+					<el-form-item>
+						<el-button-group>
+							<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" @click="findPage()" />
+							<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" @click="handleAdd" />
+						</el-button-group>
+					</el-form-item>
+				</el-col>
+			</el-form>
+		</div>
+	</el-card>
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
 	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
 	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示-->
@@ -144,6 +146,10 @@ export default {
 			</#list>
 			}
 
+			this.$nextTick(() => {
+				this.$refs['dataForm'].resetFields();
+			});
+
 			this.dataForm.createrId=this.createrId;
 			this.dataForm.creater=this.creater;
 			this.dataForm.createTime=getNowTime();
@@ -158,6 +164,11 @@ export default {
 			this.editDialogVisible = true;
 			this.operation = false;
 			this.codeEditFlag=true;
+
+			this.$nextTick(() => {
+				this.$refs['dataForm'].clearValidate();
+			});
+
 			this.dataForm = Object.assign({}, params.row);
 			this.dataForm.modifierId=this.modifierId;
 			this.dataForm.modifier=this.modifier;
