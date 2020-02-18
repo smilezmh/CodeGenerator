@@ -17,14 +17,46 @@
 				<el-col :span="8">
 					<el-form-item>
 						<el-button-group>
-							<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" @click="findPage()" />
-							<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" @click="handleAdd" />
+							<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
+								展开查询条件
+							</el-button>
+							<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" icon="el-icon-plus" @click="findPage()" />
+							<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" icon="el-icon-search" @click="handleAdd" />
+							<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
+								重置搜索条件
+							</el-button>
 						</el-button-group>
 					</el-form-item>
 				</el-col>
 			</el-form>
 		</div>
 	</el-card>
+
+	  <el-drawer
+			  :visible.sync="drawer"
+			  direction="btt" size="55%" title="设备维修查询条件">
+		  <!--工具栏-->
+		  <div style="margin-bottom:10px;padding-left:30px;">
+			  <el-form :inline="true" :model="filters" size="mini" label-width="100px" ref="filters"
+					   label-position="left">
+
+				  <el-col :span="6">
+					  <el-form-item>
+						  <el-button-group>
+							  <kt-button :label="$t('action.search')" perms="sys:EquipmentRepairRecord:view"
+										 type="primary" @click="findPage()"/>
+							  <kt-button :label="$t('action.add')" perms="sys:EquipmentRepairRecord:add"
+										 type="primary" @click="handleAdd"/>
+							  <el-button @click="resetFilters('filters')" type="primary" size="mini">
+								  重置搜索条件
+							  </el-button>
+						  </el-button-group>
+					  </el-form-item>
+				  </el-col>
+
+			  </el-form>
+		  </div>
+	  </el-drawer>
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
 	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
 	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示-->
@@ -82,6 +114,7 @@ export default {
 			createTime:"",
 			modifyTime:"",
 			codeEditFlag:'disabled',
+			drawer: false,
 			size: 'small',
 			filters: {code: '',name:''},
 			columns: [
@@ -111,6 +144,11 @@ export default {
 		}
 	},
 	methods: {
+		resetFilters(form) {
+			this.$nextTick(() => {
+				this.$refs[form].resetFields();
+			})
+		},
 		// 获取分页数据
 		findPage: function () {
 			this.pageRequest.code=this.filters.code;
