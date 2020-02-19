@@ -40,4 +40,6 @@ public class QueryModelEquipmentType implements Serializable{
 
     @ApiModelProperty(value = "设备类型名")
     private String name;
+
+
 }

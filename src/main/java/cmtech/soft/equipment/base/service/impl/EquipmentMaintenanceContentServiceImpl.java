@@ -123,9 +123,9 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复,保养内容编码不能重复
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -220,6 +220,23 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
         wrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
+            wrapper.like("code",condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getName())){
+            wrapper.like("name",condition.getName());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())){
+            wrapper.eq("equipment_type_code",condition.getEquipmentTypeCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){
+            wrapper.eq("equipment_code",condition.getEquipmentCode());
+        }
+
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -266,7 +283,7 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     private boolean isCodeRepeat(EquipmentMaintenanceContent entity) {
         QueryWrapper<EquipmentMaintenanceContent> queryWrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("code", entity.getCode());
         return mapper.selectCount(queryWrapper) > 0;
     }
 

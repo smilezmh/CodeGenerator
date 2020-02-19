@@ -40,4 +40,7 @@ public class QueryModelSparepartBaseInfo implements Serializable{
 
     @ApiModelProperty(value = "名称")
     private String name;
+
+    @ApiModelProperty(value = "备件类型code")
+    private String sparepartTypeCode;
 }

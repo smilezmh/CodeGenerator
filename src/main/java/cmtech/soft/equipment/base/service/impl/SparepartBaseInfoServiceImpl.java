@@ -123,9 +123,9 @@ public class SparepartBaseInfoServiceImpl extends ServiceImpl<SparepartBaseInfoM
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -220,6 +220,18 @@ public class SparepartBaseInfoServiceImpl extends ServiceImpl<SparepartBaseInfoM
         wrapper = new QueryWrapper<SparepartBaseInfo>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
+            wrapper.like("code",condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getName())){
+            wrapper.like("name",condition.getName());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getSparepartTypeCode())){// 备件类型
+            wrapper.like("sparepart_type_code",condition.getSparepartTypeCode());
+        }
+
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -266,7 +278,7 @@ public class SparepartBaseInfoServiceImpl extends ServiceImpl<SparepartBaseInfoM
     private boolean isCodeRepeat(SparepartBaseInfo entity) {
         QueryWrapper<SparepartBaseInfo> queryWrapper = new QueryWrapper<SparepartBaseInfo>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("code", entity.getCode());// 备件编码不允许重复
         return mapper.selectCount(queryWrapper) > 0;
     }
 

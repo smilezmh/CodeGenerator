@@ -115,7 +115,7 @@ export default {
 			modifyTime:"",
 			codeEditFlag:'disabled',
 			drawer: false,
-			size: 'small',
+			size: 'mini',
 			filters: {code: '',name:''},
 			columns: [
 			<#list table.fields as field>
