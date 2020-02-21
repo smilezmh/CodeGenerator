@@ -35,9 +35,18 @@ public class QueryModelEquipmentMaintenanceContentRelation implements Serializab
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-    @ApiModelProperty(value = "编码")
+    @ApiModelProperty(value = "保养内容编码,外链equipment_maintenance_content的code")
     private String code;
 
-    @ApiModelProperty(value = "名称")
+    @ApiModelProperty(value = "保养内容，外链equipment_maintenance_content中的name")
     private String name;
+
+    @ApiModelProperty(value = "套餐编码")
+    private String packageCode;
+
+    @ApiModelProperty(value = "设备类型code，外链equipment_type类型code")
+    private String equipmentTypeCode;
+
+    @ApiModelProperty(value = "设备code，外链equipment_base_info的code（冗余）")
+    private String equipmentCode;
 }

@@ -33,10 +33,13 @@ public class EquipmentMaintenanceContentRelation extends Model<EquipmentMaintena
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @ApiModelProperty(value = "套餐编码")
+    private String packageCode;
+
     @ApiModelProperty(value = "保养内容id，外链equipment_maintenance_content的id")
     private Integer maintenanceContentId;
 
-    @ApiModelProperty(value = "保养内容关系编码(冗余字段)")
+    @ApiModelProperty(value = "保养内容编码,外链equipment_maintenance_content的code")
     private String code;
 
     @ApiModelProperty(value = "保养内容，外链equipment_maintenance_content中的name")

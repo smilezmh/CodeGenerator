@@ -37,10 +37,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     private QueryWrapper<EquipmentMaintenanceContent> wrapper;
 
     /**
-    * 无分页查询list
-    * @param condition 无分页条件
-    * @return list
-    */
+     * 无分页查询list
+     *
+     * @param condition 无分页条件
+     * @return list
+     */
     @Override
     public List<EquipmentMaintenanceContent> getListByQueryModel(QueryModelEquipmentMaintenanceContent condition) {
         // 联表查询
@@ -54,24 +55,26 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 根据条件随机取出一条数据
-    * @param condition 查询条件
-    * @return 实体
-    */
+     * 根据条件随机取出一条数据
+     *
+     * @param condition 查询条件
+     * @return 实体
+     */
     @Override
-    public EquipmentMaintenanceContent getRandomOneByQueryModel(QueryModelEquipmentMaintenanceContent condition){
-        QueryWrapper<EquipmentMaintenanceContent> queryWrapper=new QueryWrapper<EquipmentMaintenanceContent>();
-        queryWrapper.eq("is_deleted",false);
-        queryWrapper.lambda().eq(EquipmentMaintenanceContent::getId,condition.getId());
+    public EquipmentMaintenanceContent getRandomOneByQueryModel(QueryModelEquipmentMaintenanceContent condition) {
+        QueryWrapper<EquipmentMaintenanceContent> queryWrapper = new QueryWrapper<EquipmentMaintenanceContent>();
+        queryWrapper.eq("is_deleted", false);
+        queryWrapper.lambda().eq(EquipmentMaintenanceContent::getId, condition.getId());
         queryWrapper.last("LIMIT 1");
         return mapper.selectOne(queryWrapper);
-     }
+    }
 
     /**
-    * 根据条件查询分页结果
-    * @param condition 查询条件
-    * @return 分页结果
-    */
+     * 根据条件查询分页结果
+     *
+     * @param condition 查询条件
+     * @return 分页结果
+     */
     @Override
     public IPage<EquipmentMaintenanceContent> getPageByContition(QueryModelEquipmentMaintenanceContent condition) {
         // 查询条件
@@ -114,10 +117,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 插入数据库实体，并返回实体在数据库的id
-    * @param entity 插入的实体
-    * @return  返回实体在数据库的id
-    */
+     * 插入数据库实体，并返回实体在数据库的id
+     *
+     * @param entity 插入的实体
+     * @return 返回实体在数据库的id
+     */
     @Override
     public int saveOrUpdateWithIdReturnBack(EquipmentMaintenanceContent entity) {
         int id = 0;
@@ -141,11 +145,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 带有主键是否重复判断的批量插入方法
-    *
-    * @param entities 实体集合
-    * @return 返回ErrorReturn.CodeRepete=-1就是主键重复，返回插入的数量
-    */
+     * 带有主键是否重复判断的批量插入方法
+     *
+     * @param entities 实体集合
+     * @return 返回ErrorReturn.CodeRepete=-1就是主键重复，返回插入的数量
+     */
     public Integer insertBatchWithCodeRepeatCheck(List<EquipmentMaintenanceContent> entities) {
         if (isCodesRepeat(entities)) {
             return ErrorReturn.CodeRepete;
@@ -161,11 +165,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 根据查询条件查询数据是否存在
-    *
-    * @param condition 查询条件
-    * @return 是或否
-    */
+     * 根据查询条件查询数据是否存在
+     *
+     * @param condition 查询条件
+     * @return 是或否
+     */
     @Override
     public boolean isExistsByQueryModel(QueryModelEquipmentMaintenanceContent condition) {
         QueryWrapper<EquipmentMaintenanceContent> queryWrapper = new QueryWrapper<>();
@@ -174,11 +178,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 根据更新条件更新了几条数据
-    *
-    * @param condition 跟更新条件
-    * @return 更新了几条数据
-    */
+     * 根据更新条件更新了几条数据
+     *
+     * @param condition 跟更新条件
+     * @return 更新了几条数据
+     */
     @Override
     public Integer updateByQueryModel(QueryModelEquipmentMaintenanceContent condition) {
         EquipmentMaintenanceContent entity = new EquipmentMaintenanceContent();
@@ -191,50 +195,53 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 根据条件串表分页查询
-    * @param condition 查询条件
-    * @return 分页结果
-    */
+     * 根据条件串表分页查询
+     *
+     * @param condition 查询条件
+     * @return 分页结果
+     */
     @Override
-    public IPage<EquipmentMaintenanceContent> getTablesPageByContition(QueryModelEquipmentMaintenanceContent condition){
-        IPage<EquipmentMaintenanceContent> page=new Page<EquipmentMaintenanceContent>(condition.getCurrent(),condition.getSize());
-        return page.setRecords(mapper.getTablesByContition(page,condition));
+    public IPage<EquipmentMaintenanceContent> getTablesPageByContition(QueryModelEquipmentMaintenanceContent condition) {
+        IPage<EquipmentMaintenanceContent> page = new Page<EquipmentMaintenanceContent>(condition.getCurrent(), condition.getSize());
+        return page.setRecords(mapper.getTablesByContition(page, condition));
     }
 
     /**
-    * 根据条件串表不分页查询list
-    * @param condition 查询条件
-    * @return 分页结果
-    */
+     * 根据条件串表不分页查询list
+     *
+     * @param condition 查询条件
+     * @return 分页结果
+     */
     @Override
-    public List<EquipmentMaintenanceContent> getTablesByContition(QueryModelEquipmentMaintenanceContent condition){
+    public List<EquipmentMaintenanceContent> getTablesByContition(QueryModelEquipmentMaintenanceContent condition) {
         return mapper.getTablesByContition(condition);
     }
 
     /**
-    * 设置分页查询条件
-    * @param condition 搜索条件QueryModel
-    * @return 分页查询wrapper
-    */
+     * 设置分页查询条件
+     *
+     * @param condition 搜索条件QueryModel
+     * @return 分页查询wrapper
+     */
     private QueryWrapper<EquipmentMaintenanceContent> getPageWrapper(QueryModelEquipmentMaintenanceContent condition) {
         wrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
 
-        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
-            wrapper.like("code",condition.getCode());
+        if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
+            wrapper.like("code", condition.getCode());
         }
 
-        if(!MyStrTool.isNullOrEmpty(condition.getName())){
-            wrapper.like("name",condition.getName());
+        if (!MyStrTool.isNullOrEmpty(condition.getName())) {
+            wrapper.like("name", condition.getName());
         }
 
-        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())){
-            wrapper.eq("equipment_type_code",condition.getEquipmentTypeCode());
+        if (!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())) {
+            wrapper.eq("equipment_type_code", condition.getEquipmentTypeCode());
         }
 
-        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){
-            wrapper.eq("equipment_code",condition.getEquipmentCode());
+        if (!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())) {
+            wrapper.eq("equipment_code", condition.getEquipmentCode());
         }
 
         // 查找没有删除的数据
@@ -245,14 +252,30 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 设置list查询条件
-    * @param condition 搜索条件QueryModel
-    * @return list查询wrapper
-    */
+     * 设置list查询条件
+     *
+     * @param condition 搜索条件QueryModel
+     * @return list查询wrapper
+     */
     private QueryWrapper<EquipmentMaintenanceContent> getListWrapper(QueryModelEquipmentMaintenanceContent condition) {
         wrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
+            wrapper.eq("code", condition.getCode());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getName())) {
+            wrapper.like("name", condition.getName());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())) {
+            wrapper.eq("equipment_type_code", condition.getEquipmentTypeCode());
+        }
+
+        if (!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())) {
+            wrapper.eq("equipment_code", condition.getEquipmentCode());
+        }
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -261,9 +284,10 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 处理返回页面视图结果列
-    * @param list 实体list
-    */
+     * 处理返回页面视图结果列
+     *
+     * @param list 实体list
+     */
     private void dealWithViewName(List<EquipmentMaintenanceContent> list) {
 
         if (list != null && list.size() > 0) {
@@ -275,11 +299,11 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 对实体，判断业务主键是否重复，重复不允许插入
-    *
-    * @param entity 实体
-    * @return 是否重复
-    */
+     * 对实体，判断业务主键是否重复，重复不允许插入
+     *
+     * @param entity 实体
+     * @return 是否重复
+     */
     private boolean isCodeRepeat(EquipmentMaintenanceContent entity) {
         QueryWrapper<EquipmentMaintenanceContent> queryWrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         queryWrapper.eq("is_deleted", false);
@@ -288,19 +312,20 @@ public class EquipmentMaintenanceContentServiceImpl extends ServiceImpl<Equipmen
     }
 
     /**
-    * 对实体集合，判断业务主键是否重复，重复不允许插入
-    * @param list 实体list
-    * @return 是否重复
-    */
+     * 对实体集合，判断业务主键是否重复，重复不允许插入
+     *
+     * @param list 实体list
+     * @return 是否重复
+     */
     private boolean isCodesRepeat(List<EquipmentMaintenanceContent> list) {
-        if(list==null||list.isEmpty()){
+        if (list == null || list.isEmpty()) {
             return false;
         }
 
         QueryWrapper<EquipmentMaintenanceContent> queryWrapper = new QueryWrapper<EquipmentMaintenanceContent>();
         queryWrapper.eq("is_deleted", false);
-        List<String> codes= Linq.of(list).select(x->x.getCode()).toList();
+        List<String> codes = Linq.of(list).select(x -> x.getCode()).toList();
         queryWrapper.in("code", codes);
         return mapper.selectCount(queryWrapper) > 0;
-     }
+    }
 }

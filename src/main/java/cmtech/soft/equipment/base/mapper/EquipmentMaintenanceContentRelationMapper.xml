@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cmtech.soft.equipment.base.entity.EquipmentMaintenanceContentRelation">
         <id column="id" property="id" />
+        <id column="package_code" property="packageCode" />
         <result column="maintenance_content_id" property="maintenanceContentId" />
         <result column="code" property="code" />
         <result column="name" property="name" />
@@ -26,13 +27,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, maintenance_content_id, code, name, maintenance_type, equipment_type_id, equipment_type_code, equipment_type_name, equipment_id, equipment_code, equipment_name, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+        id,package_code, maintenance_content_id, code, name, maintenance_type, equipment_type_id, equipment_type_code, equipment_type_name, equipment_id, equipment_code, equipment_name, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
     </sql>
 
     <!-- 串表查询 -->
     <select id="getTablesByContition" parameterType="cmtech.soft.equipment.base.model.QueryModelEquipmentMaintenanceContentRelation" resultType="cmtech.soft.equipment.base.entity.EquipmentMaintenanceContentRelation" >
         select
         main.id as id,
+        main.package_code as packageCode,
         main.maintenance_content_id as maintenanceContentId,
         main.code as code,
         main.name as name,

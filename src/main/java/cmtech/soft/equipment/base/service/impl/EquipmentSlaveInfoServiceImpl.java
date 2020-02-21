@@ -102,6 +102,10 @@ public class EquipmentSlaveInfoServiceImpl extends ServiceImpl<EquipmentSlaveInf
             wrapper.like("equipment_code", condition.getEquipmentCode());
         }
 
+        if (condition.getEquipmentId()!=null) {
+            wrapper.eq("equipment_id", condition.getEquipmentId());
+        }
+
         if (!MyStrTool.isNullOrEmpty(condition.getName())) {
             wrapper.like("name", condition.getName());
         }

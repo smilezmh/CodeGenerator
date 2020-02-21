@@ -107,6 +107,7 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         // 是否有效
         // wrapper.eq("is_valid", true);
 
+
         iPage = page(iPage, wrapper);
         // 处理结果列
         // dealWithViewName(iPage.getRecords());
@@ -222,8 +223,29 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         // queryWrapper.select("id", "code", "name", "remark");
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){// 保养内容编码，外链equipment_maintenance_content的code,保养内容编码
+            wrapper.eq("code",condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getName())){// 保养内容，外链equipment_maintenance_content的name
+            wrapper.like("name",condition.getName());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPackageCode())){// 套餐编码
+            wrapper.eq("package_code",condition.getPackageCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())){// 设备类型编码
+            wrapper.eq("equipment_type_code",condition.getEquipmentTypeCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备编码
+            wrapper.eq("equipment_code",condition.getEquipmentCode());
+        }
+
         // 默认按id降序
-        wrapper.orderBy(true, false, "id");
+        wrapper.orderBy(true,true,"package_code");
         return wrapper;
     }
 
@@ -236,6 +258,25 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         wrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){// 保养内容编码，外链equipment_maintenance_content的code,保养内容编码
+            wrapper.eq("code",condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getName())){// 保养内容，外链equipment_maintenance_content的name
+            wrapper.eq("name",condition.getName());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPackageCode())){// 套餐编码
+            wrapper.eq("package_code",condition.getPackageCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentTypeCode())){// 设备类型编码
+            wrapper.eq("equipment_type_code",condition.getEquipmentTypeCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备编码
+            wrapper.eq("equipment_code",condition.getEquipmentCode());
+        }
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -282,6 +323,7 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
 
         QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
         queryWrapper.eq("is_deleted", false);
+        // 如果保养内容id
         List<String> codes= Linq.of(list).select(x->x.getCode()).toList();
         queryWrapper.in("code", codes);
         return mapper.selectCount(queryWrapper) > 0;
