@@ -228,6 +228,10 @@ public class EquipmentMaintenanceRecordServiceImpl extends ServiceImpl<Equipment
             wrapper.lambda().like(EquipmentMaintenanceRecord::getCode,condition.getCode());
         }
 
+        if(!MyStrTool.isNullOrEmpty(condition.getMaitenancePlanNo())){// 保养计划单号
+            wrapper.lambda().like(EquipmentMaintenanceRecord::getMaitenancePlanNo,condition.getMaitenancePlanNo());
+        }
+
         if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备资产编号
             wrapper.lambda().eq(EquipmentMaintenanceRecord::getEquipmentCode,condition.getEquipmentCode());
         }
