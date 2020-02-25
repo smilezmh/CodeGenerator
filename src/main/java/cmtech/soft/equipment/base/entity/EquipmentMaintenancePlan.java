@@ -45,10 +45,10 @@ public class EquipmentMaintenancePlan extends Model<EquipmentMaintenancePlan> {
     @ApiModelProperty(value = "设备资产编号，外链equipment_base_info的code")
     private String equipmentCode;
 
-    @ApiModelProperty(value = "设备资产描述，外链equipment_base_info的desc")
-    private String equipmentDesc;
+    @ApiModelProperty(value = "设备详情")
+    private String equipmentDetail;
 
-    @ApiModelProperty(value = "设备出厂编号，外链equipment_base_info的factory_no")
+    @ApiModelProperty(value = "设备出厂编号，外链equipment_base_info的factory_no，冗余字段")
     private String equipmentFactoryNo;
 
     @ApiModelProperty(value = "保养类型，日、周、月、季度、半年、年")
@@ -63,10 +63,10 @@ public class EquipmentMaintenancePlan extends Model<EquipmentMaintenancePlan> {
     private Date maintenancePlanStartTime;
 
     @ApiModelProperty(value = "计划单是否有效")
-    private Integer isValid;
+    private Boolean isValid;
 
     @ApiModelProperty(value = "是否允许推迟")
-    private Integer isDelayAllowed;
+    private Boolean isDelayAllowed;
 
     @ApiModelProperty(value = "推迟时间（天）")
     private Integer planDelay;
@@ -101,7 +101,8 @@ public class EquipmentMaintenancePlan extends Model<EquipmentMaintenancePlan> {
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-
+    @ApiModelProperty(value = "套餐编码，外链equipment_maintenance_content_relation的package_code")
+    private String packageCode;
 
     @Override
     protected Serializable pkVal() {

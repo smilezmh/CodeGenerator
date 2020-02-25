@@ -40,4 +40,7 @@ public class QueryModelEquipmentMaintenancePlan implements Serializable{
 
     @ApiModelProperty(value = "名称")
     private String name;
+
+    @ApiModelProperty(value = "套餐编码，外链equipment_maintenance_content_relation的package_code")
+    private String packageCode;
 }

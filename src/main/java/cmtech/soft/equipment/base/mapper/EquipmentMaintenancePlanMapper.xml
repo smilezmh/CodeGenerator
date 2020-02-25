@@ -9,7 +9,7 @@
         <result column="name" property="name" />
         <result column="equipment_id" property="equipmentId" />
         <result column="equipment_code" property="equipmentCode" />
-        <result column="equipment_desc" property="equipmentDesc" />
+        <result column="equipment_detail" property="equipmentDetail" />
         <result column="equipment_factory_no" property="equipmentFactoryNo" />
         <result column="maintenance_type" property="maintenanceType" />
         <result column="maintenance_contents" property="maintenanceContents" />
@@ -25,11 +25,12 @@
         <result column="create_time" property="createTime" />
         <result column="modify_time" property="modifyTime" />
         <result column="is_deleted" property="isDeleted" />
+        <result column="package_code" property="packageCode" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, code, name, equipment_id, equipment_code, equipment_desc, equipment_factory_no, maintenance_type, maintenance_contents, maintenance_plan_start_time, is_valid, is_delay_allowed, plan_delay, next_maintenace_time, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+        id, code, name,package_code, equipment_id, equipment_code, equipment_detail, equipment_factory_no, maintenance_type, maintenance_contents, maintenance_plan_start_time, is_valid, is_delay_allowed, plan_delay, next_maintenace_time, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
     </sql>
 
     <!-- 串表查询 -->
@@ -38,9 +39,10 @@
         main.id as id,
         main.code as code,
         main.name as name,
+        main.package_code as packageCode,
         main.equipment_id as equipmentId,
         main.equipment_code as equipmentCode,
-        main.equipment_desc as equipmentDesc,
+        main.equipment_detail as equipmentDetail,
         main.equipment_factory_no as equipmentFactoryNo,
         main.maintenance_type as maintenanceType,
         main.maintenance_contents as maintenanceContents,

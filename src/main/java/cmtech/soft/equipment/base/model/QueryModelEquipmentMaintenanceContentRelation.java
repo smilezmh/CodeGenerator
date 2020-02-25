@@ -49,4 +49,7 @@ public class QueryModelEquipmentMaintenanceContentRelation implements Serializab
 
     @ApiModelProperty(value = "设备code，外链equipment_base_info的code（冗余）")
     private String equipmentCode;
+
+    @ApiModelProperty(value = "保养类型-日、月、周、季度、半年、年")
+    private String maintenanceType;
 }

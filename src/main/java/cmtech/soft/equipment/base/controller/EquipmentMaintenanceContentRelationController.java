@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.base.controller;
 
+import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import cmtech.soft.equipment.utils.ErrorReturn;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 设备保养内容和设备保养类型、设备类型关系维护表 基本接口
+ * 设备保养套餐-设备保养内容和设备保养类型、设备类型关系维护表 基本接口
  *
  * @author smilezmh
  * @since 2020-01-14
@@ -31,8 +32,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/base/equipment-maintenance-content-relation")
 public class EquipmentMaintenanceContentRelationController {
+//    @Autowired
+//    private IEquipmentMaintenanceContentRelationService service;
     @Autowired
-    private IEquipmentMaintenanceContentRelationService service;
+    private IEquipmentMaintenanceContentRelationExtendService service;
+
+    @ApiOperation("根据设备编码和保养类型查询套餐信息")
+    @GetMapping (value = "getPackageByEquipmentCode")
+    public HttpResult getPackageByEquipmentCode(@RequestParam(value ="equipmentCode" ) String equipmentCode,@RequestParam(value = "maintenanceType") String maintenanceType) {
+        HttpResult result = new HttpResult();
+        List<EquipmentMaintenanceContentRelation> entities=service.getEntitiesByEquipmentCode(equipmentCode,maintenanceType);
+
+        if (entities != null && !entities.isEmpty()) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(entities);
+            result.setMsg("根据设备编码和保养类型查询套餐信息成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(null);
+            result.setMsg("根据设备编码和保养类型查询套餐信息为空！");
+        }
+        return result;
+    }
 
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")

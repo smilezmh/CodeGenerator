@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.base.service.impl;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -170,7 +171,16 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
     @Override
     public boolean isExistsByQueryModel(QueryModelEquipmentMaintenanceContentRelation condition) {
         QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getId, condition.getId());
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){
+            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getEquipmentCode,condition.getEquipmentCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){
+            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getMaintenanceType,condition.getMaintenanceType());
+        }
+
+//        queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getId, condition.getId());
         return mapper.selectCount(queryWrapper) > 0;
     }
 
@@ -244,6 +254,10 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
             wrapper.eq("equipment_code",condition.getEquipmentCode());
         }
 
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){// 保养类型
+            wrapper.eq("maintenance_type",condition.getMaintenanceType());
+        }
+
         // 默认按id降序
         wrapper.orderBy(true,true,"package_code");
         return wrapper;
@@ -277,6 +291,11 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备编码
             wrapper.eq("equipment_code",condition.getEquipmentCode());
         }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){// 保养类型
+            wrapper.eq("maintenance_type",condition.getMaintenanceType());
+        }
+
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
