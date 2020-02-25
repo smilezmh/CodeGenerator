@@ -1,11 +1,15 @@
 package cmtech.soft.equipment.base.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -35,9 +39,44 @@ public class QueryModelEquipmentMaintenanceRecord implements Serializable{
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-    @ApiModelProperty(value = "编码")
-    private String code;
-
     @ApiModelProperty(value = "名称")
     private String name;
+
+    @ApiModelProperty(value = "保养单号")
+    private String code;
+
+    @ApiModelProperty(value = "设备资产编号，外链equipment_base_info的code")
+    private String equipmentCode;
+
+    @ApiModelProperty(value = "设备详情")
+    private String equipmentDetail;
+
+    @ApiModelProperty(value = "保养类型，日、周、月、季度、半年、年")
+    private String maintenanceType;
+
+    @ApiModelProperty(value = "保养内容，结果列")
+    private String maintenanceContents;
+
+    @ApiModelProperty(value = "保养计划单号，外链equipment_maintenance_plan中的code")
+    private String maitenancePlanNo;
+
+    @ApiModelProperty(value = "保养开始范围开始时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date maintenanceStartTimeRangeT1;
+
+    @ApiModelProperty(value = "保养开始范围结束时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date maintenanceStartTimeRangeT2;
+
+    @ApiModelProperty(value = "保养结束范围开始时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date maintenanceEndTimeRangeT1;
+
+    @ApiModelProperty(value = "保养结束范围结束时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date maintenanceEndTimeRangeT2;
 }

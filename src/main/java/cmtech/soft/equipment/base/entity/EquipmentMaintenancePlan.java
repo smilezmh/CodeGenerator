@@ -104,6 +104,9 @@ public class EquipmentMaintenancePlan extends Model<EquipmentMaintenancePlan> {
     @ApiModelProperty(value = "套餐编码，外链equipment_maintenance_content_relation的package_code")
     private String packageCode;
 
+    @ApiModelProperty(value = "设备类型编码，外链equipment_type中的code,冗余字段")
+    private String equipmentTypeCode;
+
     @Override
     protected Serializable pkVal() {
         return this.id;

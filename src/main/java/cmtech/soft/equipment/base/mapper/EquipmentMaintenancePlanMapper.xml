@@ -26,11 +26,12 @@
         <result column="modify_time" property="modifyTime" />
         <result column="is_deleted" property="isDeleted" />
         <result column="package_code" property="packageCode" />
+        <result column="equipment_type_code" property="equipmentTypeCode" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, code, name,package_code, equipment_id, equipment_code, equipment_detail, equipment_factory_no, maintenance_type, maintenance_contents, maintenance_plan_start_time, is_valid, is_delay_allowed, plan_delay, next_maintenace_time, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
+        id, code, name,package_code,equipment_type_code, equipment_id, equipment_code, equipment_detail, equipment_factory_no, maintenance_type, maintenance_contents, maintenance_plan_start_time, is_valid, is_delay_allowed, plan_delay, next_maintenace_time, creater_id, creater, modifier_id, modifier, create_time, modify_time, is_deleted
     </sql>
 
     <!-- 串表查询 -->
@@ -40,6 +41,7 @@
         main.code as code,
         main.name as name,
         main.package_code as packageCode,
+        main.equipment_type_code as equipmentTypeCode,
         main.equipment_id as equipmentId,
         main.equipment_code as equipmentCode,
         main.equipment_detail as equipmentDetail,

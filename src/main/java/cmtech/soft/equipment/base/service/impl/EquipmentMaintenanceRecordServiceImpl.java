@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.base.service.impl;
 
+import cmtech.soft.equipment.base.entity.EquipmentMaintenancePlan;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -222,6 +223,43 @@ public class EquipmentMaintenanceRecordServiceImpl extends ServiceImpl<Equipment
         // queryWrapper.select("id", "code", "name", "remark");
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){// 保养单号
+            wrapper.lambda().like(EquipmentMaintenanceRecord::getCode,condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备资产编号
+            wrapper.lambda().eq(EquipmentMaintenanceRecord::getEquipmentCode,condition.getEquipmentCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentDetail())){// 设备详情
+            wrapper.lambda().like(EquipmentMaintenanceRecord::getEquipmentDetail,condition.getEquipmentDetail());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){// 保养类型
+            wrapper.lambda().eq(EquipmentMaintenanceRecord::getMaintenanceType,condition.getMaintenanceType());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceContents())){// 保养内容
+            wrapper.lambda().like(EquipmentMaintenanceRecord::getMaintenanceContents,condition.getMaintenanceContents());
+        }
+
+        if (condition.getMaintenanceStartTimeRangeT1() != null) { // 保养开始范围开始时间
+            wrapper.lambda().ge(EquipmentMaintenanceRecord::getMaintenanceStartTime, condition.getMaintenanceStartTimeRangeT1());
+        }
+
+        if (condition.getMaintenanceStartTimeRangeT2() != null) { // 保养开始范结束始时间
+            wrapper.lambda().ge(EquipmentMaintenanceRecord::getMaintenanceStartTime, condition.getMaintenanceStartTimeRangeT2());
+        }
+
+        if (condition.getMaintenanceEndTimeRangeT1() != null) {// 保养结束范围开始时间
+            wrapper.lambda().le(EquipmentMaintenanceRecord::getMaintenanceEndTime, condition.getMaintenanceEndTimeRangeT1());
+        }
+
+        if (condition.getMaintenanceEndTimeRangeT2() != null) {// 保养结束范围结束时间
+            wrapper.lambda().le(EquipmentMaintenanceRecord::getMaintenanceEndTime, condition.getMaintenanceEndTimeRangeT2());
+        }
+
         // 默认按id降序
         wrapper.orderBy(true, false, "id");
         return wrapper;

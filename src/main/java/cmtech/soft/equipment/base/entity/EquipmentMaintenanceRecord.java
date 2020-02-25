@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +15,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 设备保养记录实体
  * </p>
  *
  * @author smilezmh
@@ -45,8 +44,8 @@ public class EquipmentMaintenanceRecord extends Model<EquipmentMaintenanceRecord
     @ApiModelProperty(value = "设备资产编号，外链equipment_base_info的code")
     private String equipmentCode;
 
-    @ApiModelProperty(value = "设备资产描述，外链equipment_base_info的desc")
-    private String equipmentDesc;
+    @ApiModelProperty(value = "设备详情")
+    private String equipmentDetail;
 
     @ApiModelProperty(value = "设备出厂编号，外链equipment_base_info的factory_no")
     private String equipmentFactoryNo;

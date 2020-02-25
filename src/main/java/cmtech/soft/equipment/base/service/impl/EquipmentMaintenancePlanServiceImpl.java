@@ -123,9 +123,9 @@ public class EquipmentMaintenancePlanServiceImpl extends ServiceImpl<EquipmentMa
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复,计划单号不能重复，同一种设备加保养类型也是唯一组合
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -284,6 +284,54 @@ public class EquipmentMaintenancePlanServiceImpl extends ServiceImpl<EquipmentMa
         wrapper = new QueryWrapper<EquipmentMaintenancePlan>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){// 计划单号
+            wrapper.lambda().like(EquipmentMaintenancePlan::getCode,condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备编号
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getEquipmentCode,condition.getEquipmentCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentDetail())){// 设备类型等信息
+            wrapper.lambda().like(EquipmentMaintenancePlan::getEquipmentDetail,condition.getEquipmentDetail());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPackageCode())){// 套餐编码
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getPackageCode,condition.getPackageCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){// 保养类型
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getMaintenanceType,condition.getMaintenanceType());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceContents())){// 保养内容
+            wrapper.lambda().like(EquipmentMaintenancePlan::getMaintenanceContents,condition.getMaintenanceContents());
+        }
+
+        if(condition.getIsValid()!=null){// 是否开启推送
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getIsValid,condition.getIsValid());
+        }
+
+        if(condition.getIsDelayAllowed()!=null){// 是否允许延迟
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getIsDelayAllowed,condition.getIsDelayAllowed());
+        }
+
+        if (condition.getMaintenancePlanStartTimeRangeT1() != null) { // 计划开始时间
+            wrapper.lambda().ge(EquipmentMaintenancePlan::getMaintenancePlanStartTime, condition.getMaintenancePlanStartTimeRangeT1());
+        }
+
+        if (condition.getMaintenancePlanStartTimeRangeT2() != null) {// 送修计划结束时间
+            wrapper.lambda().le(EquipmentMaintenancePlan::getMaintenancePlanStartTime, condition.getMaintenancePlanStartTimeRangeT2());
+        }
+
+        if (condition.getNextMaintenaceTimeRangeT1() != null) { // 下次维护开始时间
+            wrapper.lambda().ge(EquipmentMaintenancePlan::getNextMaintenaceTime, condition.getNextMaintenaceTimeRangeT1());
+        }
+
+        if (condition.getNextMaintenaceTimeRangeT2() != null) {// 下次维护结束时间
+            wrapper.lambda().le(EquipmentMaintenancePlan::getNextMaintenaceTime, condition.getNextMaintenaceTimeRangeT2());
+        }
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -312,10 +360,25 @@ public class EquipmentMaintenancePlanServiceImpl extends ServiceImpl<EquipmentMa
     * @return 是否重复
     */
     private boolean isCodeRepeat(EquipmentMaintenancePlan entity) {
+        boolean flag=false;
         QueryWrapper<EquipmentMaintenancePlan> queryWrapper = new QueryWrapper<EquipmentMaintenancePlan>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
-        return mapper.selectCount(queryWrapper) > 0;
+        queryWrapper.eq("code", entity.getCode());
+        int num=mapper.selectCount(queryWrapper);
+
+        if(num>0){// 先看保养单号是不是重复
+            flag=true;
+        }else {// 一种设备编码+保养类型只能有一种组合
+            queryWrapper = new QueryWrapper<EquipmentMaintenancePlan>();
+            queryWrapper.lambda().eq(EquipmentMaintenancePlan::getEquipmentCode,entity.getEquipmentCode());// 设备编码
+            queryWrapper.lambda().eq(EquipmentMaintenancePlan::getMaintenanceType,entity.getMaintenanceType());// 保养类型
+
+            if(mapper.selectCount(queryWrapper)>0){
+                flag=true;
+            }
+        }
+
+        return flag;
     }
 
     /**
