@@ -220,6 +220,54 @@ public class EquipmentMaintenancePlanServiceImpl extends ServiceImpl<EquipmentMa
         wrapper = new QueryWrapper<EquipmentMaintenancePlan>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){// 计划单号
+            wrapper.lambda().like(EquipmentMaintenancePlan::getCode,condition.getCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentCode())){// 设备编号
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getEquipmentCode,condition.getEquipmentCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getEquipmentDetail())){// 设备类型等信息
+            wrapper.lambda().like(EquipmentMaintenancePlan::getEquipmentDetail,condition.getEquipmentDetail());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getPackageCode())){// 套餐编码
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getPackageCode,condition.getPackageCode());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceType())){// 保养类型
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getMaintenanceType,condition.getMaintenanceType());
+        }
+
+        if(!MyStrTool.isNullOrEmpty(condition.getMaintenanceContents())){// 保养内容
+            wrapper.lambda().like(EquipmentMaintenancePlan::getMaintenanceContents,condition.getMaintenanceContents());
+        }
+
+        if(condition.getIsValid()!=null){// 是否开启推送
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getIsValid,condition.getIsValid());
+        }
+
+        if(condition.getIsDelayAllowed()!=null){// 是否允许延迟
+            wrapper.lambda().eq(EquipmentMaintenancePlan::getIsDelayAllowed,condition.getIsDelayAllowed());
+        }
+
+        if (condition.getMaintenancePlanStartTimeRangeT1() != null) { // 计划开始时间
+            wrapper.lambda().ge(EquipmentMaintenancePlan::getMaintenancePlanStartTime, condition.getMaintenancePlanStartTimeRangeT1());
+        }
+
+        if (condition.getMaintenancePlanStartTimeRangeT2() != null) {// 送修计划结束时间
+            wrapper.lambda().le(EquipmentMaintenancePlan::getMaintenancePlanStartTime, condition.getMaintenancePlanStartTimeRangeT2());
+        }
+
+        if (condition.getNextMaintenaceTimeRangeT1() != null) { // 下次维护开始时间
+            wrapper.lambda().ge(EquipmentMaintenancePlan::getNextMaintenaceTime, condition.getNextMaintenaceTimeRangeT1());
+        }
+
+        if (condition.getNextMaintenaceTimeRangeT2() != null) {// 下次维护结束时间
+            wrapper.lambda().le(EquipmentMaintenancePlan::getNextMaintenaceTime, condition.getNextMaintenaceTimeRangeT2());
+        }
+
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
