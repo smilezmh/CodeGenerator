@@ -1,6 +1,7 @@
 package cmtech.soft.equipment.base.controller;
 
 import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Api;
 
 import java.util.List;
+
 import cmtech.soft.equipment.base.service.IEquipmentMaintenanceContentRelationService;
 import cmtech.soft.equipment.base.model.QueryModelEquipmentMaintenanceContentRelation;
 import cmtech.soft.equipment.base.entity.EquipmentMaintenanceContentRelation;
@@ -32,16 +34,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/base/equipment-maintenance-content-relation")
 public class EquipmentMaintenanceContentRelationController {
-//    @Autowired
-//    private IEquipmentMaintenanceContentRelationService service;
     @Autowired
-    private IEquipmentMaintenanceContentRelationExtendService service;
+    @Qualifier("base")
+    private IEquipmentMaintenanceContentRelationService service;
+    @Autowired
+    @Qualifier("extends")
+    private IEquipmentMaintenanceContentRelationExtendService extendservice;
 
     @ApiOperation("根据设备编码和保养类型查询套餐信息")
-    @GetMapping (value = "getPackageByEquipmentCode")
-    public HttpResult getPackageByEquipmentCode(@RequestParam(value ="equipmentCode" ) String equipmentCode,@RequestParam(value = "maintenanceType") String maintenanceType) {
+    @GetMapping(value = "getPackageByEquipmentCode")
+    public HttpResult getPackageByEquipmentCode(@RequestParam(value = "equipmentCode") String equipmentCode, @RequestParam(value = "maintenanceType") String maintenanceType) {
         HttpResult result = new HttpResult();
-        List<EquipmentMaintenanceContentRelation> entities=service.getEntitiesByEquipmentCode(equipmentCode,maintenanceType);
+        List<EquipmentMaintenanceContentRelation> entities = extendservice.getEntitiesByEquipmentCode(equipmentCode, maintenanceType);
 
         if (entities != null && !entities.isEmpty()) {
             result.setCode(HttpStatus.SC_OK);
@@ -59,8 +63,8 @@ public class EquipmentMaintenanceContentRelationController {
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")
     @InterceptAction("批量修改或插入")
-    public HttpResult saveOrUpdataBath(@RequestBody(required = true) List<EquipmentMaintenanceContentRelation> entities)  {
-        HttpResult result=new HttpResult();
+    public HttpResult saveOrUpdataBath(@RequestBody(required = true) List<EquipmentMaintenanceContentRelation> entities) {
+        HttpResult result = new HttpResult();
 
         if (entities == null) {
             return result.error(HttpStatus.SC_BAD_REQUEST, "参数不能为空");
@@ -135,7 +139,7 @@ public class EquipmentMaintenanceContentRelationController {
     @PostMapping(value = "getListByQueryModel")
     public HttpResult getListByQueryModel(@RequestBody(required = false) QueryModelEquipmentMaintenanceContentRelation condition) {
         HttpResult result = new HttpResult();
-        List<EquipmentMaintenanceContentRelation> list=service.getListByQueryModel(condition);
+        List<EquipmentMaintenanceContentRelation> list = service.getListByQueryModel(condition);
 
         if (list != null && list.size() > 0) {
             result.setCode(HttpStatus.SC_OK);
@@ -153,8 +157,8 @@ public class EquipmentMaintenanceContentRelationController {
     @ApiOperation("根据条件查询list第一个实体信息")
     @PostMapping(value = "getFirstOneByQueryModel")
     public HttpResult getFirstOneByQueryModel(@RequestBody(required = false) QueryModelEquipmentMaintenanceContentRelation condition) {
-    HttpResult result = new HttpResult();
-        List<EquipmentMaintenanceContentRelation> list=service.getListByQueryModel(condition);
+        HttpResult result = new HttpResult();
+        List<EquipmentMaintenanceContentRelation> list = service.getListByQueryModel(condition);
 
         if (list != null && list.size() > 0) {
             result.setCode(HttpStatus.SC_OK);
@@ -173,7 +177,7 @@ public class EquipmentMaintenanceContentRelationController {
     @PostMapping(value = "getRandomOneByQueryModel")
     public HttpResult getRandomOneByQueryModel(@RequestBody(required = false) QueryModelEquipmentMaintenanceContentRelation condition) {
         HttpResult result = new HttpResult();
-        EquipmentMaintenanceContentRelation entity=service.getRandomOneByQueryModel(condition);
+        EquipmentMaintenanceContentRelation entity = service.getRandomOneByQueryModel(condition);
 
         if (entity != null) {
             result.setCode(HttpStatus.SC_OK);
@@ -198,7 +202,7 @@ public class EquipmentMaintenanceContentRelationController {
             return result.error(HttpStatus.SC_BAD_REQUEST, "参数不能为空");
         }
 
-        QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper=new QueryWrapper<EquipmentMaintenanceContentRelation>();
+        QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
 
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
@@ -233,7 +237,7 @@ public class EquipmentMaintenanceContentRelationController {
             return result.error(HttpStatus.SC_BAD_REQUEST, "参数不能为空");
         }
 
-        QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper=new QueryWrapper<EquipmentMaintenanceContentRelation>();
+        QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
 
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
@@ -268,18 +272,18 @@ public class EquipmentMaintenanceContentRelationController {
             return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
         }
 
-        int id=service.saveOrUpdateWithIdReturnBack(entity);
+        int id = service.saveOrUpdateWithIdReturnBack(entity);
 
-        if (id>0) {
+        if (id > 0) {
             result.setData(id);
             result.setMsg("带id返回值的插入或者更新成功！");
             result.setCode(HttpStatus.SC_OK);
-        } else if(id == ErrorReturn.CodeRepete){
+        } else if (id == ErrorReturn.CodeRepete) {
             result.setData(ErrorReturn.CodeRepete);
             result.setMsg("主键重复！");
             // 205 SC_RESET_CONTENT
             result.setCode(HttpStatus.SC_RESET_CONTENT);
-        }else {
+        } else {
             result.setData(0);
             result.setMsg("带id返回值的插入或者更新方法失败！");
             // 204 No Content
@@ -296,10 +300,10 @@ public class EquipmentMaintenanceContentRelationController {
         HttpResult result = new HttpResult();
 
         if (condition == null) {
-        return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
+            return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
         }
 
-        boolean flag=service.isExistsByQueryModel(condition);
+        boolean flag = service.isExistsByQueryModel(condition);
 
         result.setData(flag);
 
@@ -322,7 +326,7 @@ public class EquipmentMaintenanceContentRelationController {
         HttpResult result = new HttpResult();
 
         if (condition == null) {
-        return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
+            return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
         }
 
         Integer num = service.updateByQueryModel(condition);
@@ -367,7 +371,7 @@ public class EquipmentMaintenanceContentRelationController {
         HttpResult result = new HttpResult();
         List<EquipmentMaintenanceContentRelation> list = service.getTablesByContition(condition);
 
-        if (list!=null && !list.isEmpty()) {
+        if (list != null && !list.isEmpty()) {
             result.setCode(HttpStatus.SC_OK);
             result.setData(list);
             result.setMsg("根据条件串表不分页查询list成功！");

@@ -28,7 +28,7 @@ import java.util.List;
  * @author smilezmh
  * @since 2020-01-14
  */
-@Service
+@Service("base")
 public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<EquipmentMaintenanceContentRelationMapper, EquipmentMaintenanceContentRelation> implements IEquipmentMaintenanceContentRelationService {
 
     @Autowired

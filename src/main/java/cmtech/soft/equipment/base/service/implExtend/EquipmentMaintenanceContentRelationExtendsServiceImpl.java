@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * EquipmentMaintenanceContentRelationServiceImpl 的拓展类
  */
-@Service
+@Service("extends")
 public class EquipmentMaintenanceContentRelationExtendsServiceImpl extends EquipmentMaintenanceContentRelationServiceImpl implements IEquipmentMaintenanceContentRelationExtendService {
 
     @Autowired
