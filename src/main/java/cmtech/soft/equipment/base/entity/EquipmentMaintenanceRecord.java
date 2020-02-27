@@ -1,6 +1,8 @@
 package cmtech.soft.equipment.base.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -94,7 +96,11 @@ public class EquipmentMaintenanceRecord extends Model<EquipmentMaintenanceRecord
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-
+    @ApiModelProperty(value = "下次保养时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(exist = false)// 不是数据库字段
+    private Date nextMaintenanceTime;
 
     @Override
     protected Serializable pkVal() {

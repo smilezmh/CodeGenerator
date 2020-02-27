@@ -28,11 +28,11 @@ import java.util.List;
  * @author smilezmh
  * @since 2020-01-14
  */
-@Service
+@Service("maintenanceRecordBasic")
 public class EquipmentMaintenanceRecordServiceImpl extends ServiceImpl<EquipmentMaintenanceRecordMapper, EquipmentMaintenanceRecord> implements IEquipmentMaintenanceRecordService {
 
     @Autowired
-    EquipmentMaintenanceRecordMapper mapper;
+    protected EquipmentMaintenanceRecordMapper mapper;
 
     // 搜索条件
     private QueryWrapper<EquipmentMaintenanceRecord> wrapper;
@@ -124,9 +124,9 @@ public class EquipmentMaintenanceRecordServiceImpl extends ServiceImpl<Equipment
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    return ErrorReturn.CodeRepete;
-            //}
+            if (isCodeRepeat(entity)) { // 业务主键重复，保养单号不能重复
+                return ErrorReturn.CodeRepete;
+            }
 
             id = mapper.insert(entity);
         } else if (entity.getId() > 0) {
@@ -305,10 +305,10 @@ public class EquipmentMaintenanceRecordServiceImpl extends ServiceImpl<Equipment
     * @param entity 实体
     * @return 是否重复
     */
-    private boolean isCodeRepeat(EquipmentMaintenanceRecord entity) {
+    protected boolean isCodeRepeat(EquipmentMaintenanceRecord entity) {
         QueryWrapper<EquipmentMaintenanceRecord> queryWrapper = new QueryWrapper<EquipmentMaintenanceRecord>();
         queryWrapper.eq("is_deleted", false);
-        //queryWrapper.eq("code", entity.getCode());
+        queryWrapper.eq("code", entity.getCode());
         return mapper.selectCount(queryWrapper) > 0;
     }
 

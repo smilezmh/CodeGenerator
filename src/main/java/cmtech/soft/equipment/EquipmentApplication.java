@@ -23,10 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableFeignClients
 @EnableTransactionManagement
 public class EquipmentApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(EquipmentApplication.class, args);
     }
-
-
 }

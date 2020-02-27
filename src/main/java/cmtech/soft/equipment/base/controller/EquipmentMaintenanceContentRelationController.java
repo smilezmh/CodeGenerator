@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.base.controller;
 
-import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendService;
+import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendsService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class EquipmentMaintenanceContentRelationController {
     private IEquipmentMaintenanceContentRelationService service;
     @Autowired
     @Qualifier("extends")
-    private IEquipmentMaintenanceContentRelationExtendService extendservice;
+    private IEquipmentMaintenanceContentRelationExtendsService extendservice;
 
     @ApiOperation("根据设备编码和保养类型查询套餐信息")
     @GetMapping(value = "getPackageByEquipmentCode")

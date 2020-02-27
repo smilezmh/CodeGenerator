@@ -4,7 +4,7 @@ import cmtech.soft.equipment.base.entity.EquipmentBaseInfo;
 import cmtech.soft.equipment.base.entity.EquipmentMaintenanceContentRelation;
 import cmtech.soft.equipment.base.mapper.EquipmentBaseInfoMapper;
 import cmtech.soft.equipment.base.model.QueryModelEquipmentMaintenanceContentRelation;
-import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendService;
+import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceContentRelationExtendsService;
 import cmtech.soft.equipment.base.service.impl.EquipmentMaintenanceContentRelationServiceImpl;
 import cmtech.soft.equipment.utils.MyStrTool;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,10 +18,10 @@ import java.util.List;
  * EquipmentMaintenanceContentRelationServiceImpl 的拓展类
  */
 @Service("extends")
-public class EquipmentMaintenanceContentRelationExtendsServiceImpl extends EquipmentMaintenanceContentRelationServiceImpl implements IEquipmentMaintenanceContentRelationExtendService {
+public class EquipmentMaintenanceContentRelationExtendsServiceImpl extends EquipmentMaintenanceContentRelationServiceImpl implements IEquipmentMaintenanceContentRelationExtendsService {
 
     @Autowired
-    private EquipmentBaseInfoMapper equipmentBaseInfoMapper;
+    protected EquipmentBaseInfoMapper equipmentBaseInfoMapper;
 
     /**
      * 根据设备编码查找设备保养信息（保养套餐和设备保养内容）
@@ -41,6 +41,7 @@ public class EquipmentMaintenanceContentRelationExtendsServiceImpl extends Equip
         QueryModelEquipmentMaintenanceContentRelation condition=new QueryModelEquipmentMaintenanceContentRelation();
         condition.setEquipmentCode(equipmentCode);
         condition.setMaintenanceType(maintenanceType);
+        condition.setIsDeleted(false);
         QueryWrapper<EquipmentMaintenanceContentRelation> wrapper=new QueryWrapper<>();// 查询条件
 
         // 首先根据设备编码和保养类型找有没有针对设备维护的套餐

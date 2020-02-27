@@ -1,5 +1,7 @@
 package cmtech.soft.equipment.base.controller;
 
+import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceRecordExtendsService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/base/equipment-maintenance-record")
 public class EquipmentMaintenanceRecordController {
     @Autowired
+    @Qualifier("maintenanceRecordBasic")
     private IEquipmentMaintenanceRecordService service;
+
+    @Autowired
+    @Qualifier("maintenanceRecordExtends")
+    private IEquipmentMaintenanceRecordExtendsService extendService;
 
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")
@@ -246,7 +253,8 @@ public class EquipmentMaintenanceRecordController {
             return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
         }
 
-        int id=service.saveOrUpdateWithIdReturnBack(entity);
+//        int id=service.saveOrUpdateWithIdReturnBack(entity);
+        int id=extendService.saveOrUpdateWithIdReturnBackExtends(entity);
 
         if (id>0) {
             result.setData(id);

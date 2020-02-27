@@ -260,6 +260,7 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
 
         // 默认按id降序
         wrapper.orderBy(true,true,"package_code");
+        wrapper.orderBy(true,true,"code");
         return wrapper;
     }
 
@@ -299,7 +300,8 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
-        wrapper.orderBy(true, false, "id");
+        wrapper.orderBy(true,true,"package_code");
+        wrapper.orderBy(true,true,"code");
         return wrapper;
     }
 
