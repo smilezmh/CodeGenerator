@@ -120,9 +120,9 @@ export default {
 			columns: [
 			<#list table.fields as field>
 				<#if field.propertyType == "LocalDateTime">
-				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:200, show:true},
+				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:200, show:true,align:"center"},
 				<#else>
-				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100, show:true},
+				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100, show:true,align:"center"},
 				</#if>
 			</#list>
 			],
