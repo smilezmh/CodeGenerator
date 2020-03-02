@@ -85,6 +85,31 @@ public class EquipmentMaintenanceContentRelationController {
         return result;
     }
 
+    @ApiOperation("带有套餐码重复校验的批量修改或插入")
+    @PostMapping(value = "updataBatchWithCodeRepeate")
+    @InterceptAction("带有套餐码重复校验的批量修改或插入")
+    public HttpResult updataBatchWithCodeRepeate(@RequestBody(required = true) List<EquipmentMaintenanceContentRelation> entities) {
+        HttpResult result = new HttpResult();
+
+        if (entities == null) {
+            return result.error(HttpStatus.SC_BAD_REQUEST, "参数不能为空");
+        }
+
+        boolean flag = extendservice.updataBatchWithCodeRepeate(entities);
+
+        if (flag) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setMsg("带有套餐码重复校验的批量修改或插入成功！");
+            result.setData(true);
+        } else {
+            // 失败的结果
+            result.setCode(HttpStatus.SC_ACCEPTED);
+            result.setMsg("带有套餐码重复校验的批量修改或插入失败！");
+            result.setData(false);
+        }
+        return result;
+    }
+
     @ApiOperation("批量插入带有业务主键判断是否重复判断")
     @PostMapping(value = "insertBatchWithCodeRepeatCheck")
     @InterceptAction("批量插入带有业务主键判断是否重复判断")

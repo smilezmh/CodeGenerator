@@ -355,30 +355,45 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
         int num=mapper.selectCount(queryWrapper);
 
         if(num>0){
+            return true;
+        }
+
+        return isTypeRepeate(list);
+     }
+
+    /**
+     * 判断设备套餐集合集合中设备类型 设备 保养类型是否重复
+     * @param  设备套餐集合
+     * @return 是否重复 true 重复 false 不重复
+     */
+    public boolean isTypeRepeate(List<EquipmentMaintenanceContentRelation> list){
+        if(list==null||list.isEmpty()){
             return false;
         }
 
-        // 同一个套餐编码只能对应一种设备类型加保养类型
-        List<String> equipmentTypeCodes=Linq.of(list).select(x->x.getEquipmentTypeCode()).toList();// 设备类型
-        List<String> equipmentCodes=Linq.of(list).select(x->x.getEquipmentCode()).toList();// 设备编码
-        List<String> maintaneceTypeCodes=Linq.of(list).select(x->x.getMaintenanceType()).toList();// 保养类型编码
+         QueryWrapper<EquipmentMaintenanceContentRelation> queryWrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
+         // 同一个套餐编码只能对应一种设备类型加保养类型
+         List<String> equipmentTypeCodes=Linq.of(list).select(x->x.getEquipmentTypeCode()).toList();// 设备类型
+         List<String> equipmentCodes=Linq.of(list).select(x->x.getEquipmentCode()).toList();// 设备编码
+         List<String> maintaneceTypeCodes=Linq.of(list).select(x->x.getMaintenanceType()).toList();// 保养类型编码
 
-        // 实际业务是插入的每条数据，设备类型，设备编码，保养类型编码都相同，所以如果有数据取其中第一条即可
-        String equipmentTypeCode=equipmentTypeCodes.isEmpty()?"":equipmentTypeCodes.get(0);
-        String equipmentCode=equipmentCodes.isEmpty()?"":equipmentCodes.get(0);
-        String maintaneceTypeCode=maintaneceTypeCodes.isEmpty()?"":maintaneceTypeCodes.get(0);
-        queryWrapper = new QueryWrapper<EquipmentMaintenanceContentRelation>();
+         // 实际业务是插入的每条数据，设备类型，设备编码，保养类型编码都相同，所以如果有数据取其中第一条即可
+         String equipmentTypeCode=equipmentTypeCodes.isEmpty()?"":equipmentTypeCodes.get(0);
+         String equipmentCode=equipmentCodes.isEmpty()?"":equipmentCodes.get(0);
+         String maintaneceTypeCode=maintaneceTypeCodes.isEmpty()?"":maintaneceTypeCodes.get(0);
 
-        if(!MyStrTool.isNullOrEmpty(equipmentCode)&&!MyStrTool.isNullOrEmpty(maintaneceTypeCode)){
-            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getEquipmentCode,equipmentCode);
-            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getMaintenanceType,maintaneceTypeCode);
-        }else if(!MyStrTool.isNullOrEmpty(equipmentTypeCode)&&!MyStrTool.isNullOrEmpty(maintaneceTypeCode)){
-            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getEquipmentTypeCode,equipmentTypeCode);
-            queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getMaintenanceType,maintaneceTypeCode);
-        }else{
-            return false;
-        }
+         if(!MyStrTool.isNullOrEmpty(equipmentCode)&&!MyStrTool.isNullOrEmpty(maintaneceTypeCode)){
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getEquipmentCode,equipmentCode);
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getMaintenanceType,maintaneceTypeCode);
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getIsDeleted,false);
+         }else if(!MyStrTool.isNullOrEmpty(equipmentTypeCode)&&!MyStrTool.isNullOrEmpty(maintaneceTypeCode)){
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getEquipmentTypeCode,equipmentTypeCode);
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getMaintenanceType,maintaneceTypeCode);
+             queryWrapper.lambda().eq(EquipmentMaintenanceContentRelation::getIsDeleted,false);
+         }else{
+             return false;
+         }
 
-        return mapper.selectCount(queryWrapper) > 0;
+         return mapper.selectCount(queryWrapper) > 0;
      }
 }

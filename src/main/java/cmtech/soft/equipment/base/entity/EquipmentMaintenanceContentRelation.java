@@ -1,6 +1,8 @@
 package cmtech.soft.equipment.base.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -26,6 +28,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="EquipmentMaintenanceContentRelation对象", description="设备保养内容和设备保养类型、设备类型关系维护表")
+@TableName("equipment_maintenance_content_relation")
 public class EquipmentMaintenanceContentRelation extends Model<EquipmentMaintenanceContentRelation> {
 
     private static final long serialVersionUID = 1L;

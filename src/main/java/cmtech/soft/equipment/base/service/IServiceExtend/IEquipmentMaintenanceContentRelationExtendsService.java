@@ -5,7 +5,7 @@ import cmtech.soft.equipment.base.service.IEquipmentMaintenanceContentRelationSe
 
 import java.util.List;
 
-public interface IEquipmentMaintenanceContentRelationExtendsService extends IEquipmentMaintenanceContentRelationService  {
+public interface IEquipmentMaintenanceContentRelationExtendsService extends IEquipmentMaintenanceContentRelationService{
     /**
      * 根据设备编码查找设备保养信息（保养套餐和设备保养内容）
      * @param equipmentCode 设备编码
@@ -13,4 +13,11 @@ public interface IEquipmentMaintenanceContentRelationExtendsService extends IEqu
      * @return 设备保养实体
      */
     List<EquipmentMaintenanceContentRelation> getEntitiesByEquipmentCode(String equipmentCode, String maintenanceType);
+
+    /**
+     * 批量更新套餐信息
+     * @param contentRelations 新的套餐数据
+     * @return 更新是否成功
+     */
+     boolean updataBatchWithCodeRepeate(List<EquipmentMaintenanceContentRelation> contentRelations);
 }
