@@ -39,6 +39,9 @@ public class EquipmentFaultCategory extends Model<EquipmentFaultCategory> {
     @ApiModelProperty(value = "故障类别name")
     private String name;
 
+    @ApiModelProperty(value = "故障类型对应的处理方法")
+    private String dealDesc;
+
     @ApiModelProperty(value = "创建人id")
     private Integer createrId;
 

@@ -366,7 +366,7 @@ public class EquipmentMaintenanceContentRelationServiceImpl extends ServiceImpl<
      * @param  设备套餐集合
      * @return 是否重复 true 重复 false 不重复
      */
-    public boolean isTypeRepeate(List<EquipmentMaintenanceContentRelation> list){
+    protected boolean isTypeRepeate(List<EquipmentMaintenanceContentRelation> list){
         if(list==null||list.isEmpty()){
             return false;
         }

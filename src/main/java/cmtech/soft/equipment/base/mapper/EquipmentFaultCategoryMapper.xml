@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="name" property="name" />
+        <result column="deal_desc" property="dealDesc" />
         <result column="creater_id" property="createrId" />
         <result column="creater" property="creater" />
         <result column="modifier_id" property="modifierId" />
@@ -27,6 +28,7 @@
         main.id as id,
         main.code as code,
         main.name as name,
+        main.deal_desc as dealDesc,
         main.creater_id as createrId,
         main.creater as creater,
         main.modifier_id as modifierId,
