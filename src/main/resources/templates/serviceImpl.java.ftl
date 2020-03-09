@@ -14,7 +14,7 @@ import ${package.Service}.${table.serviceName};
 import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${cfg.prefix}.utils.MyStrTool;
 import ${superServiceImplClassPackage};
-import cmtech.soft.equipment.utils.ErrorReturn;
+import ${cfg.prefix}.utils.ErrorReturn;
 
 import java.util.List;
 
