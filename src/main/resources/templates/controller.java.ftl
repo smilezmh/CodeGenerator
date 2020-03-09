@@ -17,7 +17,7 @@ import ${cfg.prefix}.utils.MyStrTool;
 import ${cfg.prefix}.utils.HttpResult; // 自定义返回结果
 import ${cfg.prefix}.utils.Aop.InterceptAction; // 自定义拦截aop
 import ${cfg.prefix}.utils.HttpStatus; // 自定义状态返回
-import cmtech.soft.equipment.utils.ErrorReturn;
+import ${cfg.prefix}.utils.ErrorReturn;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
