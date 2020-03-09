@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "微信消息推送接口")
+@Api(tags = "微信消息推送测试接口")
 @RestController
 @RequestMapping("/wxpush")
 public class WXPushController {

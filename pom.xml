@@ -83,18 +83,18 @@
         </dependency>
 
         <!--activiti7相关依赖-->
-<!--        <dependency>-->
-<!--            <groupId>org.activiti</groupId>-->
-<!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
-<!--            <version>${activiti-version}</version>-->
-<!--            &lt;!&ndash;需要排除mybatis依赖，否则会和mybatis plus orm冲突&ndash;&gt;-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.mybatis</groupId>-->
-<!--                    <artifactId>mybatis</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.activiti</groupId>-->
+        <!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
+        <!--            <version>${activiti-version}</version>-->
+        <!--            &lt;!&ndash;需要排除mybatis依赖，否则会和mybatis plus orm冲突&ndash;&gt;-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>org.mybatis</groupId>-->
+        <!--                    <artifactId>mybatis</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
         <!--swagger依赖-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -177,11 +177,11 @@
             <version>${freemarker-version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.ibeetl</groupId>-->
-<!--            <artifactId>beetl</artifactId>-->
-<!--            <version>${btl-version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.ibeetl</groupId>-->
+        <!--            <artifactId>beetl</artifactId>-->
+        <!--            <version>${btl-version}</version>-->
+        <!--        </dependency>-->
         <!--lombok依赖,配合mybatis plus entity层使用-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -253,6 +253,15 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
         <!--热启动-->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->

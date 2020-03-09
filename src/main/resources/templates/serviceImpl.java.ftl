@@ -27,7 +27,7 @@ import java.util.List;
  * @author ${author}
  * @since ${date}
  */
-@Service("basic")
+@Service("${entity}Basic")
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
