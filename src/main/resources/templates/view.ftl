@@ -44,9 +44,9 @@
 					  <el-form-item>
 						  <el-button-group>
 							  <kt-button :label="$t('action.search')" perms="sys:EquipmentRepairRecord:view"
-										 type="primary" @click="findPage()"/>
+										 type="primary" @click="findPage()" icon="el-icon-search"/>
 							  <kt-button :label="$t('action.add')" perms="sys:EquipmentRepairRecord:add"
-										 type="primary" @click="handleAdd"/>
+										 type="primary" @click="handleAdd" icon="el-icon-plus"/>
 							  <el-button @click="resetFilters('filters')" type="primary" size="mini">
 								  重置搜索条件
 							  </el-button>
@@ -76,11 +76,11 @@
 			</el-form-item>
 			<#elseif field.propertyName=="code">
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***"></el-input>
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag"></el-input>
 			</el-form-item>
 			<#else>
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag"></el-input>
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" ></el-input>
 			</el-form-item>
 			</#if>
 			</#list>
