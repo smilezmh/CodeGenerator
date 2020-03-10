@@ -217,14 +217,26 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     /**
+    * 设置查询条件
+    * @param condition 查询model
+    * @param wrapper 查询条件
+    */
+    protected void setWrapper(QueryModel${entity} condition,QueryWrapper<${entity}> wrapper){
+        if(!MyStrTool.isNullOrEmpty(condition.getProjectNo())){
+            wrapper.lambda().eq(ProjectBrandDemand::getProjectNo,condition.getProjectNo());
+        }
+    }
+
+    /**
     * 设置分页查询条件
     * @param condition 搜索条件QueryModel
     * @return 分页查询wrapper
     */
-    private QueryWrapper<${entity}> getPageWrapper(QueryModel${entity} condition) {
+    protected QueryWrapper<${entity}> getPageWrapper(QueryModel${entity} condition) {
         wrapper = new QueryWrapper<${entity}>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        setWrapper(condition,wrapper);
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
@@ -237,10 +249,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @param condition 搜索条件QueryModel
     * @return list查询wrapper
     */
-    private QueryWrapper<${entity}> getListWrapper(QueryModel${entity} condition) {
+    protected QueryWrapper<${entity}> getListWrapper(QueryModel${entity} condition) {
         wrapper = new QueryWrapper<${entity}>();
         // 查询需要的结果列
         // queryWrapper.select("id", "code", "name", "remark");
+        setWrapper(condition,wrapper);
         // 查找没有删除的数据
         wrapper.eq("is_deleted", false);
         // 默认按id降序
