@@ -52,10 +52,11 @@
 	  </el-drawer>
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
 	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
-	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示-->
+	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示,rowSpanShow为是否显示
+	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"  permsAdd="sys:${entity}:add" permsView="sys:${entity}:view"
               slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId" :data="pageResult" :columns="columns" :pageRequest="pageRequest"
-              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true"
+              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true" :spanMethod='objectSpanMethod'
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
@@ -100,6 +101,8 @@ export default {
 	},
 	data() {
 		return {
+			spanArr: [], // 合并单元格，数组
+			pos: 0, // 合并单元格，位置
 			creater:"",
 			createrId:0,
 			modifierId:0,
@@ -137,6 +140,18 @@ export default {
 		}
 	},
 	methods: {
+		objectSpanMethod({row, column, rowIndex, columnIndex}) {// 合并单元格
+			let that = this;
+
+			if (columnIndex === 0) {
+				const _row = that.spanArr[rowIndex];
+				const _col = _row > 0 ? 1 : 0;
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+		},
 		resetFilters(form) {
 			this.$nextTick(() => {
 				this.$refs[form].resetFields();
@@ -147,8 +162,10 @@ export default {
 			this.pageRequest.code=this.filters.code;
 			this.pageRequest.name=this.filters.name;
 
+			this.spanArr = [];
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
+				spanRowsMerge(this,res)
 			})
 		},
 		// 批量删除
@@ -259,6 +276,25 @@ export default {
 			return;
 		};
 		next()
+	}
+}
+
+export function spanRowsMerge(that,res) {
+	for (var i = 0; i < res.data.records.length; i++) {
+
+		if (i === 0) {
+			that.spanArr.push(1);
+			that.pos = 0
+		} else {
+			// 判断当前元素与上一个元素是否相同
+			if (res.data.records[i].projectNo === res.data.records[i - 1].projectNo) {//??改为要合并的字段
+				that.spanArr[that.pos] += 1;
+				that.spanArr.push(0);
+			} else {
+				that.spanArr.push(1);
+				that.pos = i;
+			}
+		}
 	}
 }
 </script>
