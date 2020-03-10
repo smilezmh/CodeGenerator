@@ -34,7 +34,7 @@
 
 	  <el-drawer
 			  :visible.sync="drawer"
-			  direction="btt" size="55%" title="设备维修查询条件">
+			  direction="btt" size="55%" title="查询条件">
 		  <!--工具栏-->
 		  <div style="margin-bottom:10px;padding-left:30px;">
 			  <el-form :inline="true" :model="filters" size="mini" label-width="100px" ref="filters"
@@ -47,7 +47,7 @@
 										 type="primary" @click="findPage()" icon="el-icon-search"/>
 							  <kt-button :label="$t('action.add')" perms="sys:${entity}:add"
 										 type="primary" @click="handleAdd" icon="el-icon-plus"/>
-							  <el-button @click="resetFilters('filters')" type="primary" size="mini">
+							  <el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
 								  重置搜索条件
 							  </el-button>
 						  </el-button-group>
@@ -76,11 +76,11 @@
 			</el-form-item>
 			<#elseif field.propertyName=="code">
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag"></el-input>
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag" style="width: 100%;"></el-input>
 			</el-form-item>
 			<#else>
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" ></el-input>
+				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" style="width: 100%;"></el-input>
 			</el-form-item>
 			</#if>
 			</#list>
