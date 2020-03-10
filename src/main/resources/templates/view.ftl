@@ -280,4 +280,8 @@ export default {
 		text-align: justify;
 		height: 25px;
 	}
+
+	.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+		display: none !important;
+	}
 </style>
