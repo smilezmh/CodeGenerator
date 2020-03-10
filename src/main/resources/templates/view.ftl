@@ -20,11 +20,11 @@
 							<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
 								展开查询条件
 							</el-button>
-							<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" icon="el-icon-plus" @click="findPage()" />
-							<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" icon="el-icon-search" @click="handleAdd" />
-							<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
-								重置搜索条件
-							</el-button>
+							<kt-button :label="$t('action.search')" perms="sys:EquipmentType:view" type="primary" icon="el-icon-search" @click="findPage()" />
+							<kt-button :label="$t('action.add')" perms="sys:EquipmentType:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
+<#--							<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">-->
+<#--								重置搜索条件-->
+<#--							</el-button>-->
 						</el-button-group>
 					</el-form-item>
 				</el-col>
