@@ -9,6 +9,9 @@
 				</el-button>
 				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" icon="el-icon-search" @click="findPage()" />
 				<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
+				<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
+					重置搜索条件
+				</el-button>
 			</el-button-group>
 		</div>
 	</el-card>
@@ -52,7 +55,7 @@
 	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"  permsAdd="sys:${entity}:add" permsView="sys:${entity}:view"
               slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId" :data="pageResult" :columns="columns" :pageRequest="pageRequest"
-              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false"
+              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
 	</kt-table>
 	<!--新增编辑界面-->
