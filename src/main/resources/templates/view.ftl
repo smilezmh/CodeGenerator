@@ -3,32 +3,13 @@
 	<!--工具栏-->
 	<el-card style="margin-left:1px;margin-right:1px;">
 		<div class="toolbar" style="margin-bottom:10px;">
-			<el-form :inline="true" :model="filters" :size="size">
-				<el-col :span="8">
-					<el-form-item label="编码">
-						<el-input v-model="filters.code" placeholder="编码"></el-input>
-					</el-form-item>
-				</el-col>
-				<el-col :span="8">
-					<el-form-item label="名称">
-						<el-input v-model="filters.name" placeholder="名称"></el-input>
-					</el-form-item>
-				</el-col>
-				<el-col :span="8">
-					<el-form-item>
-						<el-button-group>
-							<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
+			<el-button-group style="margin-left: -70%">
+				<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
 								展开查询条件
-							</el-button>
-							<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" icon="el-icon-search" @click="findPage()" />
-							<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
-<#--							<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">-->
-<#--								重置搜索条件-->
-<#--							</el-button>-->
-						</el-button-group>
-					</el-form-item>
-				</el-col>
-			</el-form>
+				</el-button>
+				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" icon="el-icon-search" @click="findPage()" />
+				<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
+			</el-button-group>
 		</div>
 	</el-card>
 
@@ -39,8 +20,17 @@
 		  <div style="margin-bottom:10px;padding-left:30px;">
 			  <el-form :inline="true" :model="filters" size="mini" label-width="100px" ref="filters"
 					   label-position="left">
-
-				  <el-col :span="6">
+				  <el-col :span="8">
+					  <el-form-item label="编码" prop="code">
+						  <el-input v-model="filters.code" placeholder="编码"></el-input>
+					  </el-form-item>
+				  </el-col>
+				  <el-col :span="8">
+					  <el-form-item label="名称" prop="name">
+						  <el-input v-model="filters.name" placeholder="名称"></el-input>
+					  </el-form-item>
+				  </el-col>
+				  <el-col :span="8">
 					  <el-form-item>
 						  <el-button-group>
 							  <kt-button :label="$t('action.search')" perms="sys:${entity}:view"
