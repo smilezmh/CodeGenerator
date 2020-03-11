@@ -222,8 +222,8 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @param wrapper 查询条件
     */
     protected void setWrapper(QueryModel${entity} condition,QueryWrapper<${entity}> wrapper){
-        if(!MyStrTool.isNullOrEmpty(condition.getProjectNo())){
-            wrapper.lambda().eq(ProjectBrandDemand::getProjectNo,condition.getProjectNo());
+        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
+            wrapper.lambda().eq(${entity}::getCode,condition.getCode());
         }
     }
 
