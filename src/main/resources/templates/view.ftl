@@ -158,15 +158,19 @@ export default {
 			})
 		},
 		// 获取分页数据
-		findPage: function () {
+		findPage: function (data) {
+			if (data != null) {
+				this.pageRequest = data.pageRequest;
+			}
+
 			this.pageRequest.code=this.filters.code;
 			this.pageRequest.name=this.filters.name;
 
 			this.spanArr = [];
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
-				spanRowsMerge(this,res)
-			})
+				// spanRowsMerge(this,res)
+			}).then(data != null ? data.callback : '')
 		},
 		// 批量删除
 		handleDelete: function (data) {

@@ -30,7 +30,7 @@ public class QueryModel${entity} implements Serializable{
     private Integer current=1;
 
     @ApiModelProperty(value = "每页几条数据")
-    private Integer size=10;
+    private Integer size=20;
 
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
