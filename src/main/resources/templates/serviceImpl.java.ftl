@@ -185,9 +185,8 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @return 更新了几条数据
     */
     @Override
-    public Integer updateByQueryModel(QueryModel${entity} condition) {
-        ${entity} entity = new ${entity}();
-        entity.setIsDeleted(true);
+    public Integer updateByQueryModel(${entity} entity , QueryModel${entity} condition) {
+        // entity.setIsDeleted(true);
 
         UpdateWrapper<${entity}> updateWrapper = new UpdateWrapper<${entity}>();
         updateWrapper.lambda().eq(${entity}::getId, condition.getId());

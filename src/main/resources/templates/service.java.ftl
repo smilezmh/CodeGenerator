@@ -68,7 +68,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param condition 更新条件
     * @return 更新了几条数据
     */
-    Integer updateByQueryModel(QueryModel${entity} condition);
+    Integer updateByQueryModel(${entity} entity, QueryModel${entity} condition);
 
     /**
     * 根据条件串表分页查询

@@ -321,7 +321,7 @@ public class ${table.controllerName} {
         return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
         }
 
-        Integer num = service.updateByQueryModel(condition);
+        Integer num = service.updateByQueryModel(null,condition);
 
         result.setData(num);
 
