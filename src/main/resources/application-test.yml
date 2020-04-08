@@ -4,8 +4,8 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  # port: 8020
-  port: 8080
+  port: 8020
+#  port: 8080
   #context-path: /springboot
 
 # log4j配置
@@ -82,18 +82,18 @@ spring:
           username: root
           password: Dp5VqJtAQr
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://10.136.11.199:3306/CMMES?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
+          url: jdbc:mysql://10.136.11.199:3306/Equipment?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
           initial-size: 1
           max-active: 20
           min-idle: 1
-        kuaibiao:
-          username: sa
-          password: cmjm#0228
-          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-          url: jdbc:sqlserver://10.136.11.19:1433;DatabaseName=KuaibiaoEE
-          initial-size: 1
-          max-active: 20
-          min-idle: 1
+#        kuaibiao:
+#          username: sa
+#          password: cmjm#0228
+#          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#          url: jdbc:sqlserver://10.136.11.19:1433;DatabaseName=KuaibiaoEE
+#          initial-size: 1
+#          max-active: 20
+#          min-idle: 1
   redis:
     database: 0  # Redis数据库索引（默认为0）
     host: 10.136.11.199 # Redis服务器地址

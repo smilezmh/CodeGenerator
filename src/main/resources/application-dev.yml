@@ -5,7 +5,7 @@ server:
     max-threads: 1000
     min-spare-threads: 30
   # port: 8020
-  port: 8022
+  port: 9022
   #context-path: /springboot
 
 # log4j配置
@@ -85,9 +85,9 @@ spring:
           useGlobalDataSourceStat: true
         master:
           username: root
-          password: 123456
+          password: Dp5VqJtAQr
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://10.136.41.45:3306/Equipment?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
+          url: jdbc:mysql://10.136.11.199:3306/Equipment?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
           initial-size: 1
           max-active: 20
           min-idle: 1

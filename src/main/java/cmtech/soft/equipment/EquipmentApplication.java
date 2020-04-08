@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(exclude={SecurityAutoConfiguration.class,  ManagementWebSecurityAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
 @EnableDiscoveryClient
-//@EnableZuulProxy // 路由鉴权中心
+@EnableZuulProxy // 路由鉴权中心
 @EnableFeignClients
 @EnableTransactionManagement
 public class EquipmentApplication {
