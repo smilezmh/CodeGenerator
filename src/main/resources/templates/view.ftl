@@ -3,16 +3,22 @@
 	<!--工具栏-->
 	<el-card style="margin-left:1px;margin-right:1px;">
 		<div class="toolbar" style="margin-bottom:10px;">
-			<el-button-group style="margin-left: -70%">
-				<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
-								展开查询条件
-				</el-button>
-				<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" icon="el-icon-search" @click="findPage()" />
-				<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
-				<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
-					重置搜索条件
-				</el-button>
-			</el-button-group>
+			<el-row>
+				<el-button-group style="margin-left: -70%">
+					<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
+						展开查询条件
+					</el-button>
+					<kt-button :label="$t('action.search')" perms="sys:${entity}:view" type="primary" icon="el-icon-search" @click="findPage()" />
+					<kt-button :label="$t('action.add')" perms="sys:${entity}:add" type="primary" icon="el-icon-plus" @click="handleAdd" />
+					<el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
+						重置搜索条件
+					</el-button>
+				</el-button-group>
+				<el-upload style="float: right;padding-right: 25px"
+						   :before-upload="handleBeforeUpload" :action="actionUrl()" multiple>
+					<el-button size="mini" type="primary">点击上传excel</el-button>
+				</el-upload>
+			</el-row>
 		</div>
 	</el-card>
 
@@ -40,6 +46,9 @@
 										 type="primary" @click="findPage()" icon="el-icon-search"/>
 							  <kt-button :label="$t('action.add')" perms="sys:${entity}:add"
 										 type="primary" @click="handleAdd" icon="el-icon-plus"/>
+							  <el-button @click="exportExcel('filters')" type="primary" size="mini">
+								  导出excel
+							  </el-button>
 							  <el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
 								  重置搜索条件
 							  </el-button>
@@ -92,7 +101,8 @@ import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
-import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime} from "@/utils/common";
+import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime,$export} from "@/utils/common";
+import config from '@/http/config';
 
 export default {
 	components:{
@@ -140,6 +150,34 @@ export default {
 		}
 	},
 	methods: {
+		actionUrl() {
+			return ""
+		},
+		handleBeforeUpload(file) {
+			let fd = new FormData();
+			fd.append('file', file);
+			this.$api.${entity}.upload(fd).then((res) => {
+				if (res.code == '200') {
+					this.findPage();
+					this.$message({
+						message: '上传成功',
+						type: 'success'
+					});
+				} else {
+					this.$message({
+						message: '上传失败',
+						type: 'warning'
+					});
+				}
+			})
+		},
+		exportExcel(filters) {
+			let condition = {
+
+			};
+
+			$export(config.bizurl + "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>",condition,getNowTime().toString("yyyy-MM-dd"));
+		},
 		objectSpanMethod({row, column, rowIndex, columnIndex}) {// 合并单元格
 			let that = this;
 

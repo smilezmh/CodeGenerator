@@ -3,21 +3,30 @@ package ${package.Controller};
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Api;
-
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import ${package.Service}.${table.serviceName};
-import ${cfg.prefix}.base.model.QueryModel${entity};
-import ${package.Entity}.${entity};
-import ${cfg.prefix}.utils.MyStrTool;
+import java.io.IOException;
+import java.net.URLEncoder;
 
+import ${package.Service}.${table.serviceName};
+import ${cfg.prefix}.base.mapper.${entity}Mapper;
+import ${cfg.prefix}.base.model.QueryModel${entity};
+import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
+import ${package.Entity}.${entity};
+
+import ${cfg.prefix}.utils.ExcelService;
+import ${cfg.prefix}.utils.ExcelReaderListener;
+import ${cfg.prefix}.utils.MyStrTool;
 import ${cfg.prefix}.utils.HttpResult; // 自定义返回结果
 import ${cfg.prefix}.utils.Aop.InterceptAction; // 自定义拦截aop
 import ${cfg.prefix}.utils.HttpStatus; // 自定义状态返回
-import ${cfg.prefix}.utils.ErrorReturn;
+import ${cfg.prefix}.utils.model.ErrorReturn;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +60,38 @@ public class ${table.controllerName} {
 </#if>
     @Autowired
     private ${table.serviceName} service;
+
+    @Autowired
+    private ${entity}Mapper mapper;
+
+    @PostMapping("download")
+    @ApiOperation("下载excel表格")
+    @InterceptAction("下载excel表格")
+    public void download(@RequestBody (required = false) QueryModel${entity} condition, HttpServletResponse response) throws IOException {
+        String filename="data";
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        String fileName = URLEncoder.encode(filename, "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + filename + ".xlsx");
+        response.setHeader("Content-Transfer-Encoding", "chunked");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        // 获取数据
+        List<${entity}Excel> excelList=service.getExcelListByQueryModel(condition) ;
+        EasyExcel.write(response.getOutputStream(), ${entity}Excel.class).sheet("sheet").doWrite(excelList);
+    }
+
+    @PostMapping("upload")
+    @ApiOperation("上传excel表格")
+    @InterceptAction("上传excel表格")
+    public HttpResult upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
+        HttpResult result=new HttpResult();
+        ExcelService<${entity}> excelService=new ExcelService<${entity}>(mapper){};
+        EasyExcel.read(file.getInputStream(), ${entity}Excel.class, new ExcelReaderListener<${entity},${entity}Excel>(excelService){}).sheet().doRead();
+        result.setCode(HttpStatus.SC_OK);
+        result.setMsg("上传excel成功！");
+        result.setData(true);
+        return result;
+    }
 
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")

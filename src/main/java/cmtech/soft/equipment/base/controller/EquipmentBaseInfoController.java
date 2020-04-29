@@ -1,5 +1,9 @@
 package cmtech.soft.equipment.base.controller;
 
+import cmtech.soft.equipment.base.mapper.EquipmentBaseInfoMapper;
+import cmtech.soft.equipment.base.model.excelModel.EquipmentBaseInfoExcel;
+import cmtech.soft.equipment.utils.*;
+import com.alibaba.excel.EasyExcel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,18 +12,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Api;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import cmtech.soft.equipment.base.service.IEquipmentBaseInfoService;
 import cmtech.soft.equipment.base.model.QueryModelEquipmentBaseInfo;
 import cmtech.soft.equipment.base.entity.EquipmentBaseInfo;
-import cmtech.soft.equipment.utils.MyStrTool;
 
-import cmtech.soft.equipment.utils.HttpResult; // 自定义返回结果
 import cmtech.soft.equipment.utils.Aop.InterceptAction; // 自定义拦截aop
-import cmtech.soft.equipment.utils.HttpStatus; // 自定义状态返回
-import cmtech.soft.equipment.utils.ErrorReturn;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 设备基础信息主表 基本接口
@@ -33,6 +38,38 @@ import org.springframework.web.bind.annotation.RestController;
 public class EquipmentBaseInfoController {
     @Autowired
     private IEquipmentBaseInfoService service;
+
+    @Autowired
+    private EquipmentBaseInfoMapper mapper;
+
+    @PostMapping("download")
+    @ApiOperation("下载excel表格")
+    @InterceptAction("下载excel表格")
+    public void download(@RequestBody (required = false) QueryModelEquipmentBaseInfo condition, HttpServletResponse response) throws IOException {
+        String filename="data";
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        String fileName = URLEncoder.encode(filename, "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + filename + ".xlsx");
+        response.setHeader("Content-Transfer-Encoding", "chunked");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        // 获取数据
+        List<EquipmentBaseInfoExcel> excelList=service.getExcelListByQueryModel(condition) ;
+        EasyExcel.write(response.getOutputStream(), EquipmentBaseInfoExcel.class).sheet("sheet").doWrite(excelList);
+    }
+
+    @PostMapping("upload")
+    @ApiOperation("上传excel表格")
+    @InterceptAction("上传excel表格")
+    public HttpResult upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
+        HttpResult result=new HttpResult();
+        ExcelService<EquipmentBaseInfo> excelService=new ExcelService<EquipmentBaseInfo>(mapper){};
+        EasyExcel.read(file.getInputStream(), EquipmentBaseInfoExcel.class, new ExcelReaderListener<EquipmentBaseInfo,EquipmentBaseInfoExcel>(excelService){}).sheet().doRead();
+        result.setCode(HttpStatus.SC_OK);
+        result.setMsg("上传excel成功！");
+        result.setData(true);
+        return result;
+    }
 
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")

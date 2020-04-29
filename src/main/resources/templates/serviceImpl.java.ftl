@@ -1,5 +1,6 @@
 package ${package.ServiceImpl};
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,11 +13,13 @@ import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${cfg.prefix}.base.model.QueryModel${entity};
+import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${cfg.prefix}.utils.MyStrTool;
 import ${superServiceImplClassPackage};
-import ${cfg.prefix}.utils.ErrorReturn;
+import ${cfg.prefix}.utils.model.ErrorReturn;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -40,6 +43,32 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     // 搜索条件
     private QueryWrapper<${entity}> wrapper;
+
+     /**
+     * 根据条件获得导出excel数据
+     *
+     * @param condition 查询条件
+     * @return excel数据
+     */
+    @Override
+    public List<${entity}Excel> getExcelListByQueryModel(QueryModel${entity} condition) {
+        wrapper = getListWrapper(condition);
+        List<${entity}> list = list(wrapper);
+        List<${entity}Excel> listReturn = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                ${entity} entity = list.get(i);
+                if (entity != null) {
+                    ${entity}Excel excel = new ${entity}Excel();
+                    BeanUtils.copyProperties(entity,excel);
+                    excel.setXid(i+1);
+                    listReturn.add(excel);
+                }
+            }
+        }
+        return listReturn;
+    }
 
     /**
     * 无分页查询list

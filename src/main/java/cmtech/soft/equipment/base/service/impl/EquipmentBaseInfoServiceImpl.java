@@ -1,5 +1,7 @@
 package cmtech.soft.equipment.base.service.impl;
 
+import cmtech.soft.equipment.base.model.excelModel.EquipmentBaseInfoExcel;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +18,7 @@ import cmtech.soft.equipment.utils.MyStrTool;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cmtech.soft.equipment.utils.ErrorReturn;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +38,32 @@ public class EquipmentBaseInfoServiceImpl extends ServiceImpl<EquipmentBaseInfoM
 
     // 搜索条件
     private QueryWrapper<EquipmentBaseInfo> wrapper;
+
+    /**
+     * 根据条件获得导出excel数据
+     *
+     * @param condition 查询条件
+     * @return excel数据
+     */
+    @Override
+    public List<EquipmentBaseInfoExcel> getExcelListByQueryModel(QueryModelEquipmentBaseInfo condition) {
+        wrapper = getListWrapper(condition);
+        List<EquipmentBaseInfo> list = list(wrapper);
+        List<EquipmentBaseInfoExcel> listReturn = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                EquipmentBaseInfo entity = list.get(i);
+                if (entity != null) {
+                    EquipmentBaseInfoExcel excel = new EquipmentBaseInfoExcel();
+                    BeanUtils.copyProperties(entity,excel);
+                    excel.setXid(i+1);
+                    listReturn.add(excel);
+                }
+            }
+        }
+        return listReturn;
+    }
 
     /**
     * 无分页查询list

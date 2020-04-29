@@ -1,6 +1,7 @@
 package ${package.Service};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 import ${cfg.prefix}.base.model.QueryModel${entity};
@@ -83,5 +84,12 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @return 分页结果
     */
     public List<${entity}> getTablesByContition(QueryModel${entity} condition);
+
+     /**
+     * 根据条件获得导出excel数据
+     * @param condition 查询条件
+     * @return excel数据
+     */
+    List<${entity}Excel> getExcelListByQueryModel(QueryModel${entity} condition);
 }
 </#if>

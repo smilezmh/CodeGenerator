@@ -89,6 +89,15 @@ public class CodeGeneratorTools {
                 return entityFile;
             }});
 
+        focList.add(new FileOutConfig("/templates/entity.excel.ftl") {// model类
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/model/excelModel";
+                String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getEntityName()+"Excel");
+                return entityFile;
+            }});
+
         focList.add(new FileOutConfig("/templates/view.ftl") {// view视图
             @Override
             public String outputFile(TableInfo tableInfo) {
@@ -118,7 +127,7 @@ public class CodeGeneratorTools {
                 File file = new File(filePath);
                 boolean exist = file.exists();
                 if(exist){
-                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType||filePath.endsWith(".vue")){
+                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType||filePath.endsWith(".vue")||filePath.endsWith("Excel.java")){
                         return true;
                     }else {
                         return false;

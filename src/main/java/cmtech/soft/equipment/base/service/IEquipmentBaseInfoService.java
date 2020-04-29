@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.base.service;
 
+import cmtech.soft.equipment.base.model.excelModel.EquipmentBaseInfoExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cmtech.soft.equipment.base.entity.EquipmentBaseInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -80,4 +81,11 @@ public interface IEquipmentBaseInfoService extends IService<EquipmentBaseInfo> {
     * @return 分页结果
     */
     public List<EquipmentBaseInfo> getTablesByContition(QueryModelEquipmentBaseInfo condition);
+
+    /**
+     * 根据条件获得导出excel数据
+     * @param condition 查询条件
+     * @return excel数据
+     */
+    List<EquipmentBaseInfoExcel> getExcelListByQueryModel(QueryModelEquipmentBaseInfo condition);
 }
