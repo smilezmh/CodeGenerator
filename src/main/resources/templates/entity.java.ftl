@@ -77,7 +77,7 @@ public class ${entity} implements Serializable {
         <#elseif field.convert>
     @TableId("${field.name}")
         </#if>
-        <#-- 普通字段 -->
+        <#-- 普通字段图片路径为srcUrl -->
     <#elseif field.fill??>
     <#-- -----   存在字段填充设置   ----->
         <#if field.convert>

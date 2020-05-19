@@ -65,7 +65,7 @@
 	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false toolbarHeight为工具栏高度-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"  permsAdd="sys:${entity}:add" permsView="sys:${entity}:view"
               slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId" :data="pageResult" :columns="columns" :pageRequest="pageRequest"
-              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true"
+              :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true" :hasScope="false"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" ref="ktTable" :toolbarHeight="toolbarHeight">
 	</kt-table>
 	<!--新增编辑界面-->
@@ -87,6 +87,20 @@
 			</el-form-item>
 			</#if>
 			</#list>
+			<el-form-item label="上传图片">
+				<el-upload style="float: left"
+						   class="upload-demo"
+						   :action="actionUrl()" :on-success="handleSuccess" :on-preview="handlePreview"
+						   :before-upload="handleBeforeUpload"
+						   :before-remove="handleRemove" list-type="picture" :data="uploadData"
+						   drag
+						   :file-list="fileList"
+						   multiple>
+					<i class="el-icon-upload"></i>
+					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+					<div class="el-upload__tip" slot="tip">只能上传图片，且不超过10MB</div>
+				</el-upload>
+			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
 			<el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -111,6 +125,13 @@ export default {
 	},
 	data() {
 		return {
+			filePath: "/application_data/files/cmmes_equipment/repair_imgs/",
+			fileUrl: '',
+			uploadData: {
+				prefix: "",
+				type: ""
+			},
+			fileList: [],
 			toolbarHeight:300,
 			spanArr: [], // 合并单元格，数组
 			pos: 0, // 合并单元格，位置
@@ -147,6 +168,7 @@ export default {
 				<#list table.fields as field>
 				${field.propertyName}: null,
 				</#list>
+				srcUrl: null
 			}
 		}
 	},
@@ -264,6 +286,17 @@ export default {
 			this.dataForm.modifierId=this.modifierId;
 			this.dataForm.modifier=this.modifier;
 			this.dataForm.modifyTime=getNowTime();
+
+			if (params.row.srcUrl) {
+				let srcUrl = params.row.srcUrl;
+
+				let srcList = srcUrl.toString().split(",");
+				this.fileList = [];
+				srcList.forEach(item => {
+					let fileName = item.substring(item.lastIndexOf('=') + 1);
+				this.fileList.push({name: fileName, url: item})
+				})
+			}
 		},
 		// 编辑
 		submitForm: function () {
@@ -290,14 +323,105 @@ export default {
 							this.editDialogVisible = false;
 							this.findPage();
 						});
-					});
+					}).catch(() => {});
 				}
 			})
 		},
 		// 时间格式化
       	dateFormat: function (row, column, cellValue, index){
           	return format(row[column.property]);
-      	}
+      	},
+		actionUrl() { // 上传参数可以任意写，后边用handleBeforeUpload方法覆盖
+                return "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/upload/"
+        },
+		handleBeforeUpload(file) {
+			this.uploadData.prefix = this.dataForm.code;
+			let fd = new FormData()
+			fd.append('file', file)
+			fd.append("prefix", this.uploadData.prefix)
+			fd.append("path", this.filePath)
+			this.$api.ecn.FileUpload(fd).then((res) => {})
+         },
+		handleSuccess(response, file, fileList) { // 增加list
+			 file.name = this.dataForm.code + "-" + file.name;
+
+			 if (response.code == '200') {
+				 this.$message({message: '上传成功', type: 'success'});
+                } else {
+				 this.$message({message: '上传失败', type: 'warning'});}
+
+			 let lenth = fileList.length;
+			 let num = 0;
+
+			 for (let i = 0; i < lenth; i++) {
+				 if (file.name == fileList[i].name) {
+					 num++;
+				 }
+
+				 if (num > 1) {
+					 fileList.splice(i, 1) // 如果重复就更新数组，删掉重复
+				 }
+			 }
+
+			 this.fileList = fileList;
+			 this.savePicSrcUrl()
+		 },
+		handlePreview(file) {
+			window.location.href = file.url// 在本页面下载
+		},
+		handleRemove(file, fileList) { // 删除文件，通过文件名
+			this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				let postdata = {
+					fileName: file.name,
+					path: this.filePath
+				}
+				// 删除文件
+				this.$api.ecn.FileDelete(postdata).then((res) => {
+					if (res.code == '200') {
+						this.$message({message: '删除成功', type: 'success'});
+						let length = fileList.length;
+
+						for (let i = 0; i < length; i++) {
+							if (file.name == fileList[i].name) {
+								fileList.splice(i, 1) // 如果删除成功就删掉文件列表
+								break;
+							}
+						}
+
+						this.fileList = fileList;
+                            this.savePicSrcUrl()
+                        } else {
+                            this.$message({
+                                message: '删除失败',
+                                type: 'warning'
+                            });
+                            return false;
+                        }
+				})
+			}).catch(() => {this.$message({type: 'info', message: '已取消删除'});});
+
+			return false;
+		},
+		savePicSrcUrl(){
+			if (this.fileList.length > 0) {
+				this.dataForm.srcUrl = this.fileList.map(item => this.fileUrl + item.name).join(",");
+			} else {
+				this.dataForm.srcUrl = ''
+			}
+
+			let postData = {
+				id: this.dataForm.id,
+				srcUrl: this.dataForm.srcUrl
+			}
+
+			this.$api.EquipmentRepairRecord.saveOne(postData).then((res) => {
+				this.findPage();
+			});
+		}
 	},
 	mounted() {
 		this.modifierId=Cookies.get('userId');
@@ -310,6 +434,19 @@ export default {
 			this.operation=true;
 			this.dataForm.equipmentId=this.$route.query.id; // 修改equipmentId为此表外键
 			this.dataForm.equipmentCode=this.$route.query.code; // 修改equipmentCode为此表外键
+		}
+
+		switch (process.env.NODE_ENV) {
+			case "development":
+				this.fileUrl = "http://10.136.41.45:9020/FileHelp/downloadFiles?path=/Users/smilezmh/imgs/flowImg/&filename=";
+				this.filePath = "/Users/smilezmh/imgs/flowImg/";
+				break;
+			case "production":
+				this.fileUrl = "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/downloadFiles/?path=/application_data/files/cmmes_equipment/repair_imgs/&filename=";
+				this.filePath = "/application_data/files/cmmes_equipment/repair_imgs/";
+				break;
+			default:
+				break;
 		}
 	},
 	beforeRouteEnter(to,from,next){
