@@ -34,7 +34,9 @@ spring:
   boot:
     admin:
       client:
-        url: "http://10.136.11.199:8000"
+        url: "http://app.cmtech-soft-test.com:8802/"
+          instance:
+          service-base-url: http://${spring.cloud.client.ip-address}:${server.port}
   profiles: test
   activiti:
     # 自动更新数据表结构

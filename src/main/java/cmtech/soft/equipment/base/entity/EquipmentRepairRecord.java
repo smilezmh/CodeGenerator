@@ -151,7 +151,8 @@ public class EquipmentRepairRecord extends Model<EquipmentRepairRecord> {
     @ApiModelProperty(value = "是否删除")
     private Boolean isDeleted;
 
-
+    @ApiModelProperty(value = "维修记录图片路径")
+    private String srcUrl;
 
     @Override
     protected Serializable pkVal() {

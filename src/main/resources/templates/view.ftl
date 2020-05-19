@@ -1,10 +1,10 @@
 <template>
   <div class="container" style="width:99%;">
 	<!--工具栏-->
-	<el-card style="margin-left:1px;margin-right:1px;">
-		<div class="toolbar" style="margin-bottom:10px;">
+	<el-card style="margin-left:1px;margin-right:1px;" :style="{height:toolbarHeight}">
+		<div class="toolbar">
 			<el-row>
-				<el-button-group style="margin-left: -70%">
+				<el-button-group style="float: left">
 					<el-button @click="drawer = true" icon="el-icon-notebook-2" type="primary" size="mini" style="margin-left: 10px;">
 						展开查询条件
 					</el-button>
@@ -62,11 +62,11 @@
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
 	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
 	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示,rowSpanShow为是否显示
-	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false-->
+	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false toolbarHeight为工具栏高度-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"  permsAdd="sys:${entity}:add" permsView="sys:${entity}:view"
               slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId" :data="pageResult" :columns="columns" :pageRequest="pageRequest"
               :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true"
-              @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" ref="ktTable">
+              @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" ref="ktTable" :toolbarHeight="toolbarHeight">
 	</kt-table>
 	<!--新增编辑界面-->
 	<el-dialog :title="operation?'新增':'编辑'" width="50%" :visible.sync="editDialogVisible" :close-on-click-modal="false" v-dialogDrag>
@@ -111,6 +111,7 @@ export default {
 	},
 	data() {
 		return {
+			toolbarHeight:300,
 			spanArr: [], // 合并单元格，数组
 			pos: 0, // 合并单元格，位置
 			creater:"",
