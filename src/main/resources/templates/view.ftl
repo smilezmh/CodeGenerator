@@ -62,7 +62,8 @@
 	<!--表格内容栏 此表为主表，slaveButtonShow是否支持主从表，relatedId为关联的从表的外键 slaveUrl为axios的api模块名字
 	如EquipmentSlaveInfo slaveHtmlUrl为跳转到从表的url如/equipment/equipmentslaveinfo slaveButtonShow是对应从表按
 	钮是否显示，detailButtonShow为详情按钮是否显示，slaveAddButtonShow为从表增加数据按钮是否显示,rowSpanShow为是否显示
-	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false toolbarHeight为工具栏高度-->
+	详情卡片 spanMethod为向子组件传递的合并单元格方法，当合并单元格后建议rowSpanShow设置为false toolbarHeight为工具栏高度
+	hasScope为是否包含图片列，如果包含数据库表需要建src_url字段对应属性srcUrl-->
 	<kt-table permsEdit="sys:${entity}:edit" permsDelete="sys:${entity}:delete"  permsAdd="sys:${entity}:add" permsView="sys:${entity}:view"
               slaveUrl="slaveUrl" slaveHtmlUrl='/slaveHtmlUrl' relatedId="relatedId" :data="pageResult" :columns="columns" :pageRequest="pageRequest"
               :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true" :hasScope="false"
@@ -87,20 +88,20 @@
 			</el-form-item>
 			</#if>
 			</#list>
-			<el-form-item label="上传图片">
-				<el-upload style="float: left"
-						   class="upload-demo"
-						   :action="actionUrl()" :on-success="handleSuccess" :on-preview="handlePreview"
-						   :before-upload="handleBeforeUpload"
-						   :before-remove="handleRemove" list-type="picture" :data="uploadData"
-						   drag
-						   :file-list="fileList"
-						   multiple>
-					<i class="el-icon-upload"></i>
-					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-					<div class="el-upload__tip" slot="tip">只能上传图片，且不超过10MB</div>
-				</el-upload>
-			</el-form-item>
+<#--			<el-form-item label="上传图片">-->
+<#--				<el-upload style="float: left"-->
+<#--						   class="upload-demo"-->
+<#--						   :action="actionUrl()" :on-success="handleSuccess" :on-preview="handlePreview"-->
+<#--						   :before-upload="handleBeforeUpload"-->
+<#--						   :before-remove="handleBeforeRemove" list-type="picture" :data="uploadData"-->
+<#--						   drag-->
+<#--						   :file-list="fileList"-->
+<#--						   multiple>-->
+<#--					<i class="el-icon-upload"></i>-->
+<#--					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+<#--					<div class="el-upload__tip" slot="tip">只能上传图片，且不超过10MB</div>-->
+<#--				</el-upload>-->
+<#--			</el-form-item>-->
 		</el-form>
 		<div slot="footer" class="dialog-footer">
 			<el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -125,11 +126,12 @@ export default {
 	},
 	data() {
 		return {
-			filePath: "/application_data/files/cmmes_equipment/repair_imgs/",
+			filePath: "",
 			fileUrl: '',
+			uploadUrl: '',
 			uploadData: {
 				prefix: "",
-				type: ""
+				path: ""
 			},
 			fileList: [],
 			toolbarHeight:300,
@@ -311,75 +313,91 @@ export default {
 				this.$refs[form].resetFields();
 		})
 		},
-		actionUrl() { // 上传参数可以任意写，后边用handleBeforeUpload方法覆盖
-                return "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/upload/"
+		actionUrl() {
+			return this.uploadUrl;
         },
 		handleBeforeUpload(file) {
+			// 上传文件的参数
 			this.uploadData.prefix = this.dataForm.code;
-			let fd = new FormData()
-			fd.append('file', file)
-			fd.append("prefix", this.uploadData.prefix)
-			fd.append("path", this.filePath)
-			this.$api.ecn.FileUpload(fd).then((res) => {})
+			this.uploadData.path = this.filePath;
+			const isIMG = file.type.indexOf('image') >= 0;
+			const isLt20M = file.size / 1024 / 1024 < 20;
+
+			if (!isIMG) {
+				this.$message.error('上传图片只能是 图片 格式!');
+			}
+			if (!isLt20M) {
+				this.$message.error('上传图片大小不能超过 20MB!');
+			}
+			return isIMG && isLt20M;
+			// 手动控制上传代码
+			// let fd = new FormData()
+			// fd.append('file', file)
+			// fd.append("prefix", this.uploadData.prefix)
+			// fd.append("path", this.filePath)
+			// this.$api.ecn.FileUpload(fd).then((res) => {
+			// })
          },
-		handleSuccess(response, file, fileList) { // 增加list
-			 file.name = this.dataForm.code + "-" + file.name;
+		handleSuccess(response, file, fileList) { // 增加list 调用actionUrl的上传链接上传
+			 file.name = this.dataForm.code + "-" + file.name;// file.name变化后，fileList的该file名字也变化了
 
-			 if (response.code == '200') {
-				 this.$message({message: '上传成功', type: 'success'});
-                } else {
-				 this.$message({message: '上传失败', type: 'warning'});}
+			if (response.code == '200') {
+				this.$message({message: '上传成功', type: 'success'});
 
-			 let lenth = fileList.length;
-			 let num = 0;
+				// 重复名字去掉
+				let length = fileList.length;
+				let num = 0;
 
-			 for (let i = 0; i < lenth; i++) {
-				 if (file.name == fileList[i].name) {
-					 num++;
-				 }
+				for (let i = 0; i < length; i++) {
+					if (file.name == fileList[i].name) {
+						num++;
+					}
 
-				 if (num > 1) {
-					 fileList.splice(i, 1) // 如果重复就更新数组，删掉重复
-				 }
-			 }
+					if (num > 1) {
+						fileList.splice(i, 1) // 如果重复就更新数组，删掉重复
+					}
+				}
 
-			 this.fileList = fileList;
-			 this.savePicSrcUrl()
+				this.fileList = fileList;
+				this.savePicSrcUrl()
+			} else {
+				this.$message({message: '上传失败', type: 'warning'});
+			}
 		 },
 		handlePreview(file) {
 			window.location.href = file.url// 在本页面下载
 		},
-		handleRemove(file, fileList) { // 删除文件，通过文件名
-			this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-				confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
-			}).then(() => {
-				let postdata = {fileName: file.name, path: this.filePath}
-				// 删除文件
-				this.$api.ecn.FileDelete(postdata).then((res) => {
-					if (res.code == '200') {
-						this.$message({message: '删除成功', type: 'success'});
-						let length = fileList.length;
+		handleRemove(file, fileList) { // 删除文件前的钩子，通过文件名,手动删除文件，用handleOnRemove处理不需要此手动删除fileList
+			if (file.status=='success') {// file有文件状态，上传成功的询问是否删除，没有上传成功是ready状态，直接删除
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        let postdata = {fileName: file.name, path: this.filePath}
+                        // 删除文件
+                        this.$api.ecn.FileDelete(postdata).then((res) => {
+                            if (res.code == '200') {
+                                this.$message({message: '删除成功', type: 'success'});
 
-						for (let i = 0; i < length; i++) {
-							if (file.name == fileList[i].name) {
-								fileList.splice(i, 1) // 如果删除成功就删掉文件列表
-								break;
-							}
-						}
+                                // 手动删除文件名
+                                fileList = fileList.filter(item => item.name != file.name);
+                                this.fileList = fileList;
+                                this.savePicSrcUrl()
+                            } else {
+                                this.$message({message: '删除失败', type: 'warning'});
+                                return false;
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message({type: 'info', message: '已取消删除'});
+                    });
+                } else {
+                    fileList = fileList.filter(item => item.name != file.name);
+                    this.fileList = fileList;
+                }
 
-						this.fileList = fileList;
-                            this.savePicSrcUrl()
-                        } else {
-                            this.$message({
-                                message: '删除失败',
-                                type: 'warning'
-                            });
-                            return false;
-                        }
-				})
-			}).catch(() => {this.$message({type: 'info', message: '已取消删除'});});
-
-			return false;
+                return false;// 阻止调用handleOnRemove 会自动删除fileList列表的条目，但有些文件如果服务器上删除失败列表不能删除
 		},
 		savePicSrcUrl(){
 
@@ -415,10 +433,12 @@ export default {
 		switch (process.env.NODE_ENV) {
 			case "development":
 				this.fileUrl = "http://10.136.41.45:9020/FileHelp/downloadFiles?path=/Users/smilezmh/imgs/flowImg/&filename=";
+				this.uploadUrl = 'http://10.136.41.45:9020/FileHelp/upload/';
 				this.filePath = "/Users/smilezmh/imgs/flowImg/";
 				break;
 			case "production":
 				this.fileUrl = "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/downloadFiles/?path=/application_data/files/cmmes_equipment/repair_imgs/&filename=";
+				this.uploadUrl = 'http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/upload/';
 				this.filePath = "/application_data/files/cmmes_***/***_imgs/";
 				break;
 			default:
