@@ -168,56 +168,12 @@ export default {
 				<#list table.fields as field>
 				${field.propertyName}: null,
 				</#list>
-				srcUrl: null
+				// srcUrl: null
 			}
 		}
 	},
 	methods: {
-		actionUrl() {
-			return ""
-		},
-		handleBeforeUpload(file) {
-			let fd = new FormData();
-			fd.append('file', file);
-			this.$api.${entity}.upload(fd).then((res) => {
-				if (res.code == '200') {
-					this.findPage();
-					this.$message({
-						message: '上传成功',
-						type: 'success'
-					});
-				} else {
-					this.$message({
-						message: '上传失败',
-						type: 'warning'
-					});
-				}
-			})
-		},
-		exportExcel(filters) {
-			let condition = {
 
-			};
-
-			$export(config.bizurl + "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>",condition,getNowTime().toString("yyyy-MM-dd"));
-		},
-		objectSpanMethod({row, column, rowIndex, columnIndex}) {// 合并单元格
-			let that = this;
-
-			if (columnIndex === 0) {
-				const _row = that.spanArr[rowIndex];
-				const _col = _row > 0 ? 1 : 0;
-				return {
-					rowspan: _row,
-					colspan: _col
-				}
-			}
-		},
-		resetFilters(form) {
-			this.$nextTick(() => {
-				this.$refs[form].resetFields();
-			})
-		},
 		// 获取分页数据
 		findPage: function (data) {
 			if (data != null) {
@@ -331,6 +287,30 @@ export default {
       	dateFormat: function (row, column, cellValue, index){
           	return format(row[column.property]);
       	},
+		exportExcel(filters) {
+			let condition = {
+
+			};
+
+			$export(config.bizurl + "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>",condition,getNowTime().toString("yyyy-MM-dd"));
+		},
+		objectSpanMethod({row, column, rowIndex, columnIndex}) {// 合并单元格
+			let that = this;
+
+			if (columnIndex === 0) {
+				const _row = that.spanArr[rowIndex];
+				const _col = _row > 0 ? 1 : 0;
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+		},
+		resetFilters(form) {
+			this.$nextTick(() => {
+				this.$refs[form].resetFields();
+		})
+		},
 		actionUrl() { // 上传参数可以任意写，后边用handleBeforeUpload方法覆盖
                 return "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/upload/"
         },
@@ -371,14 +351,9 @@ export default {
 		},
 		handleRemove(file, fileList) { // 删除文件，通过文件名
 			this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
+				confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
 			}).then(() => {
-				let postdata = {
-					fileName: file.name,
-					path: this.filePath
-				}
+				let postdata = {fileName: file.name, path: this.filePath}
 				// 删除文件
 				this.$api.ecn.FileDelete(postdata).then((res) => {
 					if (res.code == '200') {
@@ -407,6 +382,7 @@ export default {
 			return false;
 		},
 		savePicSrcUrl(){
+
 			if (this.fileList.length > 0) {
 				this.dataForm.srcUrl = this.fileList.map(item => this.fileUrl + item.name).join(",");
 			} else {
@@ -418,7 +394,7 @@ export default {
 				srcUrl: this.dataForm.srcUrl
 			}
 
-			this.$api.EquipmentRepairRecord.saveOne(postData).then((res) => {
+			this.$api.${entity}.saveOne(postData).then((res) => {
 				this.findPage();
 			});
 		}
@@ -443,7 +419,7 @@ export default {
 				break;
 			case "production":
 				this.fileUrl = "http://api.cmtech-soft-test.com/cmmes-base-service/feign/FileHelp/downloadFiles/?path=/application_data/files/cmmes_equipment/repair_imgs/&filename=";
-				this.filePath = "/application_data/files/cmmes_equipment/repair_imgs/";
+				this.filePath = "/application_data/files/cmmes_***/***_imgs/";
 				break;
 			default:
 				break;
