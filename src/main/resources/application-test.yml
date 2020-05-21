@@ -11,7 +11,7 @@ server:
 # log4j配置
 #logging:
 #  config: src/main/resources/log4j.properties
-# springboot 日志
+# springboot 日 志
 logging:
   config: classpath:logging-config.xml
 
