@@ -263,6 +263,8 @@ export default {
 					let fileName = item.substring(item.lastIndexOf('=') + 1);
 				this.fileList.push({name: fileName, url: item})
 				})
+			}else{
+				this.fileList = [];
 			}
 		},
 		// 编辑
