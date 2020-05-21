@@ -189,6 +189,15 @@ export default {
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
 				// spanRowsMerge(this,res)
+				if (item.srcUrl) {
+					item.srcList = item.srcUrl.split(",");
+				}
+
+				if (item.srcList && item.srcList.length && item.srcList.length > 0) {
+					item.src = item.srcList[0];
+				}else{
+					item.src='';
+				}
 			}).then(data != null ? data.callback : '')
 		},
 		// 批量删除
