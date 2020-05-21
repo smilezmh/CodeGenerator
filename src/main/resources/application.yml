@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: dev1
   application:
     name: cmmes-equipment
   autoconfigure:
