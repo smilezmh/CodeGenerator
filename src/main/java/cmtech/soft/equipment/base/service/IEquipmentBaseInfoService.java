@@ -88,4 +88,5 @@ public interface IEquipmentBaseInfoService extends IService<EquipmentBaseInfo> {
      * @return excel数据
      */
     List<EquipmentBaseInfoExcel> getExcelListByQueryModel(QueryModelEquipmentBaseInfo condition);
+
 }

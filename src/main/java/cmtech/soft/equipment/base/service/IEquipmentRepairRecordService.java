@@ -80,4 +80,11 @@ public interface IEquipmentRepairRecordService extends IService<EquipmentRepairR
     * @return 分页结果
     */
     public List<EquipmentRepairRecord> getTablesByContition(QueryModelEquipmentRepairRecord condition);
+
+    /**
+     * 自动获取单号
+     * @param prefix 前缀
+     * @return 单号
+     */
+    String getRepairNo(String prefix);
 }

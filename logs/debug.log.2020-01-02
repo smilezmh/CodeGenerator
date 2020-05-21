@@ -1,0 +1,46 @@
+2020-01-02 16:27:38  [ main:0 ] - [ DEBUG ]  Couldn't find template in cache for "templates/mapper.xml.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:1 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.xml_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.xml_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:3 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.xml.ftl"): Found
+2020-01-02 16:27:38  [ main:3 ] - [ DEBUG ]  Loading template for "templates/mapper.xml.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/mapper.xml.ftl"
+2020-01-02 16:27:38  [ main:82 ] - [ DEBUG ]  Couldn't find template in cache for "templates/entity.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:82 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/entity.java_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:83 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/entity.java_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:83 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/entity.java.ftl"): Found
+2020-01-02 16:27:38  [ main:83 ] - [ DEBUG ]  Loading template for "templates/entity.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/entity.java.ftl"
+2020-01-02 16:27:38  [ main:181 ] - [ DEBUG ]  Couldn't find template in cache for "templates/mapper.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:181 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.java_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:181 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.java_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:181 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/mapper.java.ftl"): Found
+2020-01-02 16:27:38  [ main:181 ] - [ DEBUG ]  Loading template for "templates/mapper.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/mapper.java.ftl"
+2020-01-02 16:27:38  [ main:183 ] - [ DEBUG ]  Couldn't find template in cache for "templates/service.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:183 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/service.java_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:183 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/service.java_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:183 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/service.java.ftl"): Found
+2020-01-02 16:27:38  [ main:183 ] - [ DEBUG ]  Loading template for "templates/service.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/service.java.ftl"
+2020-01-02 16:27:38  [ main:184 ] - [ DEBUG ]  Couldn't find template in cache for "templates/serviceImpl.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:184 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/serviceImpl.java_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:185 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/serviceImpl.java_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:185 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/serviceImpl.java.ftl"): Found
+2020-01-02 16:27:38  [ main:185 ] - [ DEBUG ]  Loading template for "templates/serviceImpl.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/serviceImpl.java.ftl"
+2020-01-02 16:27:38  [ main:186 ] - [ DEBUG ]  Couldn't find template in cache for "templates/controller.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 16:27:38  [ main:186 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java_zh_CN.ftl"): Not found
+2020-01-02 16:27:38  [ main:187 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java_zh.ftl"): Not found
+2020-01-02 16:27:38  [ main:187 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java.ftl"): Found
+2020-01-02 16:27:38  [ main:187 ] - [ DEBUG ]  Loading template for "templates/controller.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/Users/smilezmh/.m2/repository/com/baomidou/mybatis-plus-generator/3.2.0/mybatis-plus-generator-3.2.0.jar!/templates/controller.java.ftl"
+2020-01-02 17:16:07  [ main:0 ] - [ DEBUG ]  Couldn't find template in cache for "resources/templates/controller.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 17:16:07  [ main:1 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("resources/templates/controller.java_zh_CN.ftl"): Not found
+2020-01-02 17:16:07  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("resources/templates/controller.java_zh.ftl"): Not found
+2020-01-02 17:16:07  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("resources/templates/controller.java.ftl"): Not found
+2020-01-02 17:20:33  [ main:0 ] - [ DEBUG ]  Couldn't find template in cache for "Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 17:20:33  [ main:1 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java_zh_CN.ftl"): Not found
+2020-01-02 17:20:33  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java_zh.ftl"): Not found
+2020-01-02 17:20:33  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java.ftl"): Not found
+2020-01-02 17:23:20  [ main:0 ] - [ DEBUG ]  Couldn't find template in cache for "Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 17:23:20  [ main:1 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller_zh_CN.java"): Not found
+2020-01-02 17:23:20  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller_zh.java"): Not found
+2020-01-02 17:23:20  [ main:3 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java"): Not found
+2020-01-02 17:26:52  [ main:0 ] - [ DEBUG ]  Couldn't find template in cache for "Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-01-02 17:26:52  [ main:1 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java_zh_CN.ftl"): Not found
+2020-01-02 17:26:52  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java_zh.ftl"): Not found
+2020-01-02 17:26:52  [ main:2 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("Users/smilezmh/Desktop/pilot-equipment/src/main/resources/templates/controller.java.ftl"): Not found

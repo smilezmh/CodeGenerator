@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.base.service.impl;
 
+import cmtech.soft.equipment.base.entity.EquipmentBaseInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -17,7 +18,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cmtech.soft.equipment.utils.ErrorReturn;
 
 import java.util.List;
-
+import java.util.Map;
 
 /**
  * <p>
@@ -35,6 +36,20 @@ public class EquipmentRepairRecordServiceImpl extends ServiceImpl<EquipmentRepai
 
     // 搜索条件
     private QueryWrapper<EquipmentRepairRecord> wrapper;
+
+    /**
+     * 自动获取单号
+     * @param prefix 前缀
+     * @return 单号
+     */
+    @Override
+    public String getRepairNo(String prefix){
+        QueryWrapper<EquipmentRepairRecord> queryWrapper = new QueryWrapper<EquipmentRepairRecord>();
+        queryWrapper.eq("is_deleted", false);
+        queryWrapper.lambda().select(EquipmentRepairRecord::getCode);
+        List<Map<String,Object>> list= mapper.selectMaps(queryWrapper);
+        return MyStrTool.getNo(prefix,list,"code",4);
+    }
 
     /**
      * 无分页查询list

@@ -34,6 +34,25 @@ public class EquipmentRepairRecordController {
     @Autowired
     private IEquipmentRepairRecordService service;
 
+    @ApiOperation("自动获取维修单号")
+    @GetMapping(value = "getNo")
+    public HttpResult getNo(@RequestParam(value = "prefix") String prefix) {
+        HttpResult result = new HttpResult();
+        String  no= service.getRepairNo(prefix);
+
+        if(!MyStrTool.isNullOrEmpty(no)){
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(no);
+            result.setMsg("自动获取维修单号成功！");
+        }else {
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(no);
+            result.setMsg("自动获取维修单号为空！");
+        }
+
+        return result;
+    }
+
     @ApiOperation("批量修改或插入")
     @PostMapping(value = "saveOrUpdataBath")
     @InterceptAction("批量修改或插入")
