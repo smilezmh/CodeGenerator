@@ -217,6 +217,7 @@ export default {
 		},
 		// 显示新增界面
 		handleAdd: function () {
+			this.fileList = [];
 			this.editDialogVisible = true;
 			this.operation = true;
 			this.codeEditFlag=false;
