@@ -71,7 +71,7 @@
 	</kt-table>
 	<!--新增编辑界面-->
 	<el-dialog :title="operation?'新增':'编辑'" width="50%" :visible.sync="editDialogVisible" :close-on-click-modal="false" v-dialogDrag>
-		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="false">
+		<el-form :model="dataForm" label-width="125px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="false">
 			<#list table.fields as field>
 			<#if field.propertyType == "LocalDateTime">
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
@@ -152,7 +152,7 @@ export default {
 				<#if field.propertyType == "LocalDateTime">
 				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:200, show:true,align:"center"},
 				<#else>
-				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:100, show:true,align:"center"},
+				{prop:"${field.propertyName}", label:"${field.comment}", minWidth:125, show:true,align:"center"},
 				</#if>
 			</#list>
 			],
