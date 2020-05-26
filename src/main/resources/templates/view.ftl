@@ -15,7 +15,7 @@
 					</el-button>
 				</el-button-group>
 				<el-upload style="float: right;padding-right: 25px"
-						   :before-upload="handleBeforeUpload" :action="actionUrl()" multiple>
+						   :before-upload="handleBeforeUploadExcel" :action="actionUrlExcel()" multiple>
 					<el-button size="mini" type="primary">点击上传excel</el-button>
 				</el-upload>
 			</el-row>
@@ -88,20 +88,20 @@
 			</el-form-item>
 			</#if>
 			</#list>
-<#--			<el-form-item label="上传图片">-->
-<#--				<el-upload style="float: left"-->
-<#--						   class="upload-demo"-->
-<#--						   :action="actionUrl()" :on-success="handleSuccess" :on-preview="handlePreview"-->
-<#--						   :before-upload="handleBeforeUpload"-->
-<#--						   :before-remove="handleBeforeRemove" list-type="picture" :data="uploadData"-->
-<#--						   drag-->
-<#--						   :file-list="fileList"-->
-<#--						   multiple>-->
-<#--					<i class="el-icon-upload"></i>-->
-<#--					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
-<#--					<div class="el-upload__tip" slot="tip">只能上传图片，且不超过10MB</div>-->
-<#--				</el-upload>-->
-<#--			</el-form-item>-->
+			<el-form-item label="上传图片">
+				<el-upload style="float: left"
+						   class="upload-demo"
+						   :action="actionUrl()" :on-success="handleSuccess" :on-preview="handlePreview"
+						   :before-upload="handleBeforeUpload"
+						   :before-remove="handleBeforeRemove" list-type="picture" :data="uploadData"
+						   drag
+						   :file-list="fileList"
+						   multiple>
+					<i class="el-icon-upload"></i>
+					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+					<div class="el-upload__tip" slot="tip">只能上传图片，且不超过10MB</div>
+				</el-upload>
+			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
 			<el-button :size="size" @click.native="editDialogVisible = false">{{$t('action.cancel')}}</el-button>
@@ -175,7 +175,6 @@ export default {
 		}
 	},
 	methods: {
-
 		// 获取分页数据
 		findPage: function (data) {
 			if (data != null) {
@@ -310,7 +309,7 @@ export default {
 
 			};
 
-			$export(config.bizurl + "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>",condition,getNowTime().toString("yyyy-MM-dd"));
+			$export(config.bizurl + "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>/download",condition,getNowTime().toString("yyyy-MM-dd"));
 		},
 		objectSpanMethod({row, column, rowIndex, columnIndex}) {// 合并单元格
 			let that = this;
@@ -327,7 +326,7 @@ export default {
 		resetFilters(form) {
 			this.$nextTick(() => {
 				this.$refs[form].resetFields();
-		})
+			})
 		},
 		actionUrl() {
 			return this.uploadUrl;
@@ -431,7 +430,28 @@ export default {
 			this.$api.${entity}.saveOne(postData).then((res) => {
 				this.findPage();
 			});
-		}
+		},
+		actionUrlExcel() {
+			return ""
+		},
+		handleBeforeUploadExcel(file) {
+			let fd = new FormData();
+			fd.append('file', file);
+			this.$api.${entity}.upload(fd).then((res) => {
+				if (res.code == '200') {
+					this.findPage();
+					this.$message({
+						message: '上传成功',
+						type: 'success'
+					});
+				} else {
+					this.$message({
+						message: '上传失败',
+						type: 'warning'
+					});
+				}
+			})
+		},
 	},
 	mounted() {
 		this.modifierId=Cookies.get('userId');
