@@ -16,7 +16,7 @@ import java.util.Map;
 public class GlobalExeptionCatch {
     @Autowired
     private LogConfig log;
-    String indexStr = "cmtech.soft.equipment.base";
+    String indexStr = "cmtech.soft.equipment";
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev dev分支 修改
+    active: dev
   application:
     name: cmmes-equipment
   autoconfigure:
