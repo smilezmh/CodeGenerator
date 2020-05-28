@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  */
 @Data
 @Component
-public class Event implements IEvent{
+public class Event implements IDelegate{
 
     private Object obj;// 要执行方法的对象
     private String methodHandle;// 要执行方法名
@@ -26,6 +26,7 @@ public class Event implements IEvent{
         this.obj=obj;
         this.methodHandle=methodHandle;
         this.parms=parms;
+        generateParamsTypes(this.parms);
     }
 
     private void generateParamsTypes(Object[] parms){
@@ -36,34 +37,6 @@ public class Event implements IEvent{
             this.paramsTypes[i]=obj.getClass();
             i++;
         }
-    }
-
-    /**
-     * 用无参构造方法实例化调用方法
-     * @param obj 调用方法所在对象
-     * @param methodHandle 调用方法
-     * @param parms 调用参数
-     * @return 调用函数后的值
-     */
-    @Override
-    public Object invoke(Object obj,String methodHandle,Object... parms){
-        Object result=null;
-        this.obj=obj;
-        this.methodHandle=methodHandle;
-        this.parms=parms;
-
-        try {
-            Method method=obj.getClass().getMethod(methodHandle, paramsTypes);
-            result=method.invoke(obj, parms);
-        }catch (NoSuchMethodException e){
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
     /**
