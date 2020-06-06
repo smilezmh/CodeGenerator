@@ -2,7 +2,7 @@ package cmtech.soft.equipment.utils;
 
 import java.lang.reflect.*;
 
-public class GenericsUtils {
+public class GenericsUtils{
     /**
      * 通过反射,获得定义Class时声明的父类的范型参数的类型. 如public BookManager extends
      * GenricManager<Book>
@@ -22,7 +22,7 @@ public class GenericsUtils {
      */
     public static Class getSuperClassGenricType(Class clazz, int index)
             throws IndexOutOfBoundsException {
-        Type genType = clazz.getGenericSuperclass();
+        Type genType = clazz.getGenericSuperclass();// 获取父类类型
         if (!(genType instanceof ParameterizedType)) {
             return Object.class;
         }
@@ -34,25 +34,5 @@ public class GenericsUtils {
             return Object.class;
         }
         return (Class) params[index];
-    }
-
-    public static Class<?> getRawType(Type type) {
-        if (type instanceof Class) {
-            return (Class) type;
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
-            Type rawType = parameterizedType.getRawType();
-            return (Class) rawType;
-        } else if (type instanceof GenericArrayType) {
-            Type componentType = ((GenericArrayType) type).getGenericComponentType();
-            return Array.newInstance(getRawType(componentType), 0).getClass();
-        } else if (type instanceof TypeVariable) {
-            return Object.class;
-        } else if (type instanceof WildcardType) {
-            return getRawType(((WildcardType) type).getUpperBounds()[0]);
-        } else {
-            String className = type == null ? "null" : type.getClass().getName();
-            throw new IllegalArgumentException("Expected a Class, ParameterizedType, or GenericArrayType, but <" + type + "> is of type " + className);
-        }
     }
 }
