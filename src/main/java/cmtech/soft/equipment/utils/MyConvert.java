@@ -29,8 +29,8 @@ public class MyConvert<T>  {
      * @param clazz
      * @return entity
      */
-    public static <T> T objT(Object object,Class<T> clazz) {
-        return (T) Optional.ofNullable(JSON.parseObject(JSON.toJSONString(object).getBytes(),clazz)).orElseGet(()->create(clazz));
+    public static <K> K objT(Object object,Class<K> clazz) {
+        return (K) Optional.ofNullable(JSON.parseObject(JSON.toJSONString(object).getBytes(),clazz)).orElseGet(()->create(clazz));
     }
 
     /**
