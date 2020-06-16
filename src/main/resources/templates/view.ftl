@@ -382,7 +382,7 @@ export default {
 		handlePreview(file) {
 			window.location.href = file.url// 在本页面下载
 		},
-		handleRemove(file, fileList) { // 删除文件前的钩子，通过文件名,手动删除文件，用handleOnRemove处理不需要此手动删除fileList
+		handleBeforeRemove(file, fileList) { // 删除文件前的钩子，通过文件名,手动删除文件，用handleOnRemove处理不需要此手动删除fileList
 			if (file.status=='success') {// file有文件状态，上传成功的询问是否删除，没有上传成功是ready状态，直接删除
                     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                         confirmButtonText: '确定',
