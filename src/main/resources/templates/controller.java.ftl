@@ -64,6 +64,26 @@ public class ${table.controllerName} {
     @Autowired
     private ${entity}Mapper mapper;
 
+    @GetMapping("generateNo")
+    @ApiOperation("生成单号")
+    public HttpResult generateNo(@RequestParam(required = true,value = "prefix") String prefix,@RequestParam(required = true,value = "colName") String colName,
+                                 @RequestParam(required = true,value = "noLength") Integer noLength,@RequestParam(required = false,value = "isRelatedToDate") Boolean isRelatedToDate) {
+        HttpResult result=new HttpResult();
+        String no=service.generateNo(prefix, colName, noLength,isRelatedToDate);
+
+        if(!MyStrTool.isNullOrEmpty(no)){
+            result.setCode(HttpStatus.SC_OK);
+            result.setMsg("生成单号成功！");
+            result.setData(no);
+        }else {
+            result.setCode(HttpStatus.Return_Null);
+            result.setMsg("生成单号失败！");
+            result.setData(null);
+        }
+
+        return result;
+    }
+
     @PostMapping("download")
     @ApiOperation("下载excel表格")
     @InterceptAction("下载excel表格")

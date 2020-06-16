@@ -15,12 +15,13 @@ import ${package.Service}.${table.serviceName};
 import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${cfg.prefix}.utils.MyStrTool;
+import ${cfg.prefix}.utils.MyConvert;
 import ${superServiceImplClassPackage};
 import ${cfg.prefix}.utils.model.ErrorReturn;
 
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Map;
 
 /**
  * <p>
@@ -43,6 +44,20 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     // 搜索条件
     private QueryWrapper<${entity}> wrapper;
+
+    /**
+     * 生成单号
+     * @param prefix  前缀
+     * @param colName 检索的数据列名
+     * @param noLength 最后位数的长度
+     * @param isRelatedToDate 是否和日期相关
+     * @return 单号
+     */
+    @Override
+    public String generateNo(String prefix,String colName,Integer noLength,Boolean isRelatedToDate) {
+        List<Map<String, Object>> list = MyConvert.listEntityToListMap(getListByQueryModel(new QueryModel${entity}()));
+        return MyStrTool.getNo(prefix, list, colName, noLength,isRelatedToDate);
+    }
 
      /**
      * 根据条件获得导出excel数据

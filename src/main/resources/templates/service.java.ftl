@@ -91,5 +91,15 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return excel数据
      */
     List<${entity}Excel> getExcelListByQueryModel(QueryModel${entity} condition);
+
+    /**
+     * 生成单号
+     * @param prefix  前缀
+     * @param colName 检索的数据列名
+     * @param noLength 最后位数的长度
+     * @param isRelatedToDate 是否和日期相关
+     * @return 单号
+     */
+     String generateNo(String prefix,String colName,Integer noLength,Boolean isRelatedToDate);
 }
 </#if>

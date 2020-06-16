@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils;
 
-public interface HttpStatus {
+public interface HttpStatus extends HttpStatusBase{
     // --- 1xx Informational ---
 
     /** {@code 100 Continue} (HTTP/1.1 - RFC 2616) */
