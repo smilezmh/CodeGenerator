@@ -77,6 +77,78 @@ public class MyStrTool {
     }
 
     /**
+     * 根据数据库数据自动生成新单号
+     *
+     * @param prefix  前缀 如PO
+     * @param maps    数据库所有数据集合
+     * @param colName 行名字
+     * @param lastNum 最后保留几位如PR2001保留4位
+     * @param isRelatedToDate 是否和日期相关
+     * @return 根据数据库数据自动生成新单号
+     */
+    @InterceptAction("获取数据库的单号")
+    public static String getNo(String prefix, List<Map<String, Object>> maps, String colName, int lastNum,Boolean isRelatedToDate) {
+        String no = prefix;
+
+        if(isRelatedToDate!=null&&isRelatedToDate.booleanValue()){
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
+            no = prefix + df.format(new Date());// 固定格式
+        }
+
+        List<String> strs = new ArrayList<String>();// 数据库已有单号集合
+
+        String prefixNo=no;
+        List<String> finalStrs=new ArrayList<>() ;
+        Optional.ofNullable(maps).ifPresent(
+                u -> {
+                    u.forEach(
+                            map -> Optional.ofNullable(map.get(colName)).ifPresent(x -> finalStrs.add((String) x))
+                    );
+                }
+        );
+
+        strs= Linq.of(finalStrs).where(x->x.startsWith(prefixNo)).toList();
+        int[] array = getSupplyAndLastValidNum(strs, lastNum);
+        int supplyNum = array[0];
+        int num = array[1];
+
+        if (supplyNum == -1) {
+            return "超过系统生成单号范围！";
+        }
+//        int num=0; // 要截取的最后几位数字
+//        String biggest=findBiggestStr(strs);
+//
+//        if(!isNullOrEmpty(biggest)){
+//            // 最后几位数字
+//            num=Integer.parseInt(biggest.substring(biggest.length() - lastNum));
+//        }
+//
+//        int supplyNum=lastNum-1;//  在num+1的基础上补0的个数，如果是lastNum位，最多补lastNum-1个0，如果4位，最多3个0
+//
+//        // 看加几个0
+//        while(Math.pow(10, lastNum)>num+1){
+//            lastNum--;
+//        }
+//
+//        if(lastNum==supplyNum+1){// 上边while没执行就退出
+//            return "超过系统生成单号范围！";
+//        }
+//
+//        supplyNum=supplyNum-lastNum;// 补多少个0
+
+        int i = 0;
+
+        while (i < supplyNum) {
+            no = no + "0";
+            i++;
+        }
+
+        no = no + (num + 1);
+
+        return no;
+    }
+
+    /**
      * 获取要补足（用0）的位数，最后几位有效数字
      *
      * @param strs    数据库已有单号集合
