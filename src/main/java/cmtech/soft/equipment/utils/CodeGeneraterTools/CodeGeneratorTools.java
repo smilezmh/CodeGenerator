@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils.CodeGeneraterTools;
 
-
+import cmtech.soft.equipment.utils.MyStrTool;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -13,18 +13,17 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
-
 import java.io.File;
 import java.util.*;
 
 public class CodeGeneratorTools {
 
-    private static String dataBaseUrl="jdbc:mysql://10.136.11.199:3306/Equipment?serverTimezone=UTC&characterEncoding=utf-8";// 数据库url
-    private static String packageNamesPrefix="cmtech.soft.equipment"; // 项目开始引用的package前缀
-    private static String packagesPrefix="/src/main/java/cmtech/soft/equipment/";// 生成包结构前缀
-    private static String driver="com.mysql.cj.jdbc.Driver";// sql driver
-    private static String username="root"; // database username
-    private static String pwd="Dp5VqJtAQr"; // database pwd
+    private static String dataBaseUrl = "jdbc:mysql://10.136.11.199:3306/Equipment?serverTimezone=UTC&characterEncoding=utf-8";// 数据库url
+    private static String packageNamesPrefix = "cmtech.soft.equipment"; // 项目开始引用的package前缀
+    private static String packagesPrefix = "/src/main/java/cmtech/soft/equipment/";// 生成包结构前缀
+    private static String driver = "com.mysql.cj.jdbc.Driver";// sql driver
+    private static String username = "root"; // database username
+    private static String pwd = "Dp5VqJtAQr"; // database pwd
 
     public static void Generator(String[] tableName) {
         AutoGenerator mpg = new AutoGenerator();
@@ -75,44 +74,58 @@ public class CodeGeneratorTools {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 + pc.getModuleName()
-                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/controller";
+                String expand = projectPath + packagesPrefix + pc.getModuleName() + "/controller";
                 String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getControllerName());
                 return entityFile;
-            }});
+            }
+        });
 
         focList.add(new FileOutConfig("/templates/entity.kt.ftl") {// model类
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/model";
-                String entityFile = String.format((expand + File.separator + "%s" + ".java"), "QueryModel"+tableInfo.getEntityName());
+                String expand = projectPath + packagesPrefix + pc.getModuleName() + "/model";
+                String entityFile = String.format((expand + File.separator + "%s" + ".java"), "QueryModel" + tableInfo.getEntityName());
                 return entityFile;
-            }});
+            }
+        });
 
         focList.add(new FileOutConfig("/templates/entity.excel.ftl") {// model类
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/model/excelModel";
-                String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getEntityName()+"Excel");
+                String expand = projectPath + packagesPrefix + pc.getModuleName() + "/model/excelModel";
+                String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getEntityName() + "Excel");
                 return entityFile;
-            }});
+            }
+        });
 
         focList.add(new FileOutConfig("/templates/view.ftl") {// view视图
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                String expand = projectPath + packagesPrefix+pc.getModuleName()  + "/view";
-                String entityFile = String.format((expand + File.separator + "%s" + ".vue"), tableInfo.getEntityName());
+                String expand = projectPath + packagesPrefix + pc.getModuleName() + "/view";
+                String entityFile = String.format((expand + File.separator + "%s" + ".vue"), MyStrTool.toUpperCaseFirstOne(tableInfo.getEntityName().toLowerCase()));
                 return entityFile;
-            }});
+            }
+        });
 
         focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return projectPath + packagesPrefix+pc.getModuleName()+"/mapper/"+
-                tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + packagesPrefix + pc.getModuleName() + "/mapper/" +
+                        tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+
+        focList.add(new FileOutConfig("/templates/api.ftl") {// view视图
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix + pc.getModuleName() + "/vueApi";
+                String entityFile = String.format((expand + File.separator + "%s" + ".js"), tableInfo.getEntityName());
+                return entityFile;
             }
         });
 
@@ -126,15 +139,15 @@ public class CodeGeneratorTools {
                 //对于已存在的文件，只需重复生成 entity 和 mapper.xml
                 File file = new File(filePath);
                 boolean exist = file.exists();
-                if(exist){
-                    if (filePath.endsWith("Mapper.xml")||FileType.ENTITY==fileType||filePath.endsWith(".vue")||filePath.endsWith("Excel.java")){
+                if (exist) {
+                    if (filePath.endsWith("Mapper.xml") || FileType.ENTITY == fileType || filePath.endsWith(".vue") || filePath.endsWith("Excel.java")) {
                         return true;
-                    }else {
+                    } else {
                         return false;
                     }
                 }
                 //不存在的文件都需要创建
-                return  true;
+                return true;
             }
         });
         //============================== 策略配置
@@ -159,18 +172,18 @@ public class CodeGeneratorTools {
                 .setStrategy(strategy)
                 // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
                 .setTemplateEngine(new FreemarkerTemplateEngine());
-                // 使用beetl engine
-                //.setTemplateEngine(new BeetlTemplateEngine());
+        // 使用beetl engine
+        //.setTemplateEngine(new BeetlTemplateEngine());
         mpg.execute();
     }
 
     public static void main(String[] args) {
-        while(true){
+        while (true) {
             Scanner sc = new Scanner(System.in);
             System.out.println("请输入表名：");
             String name = sc.nextLine();
-            String[] strings=new String[]{""};
-            strings[0]=name;
+            String[] strings = new String[]{""};
+            strings[0] = name;
             Generator(strings);
         }
         // Generator(new String[]{"test"});

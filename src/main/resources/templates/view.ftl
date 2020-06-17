@@ -84,7 +84,7 @@
 			</el-form-item>
 			<#elseif field.propertyName?contains("Code")>
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
-				<el-select v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag" style="width: 100%;">
+				<el-select v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" @change="${field.propertyName}Change"  style="width: 100%;">
 					<el-option v-for="item in ${field.propertyName}OptionsList" suffix-icon="***" :key="item.key" :value="item.value" :label="item.label"></el-option>
 				</el-select>
 			</el-form-item>
@@ -467,6 +467,16 @@ export default {
 				}
 			})
 		},
+		<#list table.fields as field>
+		<#if field.propertyName?contains("Code")&&field.propertyName!="code">
+		${field.propertyName}Change(val){
+			let obj = {};
+			obj = this.${field.propertyName}OptionsList.find((item) => {item.value === val;});
+			this.dataForm.${field.propertyName?substring(0,field.propertyName?index_of("Code"))}Name = obj.label;
+			this.dataForm.${field.propertyName?substring(0,field.propertyName?index_of("Code"))}Id = obj.id;
+		}
+		</#if>
+		</#list>
 	},
 	mounted() {
 		this.modifierId=Cookies.get('userId');
@@ -483,7 +493,7 @@ export default {
 
 		<#list table.fields as field>
 		<#if field.propertyName?contains("Code")&&field.propertyName!="code">
-		this.$api.field.propertyName?substring(0,field.propertyName?index_of("Code")).findList({}).then((res) => {
+		this.$api.${(field.propertyName?substring(0,field.propertyName?index_of("Code")))?cap_first}.findList({}).then((res) => {
 			if (res.code == '200' && hasValue(res.data) && res.data.length > 0) {
 				this.${field.propertyName}OptionsList=[];
 				for (let i = 0; i < res.data.length; i++) {
