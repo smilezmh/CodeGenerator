@@ -82,6 +82,12 @@
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
 				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag" style="width: 100%;"></el-input>
 			</el-form-item>
+			<#elseif field.propertyName?contains("Code")>
+			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
+				<el-select v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" :disabled="codeEditFlag" style="width: 100%;">
+					<el-option v-for="item in ${field.propertyName}OptionsList" suffix-icon="***" :key="item.key" :value="item.value" :label="item.label"></el-option>
+				</el-select>
+			</el-form-item>
 			<#else>
 			<el-form-item label="${field.comment}" prop="${field.propertyName}" v-if="true">
 				<el-input v-model="dataForm.${field.propertyName}" auto-complete="off" suffix-icon="***" style="width: 100%;"></el-input>
@@ -175,7 +181,12 @@ export default {
 				${field.propertyName}: null,
 				</#list>
 				// srcUrl: null
-			}
+			},
+			<#list table.fields as field>
+			<#if field.propertyName?contains("Code")&&field.propertyName!="code">
+		    ${field.propertyName}OptionsList:[],// 下拉框数据
+		    </#if>
+		    </#list>
 		}
 	},
 	methods: {
@@ -469,6 +480,19 @@ export default {
 			this.dataForm.equipmentId=this.$route.query.id; // 修改equipmentId为此表外键
 			this.dataForm.equipmentCode=this.$route.query.code; // 修改equipmentCode为此表外键
 		}
+
+		<#list table.fields as field>
+		<#if field.propertyName?contains("Code")&&field.propertyName!="code">
+		this.$api.field.propertyName?substring(0,field.propertyName?index_of("Code")).findList({}).then((res) => {
+			if (res.code == '200' && hasValue(res.data) && res.data.length > 0) {
+				this.${field.propertyName}OptionsList=[];
+				for (let i = 0; i < res.data.length; i++) {
+					this.${field.propertyName}OptionsList.push({key: res.data[i].id, value: res.data[i].code, label: res.data[i].name})
+				}
+			}
+		})
+		</#if>
+		</#list>
 
 		switch (process.env.NODE_ENV) {
 			case "development":
