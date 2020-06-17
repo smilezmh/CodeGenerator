@@ -471,9 +471,9 @@ export default {
 		<#if field.propertyName?contains("Code")&&field.propertyName!="code">
 		${field.propertyName}Change(val){
 			let obj = {};
-			obj = this.${field.propertyName}OptionsList.find((item) => {item.value === val;});
+			obj = this.${field.propertyName}OptionsList.find((item) => {return item.value === val;});
 			this.dataForm.${field.propertyName?substring(0,field.propertyName?index_of("Code"))}Name = obj.label;
-			this.dataForm.${field.propertyName?substring(0,field.propertyName?index_of("Code"))}Id = obj.id;
+			this.dataForm.${field.propertyName?substring(0,field.propertyName?index_of("Code"))}Id = obj.key;
 		}
 		</#if>
 		</#list>
