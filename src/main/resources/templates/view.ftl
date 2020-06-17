@@ -116,8 +116,10 @@ import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
-import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime,$export} from "@/utils/common";
+import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime,$export,isArray} from "@/utils/common";
 import config from '@/http/config';
+import Rules from '@/utils/validate';
+import commonJson from '@/utils/commonJson';
 
 export default {
 	components:{
