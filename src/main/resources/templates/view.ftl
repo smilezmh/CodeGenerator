@@ -112,6 +112,8 @@
 </template>
 
 <script>
+import FlowDrawer from "@/views/Core/FlowDrawer";
+import globalConfig from '@/utils/global';
 import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
