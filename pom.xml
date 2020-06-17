@@ -40,6 +40,12 @@
         <linq.version>3.1.0</linq.version>
         <diboot.version>2.0.3</diboot.version>
         <easyexcel.version>2.2.2</easyexcel.version>
+        <docker.image.prefix>test</docker.image.prefix>
+        <docker.name>k8s_equipment</docker.name>
+        <docker.version>1.5.9</docker.version>
+        <docker.host>localhost</docker.host>
+        <docker.registry>hub.cmtech-soft.com</docker.registry>
+        <docker.serverId>harbor</docker.serverId>
     </properties>
 
     <dependencies>
@@ -311,13 +317,36 @@
                 <version>${mavenCompilePlungin-version}</version>
             </plugin>
             <!-- Docker maven plugin -->
+            <!-- Docker maven plugin -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>1.2.0</version>
+<!--                <executions>-->
+<!--                    &lt;!&ndash;执行 mvn package 时 自动 执行 mvn docker:build&ndash;&gt;-->
+<!--                    <execution>-->
+<!--                        <id>build-image</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <pushImage>true</pushImage>
+                    <!-- 私有仓库配置，需要settings.xml文件配合serverId对应的服务地址 -->
+                    <serverId>${docker.serverId}</serverId>
+                    <!-- docker私服地址 -->
+                    <registryUrl>${docker.registry}</registryUrl>
+                    <imageName>${docker.registry}/${docker.image.prefix}/${docker.name}:${docker.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- 指定docker server的地址，该配置不需要本机安装docker -->
+                    <!-- <dockerHost>${docker.host}</dockerHost>-->
+                    <imageTags>
+                        <imageTag>${docker.version}</imageTag>
+                    </imageTags>
+                    <!--覆盖已存在的标签 镜像-->
+                    <forceTags>true</forceTags>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -326,6 +355,7 @@
                         </resource>
                     </resources>
                 </configuration>
+
             </plugin>
         </plugins>
         <resources>
