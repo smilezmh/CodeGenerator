@@ -562,6 +562,6 @@ export function spanRowsMerge(that,res) {
 	}
 
 	.el-drawer.rtl{
-		margin-top: 65px;
+		margin-top: 111px;
 	}
 </style>
