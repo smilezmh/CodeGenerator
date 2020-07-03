@@ -204,6 +204,7 @@ export default {
 					item.srcList = [];
 
 					if (item.srcUrl) {
+						// 相对路径 绝对路径共用
 						item.srcList = item.srcUrl.split(",");
 						// 相对路径
 						//item.srcList=item.srcList.map((current,index1)=>{return current=this.fileUrl+current;})
