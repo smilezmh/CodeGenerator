@@ -121,7 +121,7 @@ import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
-import {loadOaOptions,getCascaderList,getNowTime,hasValue,getTime,$export,isArray} from "@/utils/common";
+import {loadOaOptions,getCascaderList,selectOaNode,Format,getNowTime,hasValue,getTime,$export,isArray} from "@/utils/common";
 import config from '@/http/config';
 import Rules from '@/utils/validate';
 import commonJson from '@/utils/commonJson';
@@ -199,12 +199,14 @@ export default {
 			this.spanArr = [];
 			this.$api.${entity}.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res.data;
-				// spanRowsMerge(this,res)
+				// spanRowsMerge(this,res);
 				this.pageResult.records.forEach((item, index) => {
 					item.srcList = [];
 
 					if (item.srcUrl) {
 						item.srcList = item.srcUrl.split(",");
+						// 相对路径
+						//item.srcList=item.srcList.map((current,index1)=>{return current=this.fileUrl+current;})
 					}
 
 					if (item.srcList && item.srcList.length && item.srcList.length > 0) {
@@ -277,7 +279,10 @@ export default {
 				this.fileList = [];
 				srcList.forEach(item => {
 					let fileName = item.substring(item.lastIndexOf('=') + 1);
-				this.fileList.push({name: fileName, url: item})
+					// 绝对路径
+					this.fileList.push({name: fileName, url: item})
+					// 相对路径
+					// this.fileList.push({name: item, url: this.fileUrl+item})
 				})
 			}else{
 				this.fileList = [];
@@ -429,7 +434,10 @@ export default {
 		savePicSrcUrl(){
 
 			if (this.fileList.length > 0) {
+				// 绝对路径
 				this.dataForm.srcUrl = this.fileList.map(item => this.fileUrl + item.name).join(",");
+				// 相对路径
+				// this.dataForm.srcUrl = this.fileList.map(item =>item.name).join(",");
 			} else {
 				this.dataForm.srcUrl = ''
 			}
