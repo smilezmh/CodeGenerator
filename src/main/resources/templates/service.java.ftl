@@ -3,6 +3,7 @@ package ${package.Service};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${package.Entity}.${entity};
+import ${cfg.prefix}.utils.model.TreeData;
 import ${superServiceClassPackage};
 import ${cfg.prefix}.base.model.QueryModel${entity};
 
@@ -101,5 +102,18 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return 单号
      */
      String generateNo(String prefix,String colName,Integer noLength,Boolean isRelatedToDate);
+
+    /**
+     * 有子级关系的根据条件查询
+     * @param condition 查询条件
+     * @return 有子级关系的查询结果
+     */
+     TreeData<${entity}> getListHasChildrenByContition(QueryModel${entity} condition);
+    /**
+     * 根据id获取下一级子级数据
+     * @param id 实体id
+     * @return 获取下一级子级数据
+     */
+     List<${entity}> getSubList(Integer id);
 }
 </#if>

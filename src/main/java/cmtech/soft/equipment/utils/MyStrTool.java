@@ -232,6 +232,59 @@ public class MyStrTool {
     }
 
     /**
+     * 根据数据库数据该列数据自动生成新单号
+     *
+     * @param prefix  前缀 如PO
+     * @param strs    数据库该列所有数据集合
+     * @param lastNum 最后保留几位
+     * @param isRelatedToDate 是否和日期相关
+     * @return 根据数据库数据自动生成新单号
+     */
+    @InterceptAction("获取数据库的单号")
+    public static String getNo(String prefix, List<String> strs, int lastNum,Boolean isRelatedToDate) {
+        String no = prefix;
+
+        if(isRelatedToDate){
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
+            no = prefix + df.format(new Date());// 固定格式
+        }
+
+        String prefixNo=no;
+        strs= Linq.of(strs).where(x->x.startsWith(prefixNo)).toList();
+        int num = 0;
+        String biggest = findBiggestStr(strs);
+
+        if (!isNullOrEmpty(biggest)) {
+            // 最后几位数字
+            num = Integer.parseInt(biggest.substring(biggest.length() - lastNum));
+        }
+
+        int supplyNum = lastNum - 1;//  在num+1的基础上补0的个数，如果是lastNum位，最多补lastNum-1个0，如果4位，最多3个0
+
+        // 看加几个0
+        while (Math.pow(10, lastNum) > num + 1) {
+            lastNum--;
+        }
+
+        if (lastNum == supplyNum + 1) {// 上边while没执行就退出
+            return "超过系统生成单号范围！";
+        }
+
+        supplyNum = supplyNum - lastNum;// 补多少个0
+
+        int i = 0;
+
+        while (i < supplyNum) {
+            no = no + "0";
+            i++;
+        }
+
+        no = no + (num + 1);
+
+        return no;
+    }
+
+    /**
      * 找出一个集合最大的字符串
      *
      * @param strs 字符串集合

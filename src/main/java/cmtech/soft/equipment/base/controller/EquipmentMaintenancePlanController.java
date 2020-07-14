@@ -17,7 +17,7 @@ import cmtech.soft.equipment.utils.MyStrTool;
 import cmtech.soft.equipment.utils.HttpResult; // 自定义返回结果
 import cmtech.soft.equipment.utils.Aop.InterceptAction; // 自定义拦截aop
 import cmtech.soft.equipment.utils.HttpStatus; // 自定义状态返回
-import cmtech.soft.equipment.utils.ErrorReturn;
+import cmtech.soft.equipment.utils.model.ErrorReturn;
 
 import org.springframework.web.bind.annotation.RestController;
 

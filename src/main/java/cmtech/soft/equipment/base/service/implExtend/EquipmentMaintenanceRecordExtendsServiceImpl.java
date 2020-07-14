@@ -5,7 +5,7 @@ import cmtech.soft.equipment.base.entity.EquipmentMaintenanceRecord;
 import cmtech.soft.equipment.base.mapper.EquipmentMaintenancePlanMapper;
 import cmtech.soft.equipment.base.service.IServiceExtend.IEquipmentMaintenanceRecordExtendsService;
 import cmtech.soft.equipment.base.service.impl.EquipmentMaintenanceRecordServiceImpl;
-import cmtech.soft.equipment.utils.ErrorReturn;
+import cmtech.soft.equipment.utils.model.ErrorReturn;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

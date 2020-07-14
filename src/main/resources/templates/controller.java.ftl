@@ -27,6 +27,7 @@ import ${cfg.prefix}.utils.HttpResult; // 自定义返回结果
 import ${cfg.prefix}.utils.Aop.InterceptAction; // 自定义拦截aop
 import ${cfg.prefix}.utils.HttpStatus; // 自定义状态返回
 import ${cfg.prefix}.utils.model.ErrorReturn;
+import ${cfg.prefix}.utils.model.TreeData;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -435,6 +436,45 @@ public class ${table.controllerName} {
             result.setMsg("根据条件串表不分页查询list为空！");
         }
 
+        return result;
+    }
+
+    @ApiOperation("根据id获取子级数据")
+    @GetMapping(value = "getSubList")
+    public HttpResult getSubList(@RequestParam(required = true) Integer id) {
+        HttpResult result = new HttpResult();
+        List<${entity}> list=service.getSubList(id);
+
+        if (list != null && list.size() > 0) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(list);
+            result.setMsg("获取子级数据成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(list);
+            result.setMsg("获取子级数据为空！");
+        }
+        return result;
+    }
+
+    @ApiOperation("有子级关系的根据条件查询")
+    @PostMapping(value = "getListHasChildrenByContition")
+    public HttpResult getListHasChildrenByContition(@RequestBody(required = true) QueryModel${entity} condition) {
+        HttpResult result = new HttpResult();
+        TreeData<${entity}> treeData=service.getListHasChildrenByContition(condition);
+        List<${entity}> list=treeData.getList();
+
+        if (list != null && list.size() > 0) {
+            result.setCode(HttpStatus.SC_OK);
+            result.setData(treeData);
+            result.setMsg("有子级关系的根据条件查询成功！");
+        } else {
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+            result.setData(treeData);
+            result.setMsg("有子级关系的根据条件查询为空！");
+        }
         return result;
     }
 }

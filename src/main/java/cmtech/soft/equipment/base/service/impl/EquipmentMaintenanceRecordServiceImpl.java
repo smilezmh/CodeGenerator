@@ -1,6 +1,5 @@
 package cmtech.soft.equipment.base.service.impl;
 
-import cmtech.soft.equipment.base.entity.EquipmentMaintenancePlan;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,7 +14,7 @@ import cmtech.soft.equipment.base.service.IEquipmentMaintenanceRecordService;
 import cmtech.soft.equipment.base.model.QueryModelEquipmentMaintenanceRecord;
 import cmtech.soft.equipment.utils.MyStrTool;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cmtech.soft.equipment.utils.ErrorReturn;
+import cmtech.soft.equipment.utils.model.ErrorReturn;
 
 import java.util.List;
 

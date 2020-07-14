@@ -42,10 +42,10 @@
 				  </el-row>
 				  <el-row>
 					  <el-col>
-						  <el-form-item>
+						  <el-form-item style="float: left">
 							  <el-button-group>
-								  <kt-button :label="$t('action.search')" perms="sys:${entity}:view"
-											 type="primary" @click="findPage()" icon="el-icon-search"/>
+								  <el-button :label="$t('action.search')" perms="sys:VisitorOrder:view"
+											 type="primary" @click="findPage()" icon="el-icon-search">搜索</el-button>
 								  <el-button @click="resetFilters('filters')" type="primary" size="mini" icon="el-icon-refresh-left">
 									  重置搜索条件
 								  </el-button>
@@ -66,6 +66,16 @@
               :slaveButtonShow="false" :detailButtonShow="false" :slaveAddButtonShow="false" :rowSpanShow="true" :hasScope="false"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete" ref="ktTable" :toolbarHeight="toolbarHeight">
 	</kt-table>
+
+	<!--表格树,如果不是树，删掉-->
+	<tree-table permsEdit="sys:ProductLocation:edit" permsDelete="sys:ProductLocation:delete"
+				  permsAdd="sys:ProductLocation:add" permsView="sys:ProductLocation:view"
+				  :treeData="treeResult" ref="tree" v-if="treeShow"
+				  :columns="columns" :treeRequest="treeRequest" :load="load" :stripe="false"
+				  :hasScope="false" :border="false" :expandRowKeys="expandRowKeys" @findTree="findTree"
+				  @handleEdit="handleEdit" @handleTreeDelete="handleTreeDelete" @handleAddSubLevel="handleAddSubLevel"
+				  :toolbarHeight="toolbarHeight" :expandAll="false" :tableRowClassName="tableTreeRowClassName">
+	</tree-table>
 	<!--新增编辑界面-->
 	<el-dialog :title="operation?'新增':'编辑'" width="50%" :visible.sync="editDialogVisible" :close-on-click-modal="false" v-dialogDrag>
 		<el-form :model="dataForm" label-width="125px" :rules="dataFormRules" ref="dataForm" :size="size" :inline="false">
@@ -119,6 +129,7 @@ import FlowDrawer from "@/views/Core/FlowDrawer";
 import globalConfig from '@/utils/global';
 import Cookies from "js-cookie";
 import KtTable from "@/views/Core/MainSlaveTable";
+import TreeTable from "@/views/Core/MainSlaveTreeTable";
 import KtButton from "@/views/Core/KtButton";
 import { format } from "@/utils/datetime";
 import {loadOaOptions,getCascaderList,selectOaNode,Format,getNowTime,hasValue,getTime,$export,isArray} from "@/utils/common";
@@ -129,18 +140,28 @@ import commonJson from '@/utils/commonJson';
 export default {
 	components:{
 			KtTable,
-			KtButton
+		    TreeTable,
+			KtButton,
+		    FlowDrawer
 	},
 	data() {
 		return {
 			filePath: "",
 			fileUrl: '',
 			uploadUrl: '',
-			uploadData: {
+			uploadData: { // 上传文件数据
 				prefix: "",
 				path: ""
 			},
-			fileList: [],
+			fileList: [],// 文件列表
+			treeRequest: {},// 树状表结构的查询条件
+			treeResult: [],// 树状表结构，传递到子组件的数据
+			expandRowKeys: [],// 树状表结构，根据检索到的树结构，需要展开的id主键集合
+			highLightList: [], // 树状表，根据搜索条件检索到的数据数据集合，用颜色凸显
+			selectIds: [],// 树状表，根据搜索条件检索到的数据id集合，用颜色凸显
+			treeShow: true,//树状表， 子组件在更新时是异步加载，v-if用来刷新子组件，查询时重新渲染
+			editRow: [],// 树状表，对于树结构的表数据,编辑是实时更新表数据,把该行数据从子组件传递过来的接受对象
+			isAddOrDelete: false,// 对于树结构的表数据，增加或者删除，编辑是实时更新表数据，增加或者删除是刷新页面
 			toolbarHeight:300,
 			spanArr: [], // 合并单元格，数组
 			pos: 0, // 合并单元格，位置
@@ -235,6 +256,7 @@ export default {
 		},
 		// 显示新增界面
 		handleAdd: function () {
+			this.isAddOrDelete = true;
 			this.fileList = [];
 			this.editDialogVisible = true;
 			this.operation = true;
@@ -260,6 +282,7 @@ export default {
 		},
 		// 显示编辑界面
 		handleEdit: function (params) {
+			this.editRow = params.row;
 			this.editDialogVisible = true;
 			this.operation = false;
 			this.codeEditFlag=true;
@@ -345,6 +368,140 @@ export default {
 			this.$nextTick(() => {
 				this.$refs[form].resetFields();
 			})
+		},
+		tableTreeRowClassName({row, rowIndex}) {// 树表搜索结果的突出显示
+			if (this.selectIds.indexOf(row.id) >= 0) {
+				return 'success-row';
+			}
+
+			return ''
+		},
+		handleAddSubLevel({index, row}) {// 弹出新增子级页面
+			this.isAddOrDelete = true;
+			this.dataForm.parentId = row.id;
+			this.handleAdd();
+		},
+		load(tree, treeNode, resolve) {
+			this.$api.${entity}.getSubList({id: tree.id}).then(res => {
+				if (res.code == '200') {
+					resolve(res.data);}
+			})
+		},
+		refreshRow(key) {// 刷新树表
+			this.$api.${entity}.getSubList({id: key}).then((res) => {
+				if (res.code == '200') {
+				this.$refs.tree.refreshRow(key, res.data)
+			}else{
+				this.$refs.tree.refreshRow(key,[])
+			}})
+		},
+		// 获取树表
+		findTree: function (data) {
+			this.treeShow = false;
+			this.treeResult = [];
+			this.highLightList = [];
+			this.treeRequest.code = this.filters.code;
+			this.treeRequest.name = this.filters.name;
+			this.treeRequest.isTreeList = true;
+
+			this.$api.${entity}.getListHasChildrenByContition(this.treeRequest).then((res) => {
+				this.treeResult = res.data.list;
+				this.treeRequest.topLevel = false;
+				this.treeRequest.id = null;
+
+				if (isArray(res.data.expandRowKeys)) {
+					this.expandRowKeys = [];
+					this.highLightList = res.data.highLightList;
+					this.selectIds = this.highLightList.map((item) => {
+						return item.id
+					});
+
+				res.data.expandRowKeys.forEach(x => this.expandRowKeys.push('' + x + ''));
+			} else {
+				res.data.expandRowKeys = []
+			}
+
+			this.treeShow = true;}).then(data != null ? data.callback : '')
+		},
+		// 编辑
+		submitTreeForm: function () {
+			this.$refs.dataForm.validate((valid) => {
+				if (valid) {
+					this.$confirm('确认提交吗？', '提示', {}).then(() => {
+						this.editLoading = true;
+						let params = Object.assign({}, this.dataForm);
+
+						if (hasValue(this.dataForm.createTime)) { // 日期处理
+							params.createTime = getTime(this.dataForm.createTime)
+						}
+
+						if (hasValue(this.dataForm.modifyTime)) { // 日期处理
+							params.modifyTime = getTime(this.dataForm.modifyTime)
+						}
+
+						this.$api.${entity}.saveOne(params).then((res) => {
+							if (res.code == '200') {
+								this.$message({message: '操作成功', type: 'success'})
+
+								if (this.isAddOrDelete) {
+									if (hasValue(this.dataForm.parentId)) {
+										this.refreshRow(this.dataForm.parentId)
+									}else{
+										this.treeRequest.topLevel = true;
+										this.findTree()
+									}
+
+									this.isAddOrDelete = false;
+								} else {
+									this.editRow.name = this.dataForm.name;// 所需字段更新
+								}
+							} else {
+								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+							}
+
+							this.editLoading = false;
+							this.$refs['dataForm'].resetFields();
+							this.editDialogVisible = false;});
+						}).catch(() => {});
+				}
+			})
+		},
+		// 树表的删除
+		handleTreeDelete: function (data) {
+			this.isAddOrDelete = true;
+			let postData = [];
+
+			if (hasValue(data) && hasValue(data.params) && hasValue(data.params.length) && data.params.length > 0) {
+				for (let i = 0; i < data.params.length; i++) {
+					postData.push({
+						id: data.params[i].id,
+						isDeleted: true
+					});
+				}
+			}
+
+			this.$api.${entity}.save(postData).then(res =>{
+				if (res.code == "200") {
+				this.$message({
+					message: "删除成功",
+					type: "success"
+				});
+
+				if(!hasValue(data.parentId)){
+					this.treeRequest.topLevel = true;
+					this.findTree()
+				}else{
+					this.refreshRow(data.parentId);
+				}
+
+			} else {
+				this.$message({
+					message: "操作失败, " + res.msg,
+					type: "error"
+				});
+			}
+
+			this.$refs.tree.setLoading();})
 		},
 		actionUrl() {
 			return this.uploadUrl;

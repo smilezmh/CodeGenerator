@@ -40,4 +40,11 @@ public class QueryModel${entity} implements Serializable{
 
     @ApiModelProperty(value = "名称")
     private String name;
+
+    @ApiModelProperty(value = "带有父子级关系的默认第一次查询，查询最上级，parentId没有值")
+    private Boolean topLevel;
+
+    @ApiModelProperty(value = "是否得到子级树结构，树结构的数据包含children " +
+            "children是一个list。hasChildren属性不设置，设置后和懒加载冲突，页面不能正常加载数据")
+    private Boolean isTreeList;
 }

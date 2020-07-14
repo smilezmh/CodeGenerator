@@ -147,5 +147,21 @@ export const getEntityById = (params) => {
     },"biz")
 }
 
+// 根据id懒加载查找下级（下一级）
+export const getSubList = (params) => {
+    return axios({
+        url: '/base/product-location/getSubList',
+        method: 'get',
+        params
+    },"biz")
+}
 
+// 根据条件查找树结构，非懒加载方式
+export const getListHasChildrenByContition = (data) => {
+    return axios({
+        url: '/base/product-location/getListHasChildrenByContition',
+        method: 'post',
+        data
+    },"biz")
+}
 

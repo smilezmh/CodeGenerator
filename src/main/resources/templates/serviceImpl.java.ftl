@@ -17,6 +17,7 @@ import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${cfg.prefix}.utils.MyStrTool;
 import ${cfg.prefix}.utils.MyConvert;
 import ${superServiceImplClassPackage};
+import ${cfg.prefix}.utils.model.TreeData;
 import ${cfg.prefix}.utils.model.ErrorReturn;
 
 import java.util.List;
@@ -347,5 +348,221 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         queryWrapper.in("code", codes);
         return mapper.selectCount(queryWrapper) > 0;
      }
+
+    /**
+     * 有子级关系的根据条件查询
+     *
+     * @param condition 查询条件
+     * @return 查询集合
+     */
+    @Override
+    public TreeData<${entity}> getListHasChildrenByContition(QueryModel${entity} condition) {
+        TreeData<${entity}> treeData = new TreeData<>();
+        List<${entity}> returnList = new ArrayList<>();
+        treeData.setHighLightList(new ArrayList<>());
+        // 查询条件
+        wrapper = getListWrapper(condition);
+
+        if (condition.getTopLevel() != null && condition.getTopLevel().booleanValue()) {// 首次查询是顶级数据查询，懒加载
+            wrapper.lambda().isNull(${entity}::getParentId);
+            returnList = list(wrapper);
+            // 是否有子级属性 进行赋值
+            setHasChildrenAttr(returnList, getAll());
+        } else {// 普通查询，查询的时候将所有上级关系也一同加载，树结构的数据，如果加载树结构就不能设置hasChildren属性，否则前端无效
+            List<${entity}> returnListBefore = new ArrayList<>();
+
+            List<${entity}> list = list(wrapper);
+            treeData.setHighLightList(list);
+            returnListBefore = getAllSuplist(list);// 父级元素集合,包括自身
+            returnListBefore = returnListBefore.stream().distinct().collect(Collectors.toList());//去重
+
+            if (condition.getIsTreeList() != null && condition.getIsTreeList().booleanValue()) {
+                //setHasChildrenAttr(returnListBefore, getAll());// 赋值是否有子级,如果加载树结构就不能设置hasChildren属性，否则前端无效
+                // 加工数据：从上级加载到下级的结构
+                for (${entity} entity : returnListBefore) {
+                    if (entity.getParentId() == null) {
+                        setSubList(entity, returnListBefore);// 设置子级树
+                        returnList.add(entity);
+                    }
+                }
+
+                returnListBefore.removeAll(list);// 差集
+
+                treeData.setExpandRowKeys(Linq.of(returnListBefore).select(x -> x.getId()).toList());// 数据的上级都是需要展开的列（差集）
+            } else {
+                // 这种方式顺序可能发生改变
+//                Set set = new HashSet();
+//                set.addAll(returnListBefore);
+//                returnList.addAll(set);
+                returnList = returnListBefore;
+            }
+        }
+        // 处理结果列
+//         dealWithViewName(iPage.getRecords());
+        treeData.setList(returnList);
+        return treeData;
+    }
+
+    /**
+     * 递归设置实体数据的子级树
+     *
+     * @param entity 实体
+     * @param list   相关数据
+     */
+    private void setSubList(${entity} entity, List<${entity}> list) {
+        List<${entity}> subList = setNextSubList(entity, list);
+
+        for (${entity} entity1 : subList) {
+            setSubList(entity1, list);
+        }
+    }
+
+    /**
+     * 设置实体数据并得到其子级
+     *
+     * @param entity 实体
+     * @param list   实体和其相关子级数（包含自身）据集合
+     * @return 其子级数据
+     */
+    private List<${entity}> setNextSubList(${entity} entity, List<${entity}> list) {
+        List<${entity}> sublist = new ArrayList<>();
+
+        sublist = Linq.of(list).where(x -> x.getParentId() != null).
+                where(t -> t.getParentId().intValue() == entity.getId().intValue()).toList();
+
+        if (!sublist.isEmpty()) {
+            // 寻找子级
+            entity.setChildren(sublist);
+        }
+
+        return sublist;
+    }
+
+    /**
+     * 根据id获取下一级子级数据
+     *
+     * @param id 实体id
+     * @return 获取下一级子级数据
+     */
+    @Override
+    public List<${entity}> getSubList(Integer id) {
+        List<${entity}> subList = new ArrayList<>();
+        // 所有数据
+        allList = getAll();
+
+        if (hasChildren(id, allList)) {
+            QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
+            queryWrapper.lambda().eq(${entity}::getIsDeleted, false);
+            queryWrapper.lambda().eq(${entity}::getParentId, id);
+            subList = list(queryWrapper);
+            setHasChildrenAttr(subList, allList);
+        }
+
+        return subList;
+    }
+
+    /**
+     * 获取一个集合的所有上级数据，包括自身
+     *
+     * @param list 集合
+     * @return 一个集合的所有上级数据，包括自身
+     */
+    protected List<${entity}> getAllSuplist(List<${entity}> list) {
+        List<${entity}> returnList = new ArrayList<>();
+
+        for (${entity} entity : list) {
+            // 上一级数据
+            ${entity} parent = new ${entity}();
+            // 先将自身加入到集合
+            returnList.add(entity);
+            if (entity.getParentId() != null) {
+                // 上一级父级数据
+                parent = getNextSupOne(entity.getParentId());
+                returnList.add(parent);
+            }
+
+            while (parent.getParentId() != null) {
+                // 上级的上级数据
+                parent = getNextSupOne(parent.getParentId());
+                returnList.add(parent);
+            }
+        }
+
+        // 反转集合，从父级到子集
+        Collections.reverse(returnList);
+
+        return returnList;
+    }
+
+    /**
+     * 获取上级对象
+     *
+     * @param parentId 实体的父id
+     * @return 上级对象
+     */
+    protected ${entity} getNextSupOne(Integer parentId) {
+        ${entity} one = new ${entity}();
+
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+
+        if (parentId != null) {
+            queryWrapper.lambda().eq(${entity}::getId, parentId.intValue());
+            queryWrapper.lambda().eq(${entity}::getIsDeleted, false);
+            one = getOne(queryWrapper, false);
+        }
+
+        return one;
+    }
+
+    /**
+     * 获取所有数据 id parentId
+     *
+     * @return 所有数据集合
+     */
+    protected List<${entity}> getAll() {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
+        queryWrapper.lambda().eq(${entity}::getIsDeleted, false);
+        queryWrapper.lambda().select(${entity}::getId, ${entity}::getParentId);
+        // 所有数据
+        allList = list(queryWrapper);
+        return allList;
+    }
+
+    /**
+     * 对传入的数据的是否有子级属性进行赋值
+     *
+     * @param list    传入集合
+     * @param allList 所有数据
+     */
+    protected void setHasChildrenAttr(List<${entity}> list, List<${entity}> allList) {
+        if (list != null && list.size() > 0) {
+            for (${entity} entity : list) {
+                // 找到有没有子级
+                if (hasChildren(entity.getId(), allList)) {//找到子级
+                    entity.setHasChildren(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * 是否有子级
+     *
+     * @param id      实体id
+     * @param allList 全体集合
+     * @return 是否有子级
+     */
+    protected boolean hasChildren(Integer id, List<${entity}> allList) {
+        boolean hasChildren = false;
+
+        for (${entity} entity : allList) {
+            if (id != null && entity.getParentId() != null && (id.intValue() == entity.getParentId().intValue())) {
+                hasChildren = true;
+                break;
+            }
+        }
+
+        return hasChildren;
+    }
 }
 </#if>

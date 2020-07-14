@@ -103,6 +103,17 @@ public class ${entity} implements Serializable {
     </#if>
 
 </#list>
+    @ApiModelProperty(value = "父id")
+    @TableField(exist = false)
+    private Integer parentId;
+
+    @ApiModelProperty(value = "是否有子级")
+    @TableField(exist = false)
+    private boolean hasChildren=false;
+
+    @ApiModelProperty(value = "子级")
+    @TableField(exist = false)
+    private List<${entity}> children;
 <#------------  END 字段循环遍历  ---------->
 
 <#if !entityLombokModel>
