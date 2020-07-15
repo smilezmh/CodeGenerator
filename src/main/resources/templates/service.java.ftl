@@ -109,6 +109,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return 有子级关系的查询结果
      */
      TreeData<${entity}> getListHasChildrenByContition(QueryModel${entity} condition);
+
     /**
      * 根据id获取下一级子级数据
      * @param id 实体id
