@@ -23,6 +23,18 @@ public class MyConvert<T>  {
     }
 
     /**
+     * entity to map
+     * @param k 范型对象
+     * @param <K> 范型
+     * @return map
+     */
+    public static <K> Map<String, Object> entityToMap(K k) {
+        Map<String, Object> map=new HashMap<>();
+        map=JSON.parseObject(JSON.toJSONString(k).getBytes(),HashMap.class);
+        return map;
+    }
+
+    /**
      * object 转 entity
      *
      * @param object
