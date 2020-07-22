@@ -17,12 +17,22 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @SpringBootApplication(exclude={SecurityAutoConfiguration.class,  ManagementWebSecurityAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
 @EnableDiscoveryClient
 @EnableZuulProxy //     路由鉴权中心
 @EnableFeignClients
 @EnableTransactionManagement
 public class EquipmentApplication {
+    /**
+     * 服务器时区东8区
+     */
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("CTT"));
+    }
     public static void main(String[] args) {
         SpringApplication.run(EquipmentApplication.class, args);
     }

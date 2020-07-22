@@ -66,7 +66,7 @@ public class ${entity} implements Serializable {
     </#if>
     <#if field.propertyType == "LocalDateTime">
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     </#if>
     <#if field.keyFlag>
         <#-- 主键 -->
