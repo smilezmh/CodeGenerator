@@ -119,12 +119,42 @@ public class CodeGeneratorTools {
             }
         });
 
-        focList.add(new FileOutConfig("/templates/api.ftl") {// view视图
+        focList.add(new FileOutConfig("/templates/api.ftl") {// api
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
                 String expand = projectPath + packagesPrefix + pc.getModuleName() + "/vueApi";
                 String entityFile = String.format((expand + File.separator + "%s" + ".js"), tableInfo.getEntityName());
+                return entityFile;
+            }
+        });
+
+        focList.add(new FileOutConfig("/templates/controller.extend.java.ftl") {// extend controller
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix + "/complexBiz" + "/controller/";
+                String entityFile = expand+tableInfo.getEntityName()+"ExtendController"+".java";
+                return entityFile;
+            }
+        });
+
+        focList.add(new FileOutConfig("/templates/service.extend.java.ftl") {// sevice extend
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix + "/complexBiz" + "/service/";
+                String entityFile = expand+tableInfo.getEntityName()+"ExtendService"+".java";
+                return entityFile;
+            }
+        });
+
+        focList.add(new FileOutConfig("/templates/serviceImpl.extend.java.ftl") {// seviceImpl extend
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix + "/complexBiz" + "/service/";
+                String entityFile = expand+tableInfo.getEntityName()+"ExtendServiceImpl"+".java";
                 return entityFile;
             }
         });

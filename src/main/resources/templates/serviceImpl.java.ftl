@@ -3,6 +3,7 @@ package ${package.ServiceImpl};
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,14 +26,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * <p>
  * ${table.comment!} 服务实现类
- * </p>
  *
  * @author ${author}
  * @since ${date}
  */
 @Service("${entity}Basic")
+@Primary
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
@@ -178,6 +178,14 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
             //}
 
             id = mapper.insert(entity);
+
+            if(id>0){
+                QueryModel${entity} conditionForId=new QueryModel${entity}(){{setCode(entity.getCode());}};
+                QueryWrapper<${entity}> queryWrapperForIdSearch=new QueryWrapper<>();
+                setWrapper(conditionForId,queryWrapperForIdSearch);
+                ${entity} foundEntity=getOne(queryWrapperForIdSearch, false);
+                id=foundEntity.getId();
+            }
         } else if (entity.getId() > 0) {
             id = mapper.updateById(entity);
         }
@@ -219,7 +227,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public boolean isExistsByQueryModel(QueryModel${entity} condition) {
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(${entity}::getId, condition.getId());
+        setWrapper(condition, queryWrapper);
         return mapper.selectCount(queryWrapper) > 0;
     }
 
