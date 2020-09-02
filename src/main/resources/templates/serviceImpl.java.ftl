@@ -184,7 +184,9 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
             id = mapper.insert(entity);
 
             if(id>0){
-                QueryModel${entity} conditionForId=new QueryModel${entity}(){{setCode(entity.getCode());}};
+                QueryModel${entity} conditionForId=new QueryModel${entity}(){{
+                   // setCode(entity.getCode());
+                }};
                 QueryWrapper<${entity}> queryWrapperForIdSearch=new QueryWrapper<>();
                 setWrapper(conditionForId,queryWrapperForIdSearch);
                 ${entity} foundEntity=getOne(queryWrapperForIdSearch, false);
@@ -279,7 +281,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     */
     protected void setWrapper(QueryModel${entity} condition,QueryWrapper<${entity}> wrapper){
         if(!MyStrTool.isNullOrEmpty(condition.getCode())){
-            wrapper.lambda().eq(${entity}::getCode,condition.getCode());
+            // wrapper.lambda().eq(${entity}::getCode,condition.getCode());
         }
     }
 
@@ -356,8 +358,8 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<${entity}>();
         queryWrapper.eq("is_deleted", false);
-        List<String> codes= Linq.of(list).select(x->x.getCode()).toList();
-        queryWrapper.in("code", codes);
+        // List<String> codes= Linq.of(list).select(x->x.getCode()).toList();
+        // queryWrapper.in("code", codes);
         return mapper.selectCount(queryWrapper) > 0;
      }
 
