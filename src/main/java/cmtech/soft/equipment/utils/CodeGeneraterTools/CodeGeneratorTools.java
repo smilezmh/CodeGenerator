@@ -144,7 +144,7 @@ public class CodeGeneratorTools {
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
                 String expand = projectPath + packagesPrefix + "/complexBiz" + "/service/";
-                String entityFile = expand+tableInfo.getEntityName()+"ExtendService"+".java";
+                String entityFile = expand+"I"+tableInfo.getEntityName()+"ExtendService"+".java";
                 return entityFile;
             }
         });
@@ -153,7 +153,7 @@ public class CodeGeneratorTools {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                String expand = projectPath + packagesPrefix + "/complexBiz" + "/service/";
+                String expand = projectPath + packagesPrefix + "/complexBiz" + "/service/impl/";
                 String entityFile = expand+tableInfo.getEntityName()+"ExtendServiceImpl"+".java";
                 return entityFile;
             }

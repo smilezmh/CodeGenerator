@@ -1,6 +1,6 @@
 package ${cfg.prefix}.complexBiz.service;
 
-import ${cfg.prefix}.complexBiz.service.${superServiceClass};
+import ${cfg.prefix}.base.service.${table.serviceName};
 
 
 /**

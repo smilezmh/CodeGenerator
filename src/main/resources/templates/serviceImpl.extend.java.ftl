@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ${package.Service}.${table.serviceName};
+import ${cfg.prefix}.base.service.impl.${table.serviceImplName};
+import ${cfg.prefix}.complexBiz.service.I${entity}ExtendService;
 
 /**
  * ${table.comment!} 扩展服务实现类
@@ -12,7 +14,6 @@ import ${package.Service}.${table.serviceName};
  * @since ${date}
  */
 @Service("${entity}Extend")
-@Primary
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 

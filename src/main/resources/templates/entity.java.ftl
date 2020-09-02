@@ -1,6 +1,8 @@
 package ${package.Entity};
 
 import java.util.Date;
+import java.util.List;
+import com.baomidou.mybatisplus.annotation.TableField;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 <#list table.importPackages as pkg>

@@ -24,6 +24,8 @@ import ${cfg.prefix}.utils.model.ErrorReturn;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * ${table.comment!} 服务实现类
@@ -45,6 +47,8 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     // 搜索条件
     private QueryWrapper<${entity}> wrapper;
+
+    private List<${entity}> allList = new ArrayList<>();
 
     /**
      * 生成单号
