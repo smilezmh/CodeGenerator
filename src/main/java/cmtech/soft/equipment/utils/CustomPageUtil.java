@@ -5,6 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
 
 public class CustomPageUtil<T> {
+    /**
+     * 设置分页对象
+     * @param list 集合
+     * @param page 分页对象
+     * @param current 当前第几页
+     * @param size 每页大小
+     * @param <T> 泛型
+     */
     public static <T> void setPage(List<T> list, IPage<T> page, int current, int size) {
         int total = 0;
         int pages = 0;
