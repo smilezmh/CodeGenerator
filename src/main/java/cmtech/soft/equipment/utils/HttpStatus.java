@@ -19,7 +19,8 @@ public interface HttpStatus extends HttpStatusBase{
     /** {@code 202 Accepted} (HTTP/1.0 - RFC 1945) */
     public static final int SC_ACCEPTED = 202;
     /** {@code 203 Non Authoritative Information} (HTTP/1.1 - RFC 2616) */
-    public static final int SC_NON_AUTHORITATIVE_INFORMATION = 203;
+    public static final int SC_Allert = 203;
+    // public static final int SC_NON_AUTHORITATIVE_INFORMATION = 203;
     /** {@code 204 No Content} (HTTP/1.0 - RFC 1945) */
     public static final int SC_NO_CONTENT = 204;
     /** {@code 205 Reset Content} (HTTP/1.1 - RFC 2616) */
