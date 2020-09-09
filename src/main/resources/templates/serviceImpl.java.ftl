@@ -341,7 +341,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
      * 设置更新条件
      *
      * @param condition 查询model
-     * @param wrapper   查询条件
+     * @param wrapper   更新条件
      */
     protected void setUpdateWrapper(QueryModel${entity} condition, UpdateWrapper<${entity}> wrapper) {
         if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
