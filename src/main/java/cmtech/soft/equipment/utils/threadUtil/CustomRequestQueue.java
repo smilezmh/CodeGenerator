@@ -1,6 +1,5 @@
 package cmtech.soft.equipment.utils.threadUtil;
 
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,13 +32,8 @@ public class CustomRequestQueue<T> {
     }
 
     public synchronized void addRequest(T customRequest) {
-        while (size >= maxSize) {
-
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if (size >= maxSize) {
+            return;
         }
 
         requests.offer(customRequest);
