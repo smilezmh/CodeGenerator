@@ -115,8 +115,8 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     @Override
     public ${entity} getRandomOneByQueryModel(QueryModel${entity} condition){
         QueryWrapper<${entity}> queryWrapper=new QueryWrapper<${entity}>();
+        setWrapper(condition, wrapper);
         queryWrapper.eq("is_deleted",false);
-        queryWrapper.lambda().eq(${entity}::getId,condition.getId());
         queryWrapper.last("LIMIT 1");
         return mapper.selectOne(queryWrapper);
      }
@@ -168,6 +168,59 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     }
 
     /**
+    * 插入数据库实体，并返回实体在数据库的entity
+    * @param entity 插入的实体
+    * @return  返回实体在数据库的entity
+    */
+    @Override
+    public ${entity} saveOrUpdateWithEntityReturnBack(${entity} entity) {
+        ${entity} entity1 = new ${entity}();
+        int id = 0;
+
+        if (entity.getId() == null) {
+            //if (isCodeRepeat(entity)) { // 业务主键重复
+            //    id = ErrorReturn.CodeRepete;
+            //}
+
+            id = mapper.insert(entity);
+
+            if(id>0){
+                // 根据主键查找
+                QueryModel${entity} conditionForId=new QueryModel${entity}(){{
+                   // setCode(entity.getCode());setIsDeleted(false);
+                }};
+                QueryWrapper<${entity}> queryWrapperForIdSearch=new QueryWrapper<>();
+                setWrapper(conditionForId,queryWrapperForIdSearch);
+                ${entity} foundEntity=getOne(queryWrapperForIdSearch, false);
+                BeanUtils.copyProperties(foundEntity, entity1);
+            }
+        } else if (entity.getId() > 0) {
+            id = mapper.updateById(entity);
+
+            if (id > 0) {
+
+                QueryModel${entity} conditionForId=new QueryModel${entity}() {{
+                    setId(entity.getId());
+                    setIsDeleted(false);
+                }};
+
+                QueryWrapper<${entity}> queryWrapperForIdSearch = new QueryWrapper<>();
+                setWrapper(conditionForId, queryWrapperForIdSearch);
+                ${entity} foundEntity = getOne(queryWrapperForIdSearch, false);
+                BeanUtils.copyProperties(foundEntity, entity1);
+            }
+        }
+
+        // 表示插入失败
+        if (id > 0) {
+            entity1 = new ${entity}();
+            entity1.setId(id);
+        }
+
+        return entity1;
+    }
+
+    /**
     * 插入数据库实体，并返回实体在数据库的id
     * @param entity 插入的实体
     * @return  返回实体在数据库的id
@@ -185,7 +238,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
 
             if(id>0){
                 QueryModel${entity} conditionForId=new QueryModel${entity}(){{
-                   // setCode(entity.getCode());
+                    // setCode(entity.getCode());
                 }};
                 QueryWrapper<${entity}> queryWrapperForIdSearch=new QueryWrapper<>();
                 setWrapper(conditionForId,queryWrapperForIdSearch);
@@ -246,9 +299,8 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     @Override
     public Integer updateByQueryModel(${entity} entity , QueryModel${entity} condition) {
         // entity.setIsDeleted(true);
-
         UpdateWrapper<${entity}> updateWrapper = new UpdateWrapper<${entity}>();
-        updateWrapper.lambda().eq(${entity}::getId, condition.getId());
+        setUpdateWrapper(condition, wrapper);
         int num = mapper.update(entity, updateWrapper);
         return num;
     }
@@ -281,6 +333,18 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     */
     protected void setWrapper(QueryModel${entity} condition,QueryWrapper<${entity}> wrapper){
         if(!MyStrTool.isNullOrEmpty(condition.getCode())){
+            // wrapper.lambda().eq(${entity}::getCode,condition.getCode());
+        }
+    }
+
+     /**
+     * 设置更新条件
+     *
+     * @param condition 查询model
+     * @param wrapper   查询条件
+     */
+    protected void setUpdateWrapper(QueryModel${entity} condition, UpdateWrapper<${entity}> wrapper) {
+        if (!MyStrTool.isNullOrEmpty(condition.getCode())) {
             // wrapper.lambda().eq(${entity}::getCode,condition.getCode());
         }
     }

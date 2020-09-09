@@ -316,6 +316,37 @@ public class ${table.controllerName} {
         return result;
     }
 
+    @ApiOperation("带entity返回值的插入或者更新方法")
+    @PostMapping(value = "saveOrUpdateWithEntityReturnBack")
+    @InterceptAction("带entity返回值的插入或者更新方法")
+    public HttpResult saveOrUpdateWithEntityReturnBack(@RequestBody(required = true) ${entity} entity) {
+        HttpResult result = new HttpResult();
+
+        if (entity == null) {
+            return HttpResult.error(HttpStatus.SC_BAD_REQUEST, "请求参数不能为空");
+        }
+
+        ${entity} entity1=service.saveOrUpdateWithEntityReturnBack(entity);
+
+        if (entity1!=null&&entity1.getId()>0) {
+            result.setData(entity1);
+            result.setMsg("带entity返回值的插入或者更新方法成功！");
+            result.setCode(HttpStatus.SC_OK);
+        } else if(entity1!=null&&entity1.getId() == ErrorReturn.CodeRepete){
+            result.setData(ErrorReturn.CodeRepete);
+            result.setMsg("主键重复！");
+            // 205 SC_RESET_CONTENT
+            result.setCode(HttpStatus.SC_RESET_CONTENT);
+        }else {
+            result.setData(entity);
+            result.setMsg("带entity返回值的插入或者更新方法失败！");
+            // 204 No Content
+            result.setCode(HttpStatus.SC_NO_CONTENT);
+        }
+
+        return result;
+    }
+
     @ApiOperation("带id返回值的插入或者更新方法")
     @PostMapping(value = "saveOrUpdateWithIdReturnBack")
     @InterceptAction("带id返回值的插入或者更新方法")
