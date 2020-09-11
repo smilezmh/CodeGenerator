@@ -9,6 +9,26 @@ import java.util.*;
 
 public class MyStrTool {
 
+    public static String getStringByList(List list, String regex) {
+        String str = "";
+
+        if (!MyListUtil.isNullOrEmpty(list)) {
+            str = String.join(regex, list);
+        }
+
+        return str;
+    }
+
+    public static List getListByString(String str, String regex) {
+        List list = null;
+
+        if (!isNullOrEmpty(str)) {
+            list = Arrays.asList(str.split(regex));
+        }
+
+        return list;
+    }
+
     /**
      * 根据数据库数据自动生成新单号
      *
