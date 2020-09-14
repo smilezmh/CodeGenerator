@@ -15,7 +15,6 @@ import ${cfg.prefix}.complexBiz.service.I${entity}ExtendService;
  * @author ${author}
  * @since ${date}
  */
-@Service("${entity}Extend")
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
