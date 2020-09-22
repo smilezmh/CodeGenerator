@@ -178,11 +178,11 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
         int id = 0;
 
         if (entity.getId() == null) {
-            //if (isCodeRepeat(entity)) { // 业务主键重复
-            //    id = ErrorReturn.CodeRepete;
-            //}
-
-            id = mapper.insert(entity);
+            if (isCodeRepeat(entity)) { // 业务主键重复
+                id = ErrorReturn.CodeRepete;
+            }else{
+                id = mapper.insert(entity);
+            }
 
             if(id>0){
                 // 根据主键查找
@@ -212,7 +212,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
         }
 
         // 表示插入失败
-        if (id > 0) {
+        if (id <= 0) {
             entity1 = new ${entity}();
             entity1.setId(id);
         }
