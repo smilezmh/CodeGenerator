@@ -1,9 +1,8 @@
-package cmtech.soft.equipment.utils;
+package cmtech.soft.biz.utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,28 @@ import java.util.stream.Collectors;
  */
 public class MyListUtil<T, U> {
 
-    public static <T, U> List<U> getListTU(List<T> list, Function<? super T, ? extends U> iConvert) {
+    public static <T> List intersect(List<T> list1, List<T> list2) {
+        List list = new ArrayList();
+        list.addAll(new HashSet(list1));
+        list.retainAll(new HashSet<>(list2));
+        return list;
+    }
+
+    public static <T> List union(List<T> list1, List<T> list2) {
+        List list = new ArrayList();
+        list.addAll(new HashSet(list1));
+        list.addAll(new HashSet<>(list2));
+        return list;
+    }
+
+    public static <T> List diff(List<T> list1, List<T> list2) {
+        List list = new ArrayList();
+        list.addAll(new HashSet(list1));
+        list.removeAll(new HashSet<>(list2));
+        return list;
+    }
+
+    public static <T, U> List<? extends U> getListTU(List<? extends T> list, Function<? super T, ? extends U> iConvert) {
         List<U> returnList = null;
 
         if (!isNullOrEmpty(list)) {
@@ -86,5 +106,24 @@ public class MyListUtil<T, U> {
         }
 
         return times;
+    }
+
+    // 去null，使用旧集合
+    public static <T> List<T> removeNull(List<? extends T> oldList) {
+
+        oldList.removeAll(Collections.singleton(null));
+        return (List<T>) oldList;
+    }
+
+    public static <T> List<T> removeNullNewList(List<? extends T> oldList) {
+        // 临时集合
+        List<T> listTemp = new ArrayList();
+        for (int i = 0; i < oldList.size(); i++) {
+            // 保存不为空的元素
+            if (oldList.get(i) != null) {
+                listTemp.add(oldList.get(i));
+            }
+        }
+        return listTemp;
     }
 }
