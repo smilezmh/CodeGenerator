@@ -199,7 +199,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     }
 
     /**
-    * 插入数据库实体，并返回实体在数据库的entity
+    * 插入数据库实体，并返回实体在数据库的entity，如果在事务中，根据事务的隔离级别，有可能获取不到
     * @param entity 插入的实体
     * @return  返回实体在数据库的entity
     */
@@ -219,6 +219,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
         }
 
         if (id > 0) {
+            id = entity.getId();
             QueryWrapper<${entity}> queryWrapperForIdSearch = new QueryWrapper<>();
             queryWrapperForIdSearch.lambda().eq(${entity}::getId, id);
             ${entity} foundEntity = getOne(queryWrapperForIdSearch, false);

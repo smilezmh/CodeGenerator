@@ -5,7 +5,7 @@ server:
     max-threads: 1000
     min-spare-threads: 30
   # port: 8020
-  port: 9098
+  port: 9022
   #context-path: /springboot
 
 # log4j配置
