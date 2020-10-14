@@ -159,6 +159,16 @@ public class CodeGeneratorTools {
             }
         });
 
+        focList.add(new FileOutConfig("/templates/entity.vo.ftl") {// vo extend
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名
+                String expand = projectPath + packagesPrefix + "/complexBiz" + "/model/vo/";
+                String entityFile = expand + tableInfo.getEntityName() + "Vo" + ".java";
+                return entityFile;
+            }
+        });
+
         cfg.setFileOutConfigList(focList);
 
         cfg.setFileCreate(new IFileCreate() {
