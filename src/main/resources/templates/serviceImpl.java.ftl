@@ -47,7 +47,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     ${entity}Mapper mapper;
 
     @Autowired
-    protected IWrapperFactory iWrapperFactory;
+    protected IWrapperFactory<${entity}> iWrapperFactory;
 
     // 搜索条件
     private QueryWrapper<${entity}> wrapper;
