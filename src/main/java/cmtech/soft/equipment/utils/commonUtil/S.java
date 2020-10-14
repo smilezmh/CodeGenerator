@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils.commonUtil;
 
-import cmtech.soft.biz.utils.commonUtil.baseUtil.Cons;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.Cons;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

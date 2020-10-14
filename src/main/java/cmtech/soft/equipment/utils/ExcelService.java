@@ -1,5 +1,6 @@
 package cmtech.soft.equipment.utils;
 
+import cmtech.soft.equipment.utils.commonUtil.GenericsUtils;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;

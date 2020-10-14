@@ -1,9 +1,10 @@
 package cmtech.soft.equipment.utils.commonUtil.wrapperUtil;
 
-import cmtech.soft.biz.utils.commonUtil.baseUtil.Comparison;
-import cmtech.soft.biz.utils.commonUtil.baseUtil.BindQuery;
-import cmtech.soft.biz.utils.commonUtil.GenericsUtils;
-import cmtech.soft.biz.utils.commonUtil.listUtil.MyListUtil;
+
+import cmtech.soft.equipment.utils.commonUtil.GenericsUtils;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.BindQuery;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.Comparison;
+import cmtech.soft.equipment.utils.commonUtil.listUtil.MyListUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

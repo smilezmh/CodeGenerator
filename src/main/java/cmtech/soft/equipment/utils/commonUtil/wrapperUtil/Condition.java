@@ -1,7 +1,8 @@
 package cmtech.soft.equipment.utils.commonUtil.wrapperUtil;
 
-import cmtech.soft.biz.utils.commonUtil.baseUtil.BindQuery;
-import cmtech.soft.biz.utils.commonUtil.baseUtil.Comparison;
+
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.BindQuery;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.Comparison;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils.commonUtil.threadUtil;
 
-import cmtech.soft.biz.utils.commonUtil.logUtil.LogUtil;
+import cmtech.soft.equipment.utils.commonUtil.logUtil.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

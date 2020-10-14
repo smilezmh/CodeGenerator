@@ -1,8 +1,9 @@
 package cmtech.soft.equipment.utils.commonUtil;
 
-import cmtech.soft.biz.utils.commonUtil.logUtil.ILogService;
-import cmtech.soft.biz.utils.commonUtil.threadUtil.CustomThread;
-import cmtech.soft.biz.utils.commonUtil.threadUtil.CustomThreadFactory;
+
+import cmtech.soft.equipment.utils.commonUtil.logUtil.ILogService;
+import cmtech.soft.equipment.utils.commonUtil.threadUtil.CustomThread;
+import cmtech.soft.equipment.utils.commonUtil.threadUtil.CustomThreadFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,12 +18,12 @@ import java.text.MessageFormat;
  */
 
 @Component
-@ControllerAdvice(value = "cmtech.soft.biz")
+@ControllerAdvice(value = "cmtech.soft.equipment")
 public class GlobalExceptionCatch {
     @Autowired
     @Qualifier("logExtend")
     private ILogService log;
-    String indexStr = "cmtech.soft.biz";
+    String indexStr = "cmtech.soft.equipment";
     private static final CustomThread exceptionThread = (CustomThread) CustomThreadFactory.getThreadByBizName("ExceptionThread");
     private static String logMessage = "";// 初始化后只会在单线程中改变，所以是线程安全的
 

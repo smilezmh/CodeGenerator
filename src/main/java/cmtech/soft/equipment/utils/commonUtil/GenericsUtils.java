@@ -1,10 +1,10 @@
 package cmtech.soft.equipment.utils.commonUtil;
 
-import cmtech.soft.biz.utils.commonUtil.baseUtil.BindQuery;
-import cmtech.soft.biz.utils.commonUtil.baseUtil.Cons;
-import cmtech.soft.biz.utils.commonUtil.baseUtil.IGetter;
-import cmtech.soft.biz.utils.commonUtil.baseUtil.ISetter;
-import cmtech.soft.biz.utils.commonUtil.logUtil.LogUtilExtend;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.BindQuery;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.Cons;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.IGetter;
+import cmtech.soft.equipment.utils.commonUtil.baseUtil.ISetter;
+import cmtech.soft.equipment.utils.commonUtil.logUtil.LogUtilExtend;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.lettuce.core.dynamic.support.ResolvableType;
 import org.springframework.aop.support.AopUtils;

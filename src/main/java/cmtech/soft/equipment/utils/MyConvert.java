@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils;
 
-import cmtech.soft.equipment.utils.GenericsUtils;
+import cmtech.soft.equipment.utils.commonUtil.GenericsUtils;
 import com.alibaba.fastjson.JSON;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;

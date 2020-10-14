@@ -1,7 +1,7 @@
 package cmtech.soft.equipment.utils.commonUtil.logUtil;
 
-import cmtech.soft.biz.utils.commonUtil.threadUtil.CustomThread;
-import cmtech.soft.biz.utils.commonUtil.threadUtil.CustomThreadFactory;
+import cmtech.soft.equipment.utils.commonUtil.threadUtil.CustomThread;
+import cmtech.soft.equipment.utils.commonUtil.threadUtil.CustomThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;

@@ -46,6 +46,7 @@
         <docker.host>localhost</docker.host>
         <docker.registry>hub.cmtech-soft.com</docker.registry>
         <docker.serverId>harbor</docker.serverId>
+        <diboot.version>2.0.5</diboot.version>
     </properties>
 
     <dependencies>
@@ -274,7 +275,26 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
-
+        <!-- diboot补充mybatis plus-->
+        <dependency>
+            <groupId>com.diboot</groupId>
+            <artifactId>diboot-core-spring-boot-starter</artifactId>
+            <version>${diboot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!--热启动-->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->

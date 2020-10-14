@@ -1,6 +1,6 @@
 package cmtech.soft.equipment.utils.commonUtil;
 
-import cmtech.soft.biz.utils.commonUtil.listUtil.MyListUtil;
+import cmtech.soft.equipment.utils.commonUtil.listUtil.MyListUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
