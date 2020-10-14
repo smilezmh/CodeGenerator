@@ -17,6 +17,7 @@ import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${cfg.prefix}.base.model.excelModel.${entity}Excel;
 import ${cfg.prefix}.utils.MyStrTool;
 import ${cfg.prefix}.utils.MyConvert;
+import ${cfg.prefix}.utils.commonUtil.wrapperUtil.IWrapperFactory;
 import ${superServiceImplClassPackage};
 import ${cfg.prefix}.utils.model.TreeData;
 import ${cfg.prefix}.utils.model.ErrorReturn;
@@ -44,6 +45,9 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
 
     @Autowired
     ${entity}Mapper mapper;
+
+    @Autowired
+    protected IWrapperFactory iWrapperFactory;
 
     // 搜索条件
     private QueryWrapper<${entity}> wrapper;
@@ -318,9 +322,7 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
     * @param wrapper 查询条件
     */
     protected void setWrapper(QueryModel${entity} condition,QueryWrapper<${entity}> wrapper){
-        if(!MyStrTool.isNullOrEmpty(condition.getCode())){
-            // wrapper.lambda().eq(${entity}::getCode,condition.getCode());
-        }
+        iWrapperFactory.create(condition, wrapper);
     }
 
     /**

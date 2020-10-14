@@ -1,5 +1,6 @@
 package ${cfg.prefix}.base.model;
 
+import ${cfg.prefix}.utils.commonUtil.wrapperUtil.Condition;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,9 +19,8 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @ApiModel(value="${entity}查询条件QueryModel", description="${entity}查询条件QueryModel")
-public class QueryModel${entity} implements Serializable{
+public class QueryModel${entity} extends Condition implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键id")

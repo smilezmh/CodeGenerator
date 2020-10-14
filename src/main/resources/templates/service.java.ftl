@@ -36,18 +36,18 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     ${entity} getRandomOneByQueryModel(QueryModel${entity} condition);
 
     /**
-    * 插入数据库实体，并返回实体在数据库的entity
-    * @param entity 插入的实体
-    * @return  返回实体在数据库的entity
-    */
-    ${entity} saveOrUpdateWithEntityReturnBack(${entity} entity);
-
-    /**
     * 插入数据库实体，并返回实体在数据库的id
     * @param entity 插入的实体
     * @return  返回实体在数据库的id
     */
     int saveOrUpdateWithIdReturnBack(${entity} entity);
+
+    /**
+    * 插入数据库实体，并返回实体在数据库的entity
+    * @param entity 插入的实体
+    * @return  返回实体在数据库的entity
+    */
+    ${entity} saveOrUpdateWithEntityReturnBack(${entity} entity);
 
     /**
     * 带有主键是否重复判断的批量插入方法
