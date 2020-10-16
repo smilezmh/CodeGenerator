@@ -33,7 +33,7 @@ public class CustomThreadFactory implements ThreadFactory {
 
         if (thread == null || thread.getState().equals(Thread.State.TERMINATED)) {
             synchronized (CustomThreadFactory.class) {
-                if (threadMap.get(taskName) == null || threadMap.get(taskName).getState().equals(Thread.State.TERMINATED)) {
+                if (((thread = threadMap.get(taskName)) == null) || thread.getState().equals(Thread.State.TERMINATED)) {
                     addBizThread(taskName);// 线程死亡或者停止重新加一个线程，名字一样，使用时认为是一个线程
                     thread = threadMap.get(taskName);
                 }
