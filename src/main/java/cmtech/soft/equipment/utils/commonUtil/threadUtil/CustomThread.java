@@ -132,16 +132,17 @@ public class CustomThread extends Thread {
             while (!interruptFlag) {
                 Runnable firstTask = onceTask;
 
-                try {
-                    lock.lock();
-                    onceTask = null;
-                } catch (Exception e) {
-                } finally {
-                    lock.unlock();
-                }
-
-                if (inOrder)
+                if (!inOrder)
+                    try {
+                        lock.lock();
+                        onceTask = null;
+                    } catch (Exception e) {
+                    } finally {
+                        lock.unlock();
+                    }
+                else {
                     firstTask = null;
+                }
 
                 if ((firstTask != null || (firstTask = getTask()) != null)) {
                     firstTask.run();
@@ -171,11 +172,11 @@ public class CustomThread extends Thread {
 
         try {
             lock.lock();
-            if (!inOrder && cacheTasks != null && cacheTasks.size() > 0) {
+            if (!inOrder && cacheTasks != null && !cacheTasks.isEmpty()) {
                 runnable = cacheTasks.pop();
             }
 
-            if (inOrder && cacheTasksQueue != null && cacheTasksQueue.size() > 0) {
+            if (inOrder && cacheTasksQueue != null && !cacheTasksQueue.isEmpty()) {
                 runnable = cacheTasksQueue.poll();
             }
 
@@ -202,11 +203,11 @@ public class CustomThread extends Thread {
         try {
             lock.lock();
 
-            if (!inOrder && cacheTasks != null && cacheTasks.size() > 0 && cacheTasks.contains(finishTask)) {
+            if (!inOrder && cacheTasks != null && !cacheTasks.isEmpty() && cacheTasks.contains(finishTask)) {
                 cacheTasks.remove(finishTask);
             }
 
-            if (inOrder && cacheTasksQueue != null && cacheTasksQueue.size() > 0 && cacheTasksQueue.contains(finishTask)) {
+            if (inOrder && cacheTasksQueue != null && !cacheTasksQueue.isEmpty() && cacheTasksQueue.contains(finishTask)) {
                 cacheTasksQueue.remove(finishTask);
             }
         } catch (Exception e) {
