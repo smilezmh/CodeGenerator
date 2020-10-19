@@ -18,6 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 7.每次获得一个新任务时，调用LockSupport.unpark(this)；会使处于因为LockSupport.park()或其他原因而进入等待或阻塞状态的线程
  * （等待状态会重新获得锁运行，从阻塞状态变成运行后还要判断锁所以没问题），重新获得许可运行。运行后执行run方法，先执行最新的任务，和未完成的任务。
  * 8.如果想跟线程池一样，按顺序执行就用setInOrder方法
+ * 9.如果不实用缓存，就不要用setInOrder方法
  * <p>
  * 注意：
  * 1.这里的线程需要手动停止调用wonderfulInterrupt，否则会park，在while循环中，不会自动结束。
@@ -119,6 +120,7 @@ public class CustomThread extends Thread {
             try {
                 lock.lock();
                 this.onceTask = onceTask;
+                inOrder=false;
             } catch (Exception e) {
             } finally {
                 lock.unlock();
