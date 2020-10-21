@@ -8,6 +8,7 @@ import com.diboot.core.binding.RelationsBinder;
 
 import ${cfg.prefix}.base.model.QueryModel${entity};
 import ${cfg.prefix}.complexBiz.model.vo.${entity}Vo;
+import ${cfg.prefix}.commonUtil.GenericsUtils;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
