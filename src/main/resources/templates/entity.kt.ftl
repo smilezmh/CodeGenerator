@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="${entity}查询条件QueryModel", description="${entity}查询条件QueryModel")
+@Accessors(chain = true)
 public class QueryModel${entity} extends Condition implements Serializable{
     private static final long serialVersionUID = 1L;
 
