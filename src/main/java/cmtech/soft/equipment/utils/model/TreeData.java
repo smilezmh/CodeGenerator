@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class TreeData<T> {
     @ApiModelProperty(value = "需要高亮显示的数据")
-    private List<T> highLightList;
+    private List<Integer> highLightList;
     @ApiModelProperty(value = "返回树结构数据")
     private List<T> list;
     @ApiModelProperty(value = "需要展开的列")

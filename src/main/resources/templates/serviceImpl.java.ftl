@@ -20,6 +20,7 @@ import ${cfg.prefix}.utils.MyConvert;
 import ${cfg.prefix}.utils.commonUtil.wrapperUtil.IWrapperFactory;
 import ${superServiceImplClassPackage};
 import ${cfg.prefix}.utils.model.TreeData;
+import ${cfg.prefix}.utils.commonUtil.V;
 import ${cfg.prefix}.utils.model.ErrorReturn;
 
 import java.util.List;
@@ -427,7 +428,9 @@ public class ${table.serviceImplName}<T,U> extends ${superServiceImplClass}<${ta
             List<${entity}> returnListBefore = new ArrayList<>();
 
             List<${entity}> list = list(wrapper);
-            treeData.setHighLightList(list);
+            if (V.notEmpty(list)) {
+                treeData.setHighLightList(list.stream().map(x -> x.getId()).distinct().collect(Collectors.toList()));
+            }
             returnListBefore = getAllSuplist(list);// 父级元素集合,包括自身
             returnListBefore = returnListBefore.stream().distinct().collect(Collectors.toList());//去重
 
